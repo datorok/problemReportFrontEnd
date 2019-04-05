@@ -1,0 +1,11 @@
+.textInput{
+    text-align: left;
+    justify-content: space-around;
+    padding: 0.5em 1em; 
+    color: black;
+}
+
+element.style {
+    width: 500px;
+    height: 500px;
+}

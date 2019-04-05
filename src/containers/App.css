@@ -1,0 +1,35 @@
+.App {
+  text-align: center;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  grid-template-rows: 100%;
+}
+
+.TypeAndStatusCSS {
+  display: table-cell;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  text-align: left;
+  justify-content: space-around;
+  padding: 0.5em 2em;
+
+}
+
+.ProblemReportCSS {
+  display: table-cell;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+}
+
+Button {
+  background: #FF8C00;
+  border-radius: 6px;
+  color: white;
+  height: 25px;
+  width: 100px;
+}
+
