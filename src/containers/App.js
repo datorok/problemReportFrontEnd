@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredProblemReportArr: [],
+      filteredProblemReportArr: undefined,
       ProblemReportArr: [
         {
           id: 1,
@@ -72,7 +72,7 @@ class App extends Component {
         },
         {
           id: 4,
-          licencePlateNumber: 'ABC-126',
+          licencePlateNumber: 'ABC-136',
           reportCreationTime: '2019.03.26',
           actualStatus: 'Javítás befejezve',
           errorType: 'Járműegység',
@@ -177,10 +177,18 @@ class App extends Component {
 
   render() {
     const { errorTypeFilterStatus, errorFilterStatus } = this.state;
-    const { ProblemReportArr } = this.state;
+    const { ProblemReportArr, filteredProblemReportArr } = this.state;
 
-    let result = this.filterErrorChangeHandler(ProblemReportArr);
-    result = this.filterStatusChangeHandler(result);
+    let result = null;
+
+    if (filteredProblemReportArr === undefined) {
+      result = this.filterErrorChangeHandler(ProblemReportArr);
+      result = this.filterStatusChangeHandler(result);
+    } else {
+      result = this.filterErrorChangeHandler(filteredProblemReportArr);
+      result = this.filterStatusChangeHandler(result);
+    }
+
     return (
       <div className="App">
         <div className="TypeAndStatusCSS">
