@@ -4,14 +4,16 @@ import AddNewProblemReport from './AddNewProblemReport';
 import './TypeAndStatus.css';
 
 const TypeAndStatus = props => {
-  const addNewProblemReportDiv = <AddNewProblemReport />;
   const {
     errorTypeFilterStatusProp,
     errorFilterStatusProp,
     changeErrorType,
     changeStatusType,
+    licencePlateList,
   } = props;
-
+  const addNewProblemReportDiv = (
+    <AddNewProblemReport licencePlateList={licencePlateList} />
+  );
   return (
     <div>
       <h3>Hiba típusa</h3>

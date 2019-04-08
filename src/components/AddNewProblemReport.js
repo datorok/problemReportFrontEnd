@@ -22,7 +22,8 @@ const AddNewProblemReport = props => {
       },
     ],
   });
-
+  const { licencePlateList } = props;
+  console.log({ licencePlateList });
   return (
     <Step.Container initialState={{ current: 0 }}>
       {step => (
@@ -30,16 +31,13 @@ const AddNewProblemReport = props => {
           <Step step="Step 1" {...step}>
             <h2>Bejelentő adatai</h2>
             <div>
-              <Input use="textarea" className="textInput" />
-              Név:{' '}
+              Név: <Input use="textarea" className="textInput" />
             </div>
             <div>
-              <Input use="textarea" className="textInput" />
-              E-mail cím:{' '}
+              E-mail cím: <Input use="textarea" className="textInput" />
             </div>
             <div>
-              <Input use="textarea" className="textInput" />
-              Telefonszám:{' '}
+              Telefonszám: <Input use="textarea" className="textInput" />
             </div>
             <div />
             <Group>
@@ -65,10 +63,9 @@ const AddNewProblemReport = props => {
             <div>
               Gépjármű:
               <Input use="select">
-                <option>ABC-123</option>
-                <option>ABC-124</option>
-                <option>ABC-125</option>
-                <option>ABC-126</option>
+                {props.licencePlateList.map(licencePlate => (
+                  <option>{licencePlate}</option>
+                ))}
               </Input>
             </div>
             <div>

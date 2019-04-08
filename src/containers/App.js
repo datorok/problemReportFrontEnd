@@ -189,6 +189,11 @@ class App extends Component {
       result = this.filterStatusChangeHandler(result);
     }
 
+    const licencePlateList = [];
+    for (let i = 0; i < ProblemReportArr.length; i++) {
+      licencePlateList[i] = ProblemReportArr[i].licencePlateNumber;
+    }
+
     return (
       <div className="App">
         <div className="TypeAndStatusCSS">
@@ -197,6 +202,7 @@ class App extends Component {
             errorFilterStatusProp={errorFilterStatus}
             changeErrorType={this.changeErrorType}
             changeStatusType={this.changeStatusType}
+            licencePlateList={licencePlateList}
           />
         </div>
         <div className="ProblemReportCSS">
