@@ -11,6 +11,7 @@ const TypeAndStatus = props => {
     changeStatusType,
     licencePlateList,
   } = props;
+
   const addNewProblemReportDiv = (
     <AddNewProblemReport licencePlateList={licencePlateList} />
   );

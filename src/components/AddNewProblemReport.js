@@ -23,7 +23,15 @@ const AddNewProblemReport = props => {
     ],
   });
   const { licencePlateList } = props;
-  console.log({ licencePlateList });
+
+  const changeReportFieldValue = (event, fieldName) => {
+    setNewProblemReport({
+      ...newProblemReport,
+      [fieldName]: event.target.value,
+    });
+    console.log({ newProblemReport });
+  };
+
   return (
     <Step.Container initialState={{ current: 0 }}>
       {step => (
@@ -31,13 +39,34 @@ const AddNewProblemReport = props => {
           <Step step="Step 1" {...step}>
             <h2>Bejelentő adatai</h2>
             <div>
-              Név: <Input use="textarea" className="textInput" />
+              Név:{' '}
+              <Input
+                use="textarea"
+                className="textInput"
+                onchange={event =>
+                  changeReportFieldValue(event, 'reporterName')
+                }
+              />
             </div>
             <div>
-              E-mail cím: <Input use="textarea" className="textInput" />
+              E-mail cím:{' '}
+              <Input
+                use="textarea"
+                className="textInput"
+                onchange={event =>
+                  changeReportFieldValue(event, 'reporterEmail')
+                }
+              />
             </div>
             <div>
-              Telefonszám: <Input use="textarea" className="textInput" />
+              Telefonszám:{' '}
+              <Input
+                use="textarea"
+                className="textInput"
+                onchange={event =>
+                  changeReportFieldValue(event, 'reporterPhone')
+                }
+              />
             </div>
             <div />
             <Group>
@@ -53,7 +82,10 @@ const AddNewProblemReport = props => {
             <h2>Hiba típusa - leírása</h2>
             <div>
               Típusa:
-              <Input use="select">
+              <Input
+                use="select"
+                onchange={event => changeReportFieldValue(event, 'errorType')}
+              >
                 <option>Egyik sem</option>
                 <option>Diszpécserközpont</option>
                 <option>Járműegység</option>
@@ -62,15 +94,28 @@ const AddNewProblemReport = props => {
             </div>
             <div>
               Gépjármű:
-              <Input use="select">
-                {props.licencePlateList.map(licencePlate => (
+              <Input
+                use="select"
+                onchange={event =>
+                  changeReportFieldValue(event, 'licencePlateNumber')
+                }
+              >
+                {licencePlateList.map(licencePlate => (
                   <option>{licencePlate}</option>
                 ))}
               </Input>
             </div>
             <div>
               Leírás:
-              <Input use="textarea" />
+              <Input
+                use="textarea"
+                onchange={event =>
+                  changeReportFieldValue(
+                    event,
+                    'problemReportChangeList[0].stateChangeMessage'
+                  )
+                }
+              />
             </div>
             <div>
               <br />

@@ -1,7 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Block, Hidden } from 'reakit';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faSortAlphaDown,
+  faSortAlphaUp,
+  faSortNumericDown,
+  faSortNumericUp,
+} from '@fortawesome/free-solid-svg-icons';
 import ProblemReportChange from './ProblemReportChange';
+
+library.add(faSortAlphaDown, faSortAlphaUp, faSortNumericDown, faSortNumericUp);
 
 const FlexHeader = styled.div`
   overflow: 'scroll';
@@ -71,7 +81,14 @@ const ProblemItem6 = styled.div`
   max-width: 41%;
 `;
 const ProblemReport = props => {
-  const rows = props.problemReportArr.map((problemReport, index) => (
+  const {
+    problemReportArr,
+    sortOfTheLicenceNumber,
+    sortOfThereportCreationTime,
+    licenceNumberOrderIsAscending,
+    reportDateOrderIsAscending,
+  } = props;
+  const rows = problemReportArr.map((problemReport, index) => (
     <Hidden.Container>
       {({ visible, toggle }) => (
         <Block>
@@ -100,8 +117,26 @@ const ProblemReport = props => {
   return (
     <React.Fragment>
       <FlexHeader>
-        <ProblemItem1>Rendszám</ProblemItem1>
-        <ProblemItem2>Bejelentés ideje</ProblemItem2>
+        <ProblemItem1 onClick={sortOfTheLicenceNumber}>
+          Rendszám{' '}
+          <FontAwesomeIcon
+            icon={
+              licenceNumberOrderIsAscending
+                ? 'sort-alpha-up'
+                : 'sort-alpha-down'
+            }
+          />
+        </ProblemItem1>
+        <ProblemItem2 onClick={sortOfThereportCreationTime}>
+          Bejelentés ideje{' '}
+          <FontAwesomeIcon
+            icon={
+              reportDateOrderIsAscending
+                ? 'sort-numeric-up'
+                : 'sort-numeric-down'
+            }
+          />
+        </ProblemItem2>
         <ProblemItem3>Aktuális státusz</ProblemItem3>
         <ProblemItem4>Hiba típusa</ProblemItem4>
         <ProblemItem5>Bejelentő</ProblemItem5>

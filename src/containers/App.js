@@ -11,11 +11,13 @@ class App extends Component {
       ProblemReportArr: [
         {
           id: 1,
-          licencePlateNumber: 'ABC-123',
+          licencePlateNumber: 'ABC-129',
           reportCreationTime: '2019.03.24',
           actualStatus: 'Hiba bejelentve',
           errorType: 'Egyéb',
           reporterName: 'Ó Pál',
+          reporterEmail: 'pal.o@gmail.com',
+          reporterPhone: '+36705555555',
           problemReportChangeList: [
             {
               id: 1,
@@ -33,6 +35,8 @@ class App extends Component {
           actualStatus: 'Hibajavítás folyamatban',
           errorType: 'Diszpécser központ',
           reporterName: 'Ló Péter',
+          reporterEmail: 'peter.lo@gmail.com',
+          reporterPhone: '+36705555556',
           problemReportChangeList: [
             {
               id: 1,
@@ -54,7 +58,9 @@ class App extends Component {
           reportCreationTime: '2019.03.26',
           actualStatus: 'Megválaszolva',
           errorType: 'Járműegység',
-          reporterName: 'Lenti Lajos',
+          reporterName: 'Lenti Lenke',
+          reporterEmail: 'lenke.lenti@gmail.com',
+          reporterPhone: '+36705555557',
           problemReportChangeList: [
             {
               id: 1,
@@ -72,11 +78,13 @@ class App extends Component {
         },
         {
           id: 4,
-          licencePlateNumber: 'ABC-136',
-          reportCreationTime: '2019.03.26',
+          licencePlateNumber: 'ABC-127',
+          reportCreationTime: '2019.03.21',
           actualStatus: 'Javítás befejezve',
           errorType: 'Járműegység',
-          reporterName: 'Lenti Lajos',
+          reporterName: 'Lapos Lajos',
+          reporterEmail: 'lajos.lapos@gmail.com',
+          reporterPhone: '+36705555558',
           problemReportChangeList: [
             {
               id: 1,
@@ -106,6 +114,8 @@ class App extends Component {
         repaired: { enabled: false, value: 'Javítás befejezve' },
         answered: { enabled: false, value: 'Megválaszolva' },
       },
+      licenceNumberOrderIsAscending: true,
+      reportDateOrderIsAscending: true,
     };
   }
 
@@ -175,9 +185,79 @@ class App extends Component {
     });
   };
 
+  sortOfTheLicenceNumber = () => {
+    const { ProblemReportArr, licenceNumberOrderIsAscending } = this.state;
+    const actProblemReportArr = [...ProblemReportArr];
+    actProblemReportArr.sort(function(a, b) {
+      const x = a.licencePlateNumber.toLowerCase();
+      const y = b.licencePlateNumber.toLowerCase();
+      if (licenceNumberOrderIsAscending === true) {
+        if (x < y) {
+          return -1;
+        }
+      } else if (x < y) {
+        return 1;
+      }
+      if (licenceNumberOrderIsAscending === true) {
+        if (x > y) {
+          return 1;
+        }
+      } else if (x > y) {
+        return -1;
+      }
+      return 0;
+    });
+    const filteredProblemReportArr = [...actProblemReportArr];
+    this.setState({ filteredProblemReportArr });
+
+    if (licenceNumberOrderIsAscending === true) {
+      this.setState({ licenceNumberOrderIsAscending: false });
+    } else {
+      this.setState({ licenceNumberOrderIsAscending: true });
+    }
+  };
+
+  sortOfThereportCreationTime = () => {
+    const { ProblemReportArr, reportDateOrderIsAscending } = this.state;
+    const actProblemReportArr = [...ProblemReportArr];
+    actProblemReportArr.sort(function(a, b) {
+      const x = a.reportCreationTime.toLowerCase();
+      const y = b.reportCreationTime.toLowerCase();
+      if (reportDateOrderIsAscending === true) {
+        if (x < y) {
+          return -1;
+        }
+      } else if (x < y) {
+        return 1;
+      }
+      if (reportDateOrderIsAscending === true) {
+        if (x > y) {
+          return 1;
+        }
+      } else if (x > y) {
+        return -1;
+      }
+      return 0;
+    });
+    const filteredProblemReportArr = [...actProblemReportArr];
+    console.log({ filteredProblemReportArr });
+    this.setState({ filteredProblemReportArr });
+    if (reportDateOrderIsAscending === true) {
+      this.setState({ reportDateOrderIsAscending: false });
+    } else {
+      this.setState({ reportDateOrderIsAscending: true });
+    }
+  };
+
   render() {
-    const { errorTypeFilterStatus, errorFilterStatus } = this.state;
-    const { ProblemReportArr, filteredProblemReportArr } = this.state;
+    const {
+      errorTypeFilterStatus,
+      errorFilterStatus,
+      ProblemReportArr,
+      filteredProblemReportArr,
+      licenceNumberOrderIsAscending,
+      reportDateOrderIsAscending,
+    } = this.state;
 
     let result = null;
 
@@ -215,7 +295,13 @@ class App extends Component {
             />
           </div>
           <br />
-          <ProblemReport problemReportArr={result} />
+          <ProblemReport
+            problemReportArr={result}
+            sortOfTheLicenceNumber={this.sortOfTheLicenceNumber}
+            sortOfThereportCreationTime={this.sortOfThereportCreationTime}
+            licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
+            reportDateOrderIsAscending={reportDateOrderIsAscending}
+          />
         </div>
       </div>
     );
