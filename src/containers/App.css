@@ -1,12 +1,14 @@
 .App {
   text-align: center;
   display: grid;
-  grid-template-columns: 20% 80%;
+  grid-template-columns: 20% 79%;
   grid-template-rows: 100%;
+  max-width: 1920px;
 }
 
 .TypeAndStatusCSS {
   display: table-cell;
+  justify-self: end;
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 1;
@@ -14,15 +16,24 @@
   text-align: left;
   justify-content: space-around;
   padding: 0.5em 2em;
-
+  border: 1px solid lightgray;
+  height: 970px;
+  max-height: 970px;
+  background-color: #F8F8F8;
 }
 
 .ProblemReportCSS {
+  width: 100%;
+  max-width: 1450px;
   display: table-cell;
+  justify-self: center;
   grid-column-start: 2;
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 1;
+  height: 950px;
+  max-height: 950px;
+  border: 1px solid #1E90FF;
 }
 
 Button {
@@ -33,3 +44,7 @@ Button {
   width: 100px;
 }
 
+.searchBar {
+  width: 400px;
+  height: 20px;
+}

@@ -1,7 +1,26 @@
 .addNewProblemReportButton {
-    background: #FF8C00;
-    border-radius: 6px;
-    color: white;
-    height: 25px;
-    width: 100px;
-  }
+  background: #FF8C00;
+  border-radius: 5px;
+  margin: 20px;
+  color: white;
+  height: 25px;
+  width: 100px;
+}
+
+.typeAndSatusText {
+  color: #696969;
+  font-weight: 300;
+  border-radius: 5px;
+}
+
+.blockName {
+  text-align: left;
+  margin: 10px -15px;
+  padding: 10px -15px;
+}
+
+.option {
+  text-align: right;
+  margin: 1px 0px;
+  padding: 1px 0px;
+}

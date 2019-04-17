@@ -283,14 +283,17 @@ class App extends Component {
             changeErrorType={this.changeErrorType}
             changeStatusType={this.changeStatusType}
             licencePlateList={licencePlateList}
+            // problemReportArr={result}
+            problemReportArr={ProblemReportArr}
           />
         </div>
         <div className="ProblemReportCSS">
           <br />
           <div>
             <input
+              className="searchBar"
               type="text"
-              placeholder="Rendszám szűrése"
+              placeholder="Keresés..."
               onChange={this.licencePlateChangeHandler}
             />
           </div>

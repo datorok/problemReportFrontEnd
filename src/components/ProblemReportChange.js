@@ -2,9 +2,12 @@ import React from 'react';
 
 const ProblemReportChange = props =>
   props.problemReportChangeArr.map((problemReportChange, index) => (
-    <div>
-      <p>{problemReportChange.stateChangeTime}</p>
-      <p>{problemReportChange.stateChangeMessage}</p>
+    <div key={problemReportChange.id}>
+      <p>
+        <span>{problemReportChange.stateChangeTime}</span>
+        <span> </span>
+        <span>{problemReportChange.stateChangeMessage}</span>
+      </p>
     </div>
   ));
 

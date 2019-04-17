@@ -1,10 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Provider } from 'reakit';
-import theme from 'reakit-theme-default';
+import { Provider, css } from 'reakit';
+import defaultTheme from 'reakit-theme-default';
 import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
+
+const theme = {
+  ...defaultTheme,
+
+  Overlay: css`
+    ${defaultTheme.Overlay};
+    border: 1px solid orange;
+  `,
+};
 
 ReactDOM.render(
   <Provider theme={theme}>

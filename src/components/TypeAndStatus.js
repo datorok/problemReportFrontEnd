@@ -10,17 +10,16 @@ const TypeAndStatus = props => {
     changeErrorType,
     changeStatusType,
     licencePlateList,
+    problemReportArr,
   } = props;
 
-  const addNewProblemReportDiv = (
-    <AddNewProblemReport licencePlateList={licencePlateList} />
-  );
   return (
-    <div>
-      <h3>Hiba típusa</h3>
+    <div className="typeAndSatusText">
+      <div className="blockName">Hiba típusa</div>
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorTypeFilterStatusProp.dispatCenter.enabled}
           onChange={() => changeErrorType('dispatCenter')}
         />{' '}
@@ -29,6 +28,7 @@ const TypeAndStatus = props => {
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorTypeFilterStatusProp.vehicleUnit.enabled}
           onChange={() => changeErrorType('vehicleUnit')}
         />{' '}
@@ -37,15 +37,17 @@ const TypeAndStatus = props => {
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorTypeFilterStatusProp.other.enabled}
           onChange={() => changeErrorType('other')}
         />{' '}
         Egyéb
       </div>
-      <h3>Státusz</h3>
+      <div className="blockName">Státusz</div>
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorFilterStatusProp.reported.enabled}
           onChange={() => changeStatusType('reported')}
         />{' '}
@@ -54,6 +56,7 @@ const TypeAndStatus = props => {
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorFilterStatusProp.goingOn.enabled}
           onChange={() => changeStatusType('goingOn')}
         />{' '}
@@ -62,6 +65,7 @@ const TypeAndStatus = props => {
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorFilterStatusProp.waitingForInformation.enabled}
           onChange={() => changeStatusType('waitingForInformation')}
         />{' '}
@@ -70,6 +74,7 @@ const TypeAndStatus = props => {
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorFilterStatusProp.serviceRecommended.enabled}
           onChange={() => changeStatusType('serviceRecommended')}
         />{' '}
@@ -78,6 +83,7 @@ const TypeAndStatus = props => {
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorFilterStatusProp.repaired.enabled}
           onChange={() => changeStatusType('repaired')}
         />{' '}
@@ -86,13 +92,11 @@ const TypeAndStatus = props => {
       <div>
         <Input
           type="checkbox"
+          className="option"
           defaultChecked={errorFilterStatusProp.answered.enabled}
           onChange={() => changeStatusType('answered')}
         />{' '}
         Megválaszolva
-      </div>
-      <div>
-        <br />
       </div>
       <div>
         <Overlay.Container>
@@ -108,7 +112,11 @@ const TypeAndStatus = props => {
               </Button>
               <Backdrop use={[Portal, Overlay.Hide]} {...overlay} />
               <Overlay use={Portal} {...overlay}>
-                <div>{addNewProblemReportDiv}</div>
+                <AddNewProblemReport
+                  licencePlateList={licencePlateList}
+                  overlay={overlay}
+                  problemReportArr={problemReportArr}
+                />
               </Overlay>
             </Block>
           )}
