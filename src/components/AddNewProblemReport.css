@@ -45,3 +45,11 @@ h2 {
 .emptySpace {
     height: 110px;
 }
+
+.emptySpace2 {
+    height: 5px;
+}
+
+.innerSpace {
+    padding: 5px 40px;
+}

@@ -12,9 +12,22 @@ const ProblemItemRow = styled.div`
   justify-content: space-around;
   flex-direction: row;
 `;
+const OpenTicketProblemItemRow = styled.div`
+  overflow: 'scroll';
+  flex-direction: row;
+  display: flex;
+  align-items: left;
+  width: 430px;
+  justify-content: space-around;
+  flex-direction: row;
+  border: 1px solid lightgray;
+  margin: 2px;
+`;
+
 const ProblemItem1 = styled.div`
   overflow: 'scroll';
   flex-direction: row;
+  align-items: center;
   width: 30%;
   min-width: 30%;
   max-width: 30%;
@@ -31,14 +44,23 @@ const ProblemItem3 = styled.div`
   overflow: 'scroll';
   align-items: center;
   flex-direction: row;
-  width: 90%;
-  min-width: 90%;
-  max-width: 90%;
+  width: 25%;
+  min-width: 25%;
+  max-width: 25%;
+`;
+const ProblemItem4 = styled.div`
+  overflow: 'scroll';
+  align-items: center;
+  flex-direction: row;
+  width: 75%;
+  min-width: 75%;
+  max-width: 75%;
 `;
 const AddNewProblemReport = props => {
+  const { licencePlateList, problemReportArr, overlay } = props;
   const [newProblemReport, setNewProblemReport] = useState({
     id: 0,
-    licencePlateNumber: '',
+    licencePlateNumber: licencePlateList[0],
     reportCreationTime: '',
     actualStatus: '',
     errorType: '',
@@ -48,11 +70,13 @@ const AddNewProblemReport = props => {
     ],
   });
 
-  const [openTicketIsAvailable, setTicketStatus] = useState(false);
+  const [openTicketIsAvailable, setTicketStatus] = useState(
+    problemReportArr[0].actualStatus !== 'Javítás befejezve'
+  );
 
-  const [chosenLicenceNumber, setchosenLicenceNumber] = useState('');
-
-  const { licencePlateList, problemReportArr, overlay } = props;
+  const [chosenLicenceNumber, setchosenLicenceNumber] = useState(
+    licencePlateList[0]
+  );
 
   const getStateChangeMessageArrByLicenceNumber = () => {
     const stateChangeMessageArr = [];
@@ -69,12 +93,13 @@ const AddNewProblemReport = props => {
               j < problemReportArr[i].problemReportChangeList.length;
               j++
             ) {
-              const temp1 =
+              const tempDate =
                 problemReportArr[i].problemReportChangeList[j].stateChangeTime;
-              const temp2 =
+              const tempMessage =
                 problemReportArr[i].problemReportChangeList[j]
                   .stateChangeMessage;
-              stateChangeMessageArr.push(`${temp1} ${temp2}`);
+              const tempObject = { date: tempDate, message: tempMessage };
+              stateChangeMessageArr.push(tempObject);
             }
             break;
           }
@@ -83,7 +108,6 @@ const AddNewProblemReport = props => {
     }
     return stateChangeMessageArr;
   };
-  //* *******************************************************
 
   const changeReportFieldValue = (event, fieldName) => {
     setNewProblemReport({
@@ -100,10 +124,20 @@ const AddNewProblemReport = props => {
         ) {
           setTicketStatus({ openTicketAvailable: true });
           setchosenLicenceNumber({ chosenLNumber: lp });
+          document.getElementById('openTicketData1').innerHTML =
+            problemReportArr[i].reporterName;
+          document.getElementById('openTicketData2').innerHTML =
+            problemReportArr[i].actualStatus;
+          document.getElementById('openTicketDescription').innerHTML =
+            'Megjegyzés hozzáfűzése a nyitott jegyhez :';
           break;
         } else {
           setTicketStatus({ openTicketAvailable: false });
           setchosenLicenceNumber({ chosenLNumber: '' });
+          document.getElementById('openTicketData1').innerHTML = '';
+          document.getElementById('openTicketData2').innerHTML = '';
+          document.getElementById('openTicketDescription').innerHTML =
+            'Leírás:';
         }
       }
     } else {
@@ -207,12 +241,28 @@ const AddNewProblemReport = props => {
                   </Input>
                 </ProblemItem2>
               </ProblemItemRow>
+              {console.log(openTicketIsAvailable)}
+              {console.log(newProblemReport.licencePlateNumber)}
+              <div className="emptySpace2" />
+              <div>
+                <span id="openTicketData1" className="innerSpace" />
+                <span id="openTicketData2" className="innerSpace" />
+              </div>
               {openTicketIsAvailable
                 ? getStateChangeMessageArrByLicenceNumber().map(change => (
-                    <ProblemItem3>{change}</ProblemItem3>
+                    <div>
+                      <div className="emptySpace2" />
+                      <OpenTicketProblemItemRow>
+                        <ProblemItem3>{change.date}</ProblemItem3>
+                        <ProblemItem4>{change.message}</ProblemItem4>
+                      </OpenTicketProblemItemRow>
+                      <div className="emptySpace2" />
+                    </div>
                   ))
                 : null}
-              <div>Leírás: </div>
+
+              <div id="openTicketDescription" />
+              <div className="emptySpace2" />
               <Input
                 className="longtextarea"
                 use="textarea"
