@@ -12,7 +12,8 @@
     "react-scripts": "2.1.8",
     "reakit": "^0.16.0",
     "reakit-theme-default": "^0.2.0",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.2.0",
+    "unstated": "^2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

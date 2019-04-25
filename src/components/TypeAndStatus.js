@@ -107,7 +107,6 @@ const TypeAndStatus = props => {
                 {...overlay}
                 className="addNewProblemReportButton"
               >
-                {' '}
                 Új hibajegy
               </Button>
               <Backdrop use={[Portal, Overlay.Hide]} {...overlay} />
