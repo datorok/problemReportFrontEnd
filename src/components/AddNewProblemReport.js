@@ -38,10 +38,7 @@ const AddNewProblemReport = props => {
     let shouldChange = false;
     for (let i = 0; i < problemReportArr.length; i++) {
       if (problemReportArr[i].id === parseInt(actChosenVehicleId)) {
-        if (
-          problemReportArr[i].actualStatus !== 'Megválaszolva' &&
-          problemReportArr[i].actualStatus !== 'Javítás befejezve'
-        ) {
+        if (ticketIsOpen(problemReportArr[i].actualStatus === true)) {
           shouldChange = true;
         }
         break;
@@ -189,8 +186,6 @@ const AddNewProblemReport = props => {
                   </Input>
                 </ProblemItem2>
               </ProblemItemRow>
-              {console.log({ openTicketIsAvailable })}
-              {console.log({ chosenVehicleId })}
               {openTicketIsAvailable
                 ? problemReportArr
                     .filter(report => report.id === parseInt(chosenVehicleId))
@@ -228,10 +223,10 @@ const AddNewProblemReport = props => {
                           {changeLast && (
                             <OpenTicketProblemItemRow>
                               <ProblemItem3>
-                                {changeFirst.stateChangeTime}
+                                {changeLast.stateChangeTime}
                               </ProblemItem3>
                               <ProblemItem4>
-                                {changeFirst.stateChangeMessage}
+                                {changeLast.stateChangeMessage}
                               </ProblemItem4>
                             </OpenTicketProblemItemRow>
                           )}

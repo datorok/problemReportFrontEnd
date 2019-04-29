@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Block, Hidden } from 'reakit';
+// a fontawesome ikonok importálása teszi lehetővé a szám- és alfanumerikus rendezés és a sorlenyílás piktogramjának megjelenítését
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -11,6 +11,21 @@ import {
   faMinus,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
+
+import {
+  FlexHeader,
+  ProblemRow,
+  ProblemItem0,
+  ProblemItem1,
+  ProblemItem2,
+  ProblemItem3,
+  ProblemItem4,
+  ProblemItem5,
+  ProblemItem6,
+  ProblemContainer,
+  ProblemRowContainer,
+} from './ProblemReport.style';
+
 import ProblemReportChange from './ProblemReportChange';
 
 library.add(
@@ -22,99 +37,10 @@ library.add(
   faPlus
 );
 
-const FlexHeader = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  display: flex;
-  width: 95%;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: row;
-  color: #696969;
-  font-size: 14px;
-  /*ezzel felülbírálható a lokális formázás */
-  & > * {
-    font-weight: normal !important;
-  }
-`;
-const ProblemRow = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  /* border: 1px #ccc solid; */
-  display: flex;
-  align-items: center;
-  width: 95%;
-  justify-content: space-around;
-  flex-direction: row;
-`;
-const ProblemItem0 = styled.div`
-  width: 3%;
-  min-width: 3%;
-  max-width: 3%;
-`;
-const ProblemItem1 = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  width: 10%;
-  min-width: 10%;
-  max-width: 10%;
-  font-weight: 500;
-`;
-const ProblemItem2 = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  width: 14%;
-  min-width: 14%;
-  max-width: 14%;
-`;
-const ProblemItem3 = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  width: 12%;
-  min-width: 12%;
-  max-width: 12%;
-`;
-const ProblemItem4 = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  width: 10%;
-  min-width: 10%;
-  max-width: 10%;
-`;
-const ProblemItem5 = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  width: 11%;
-  min-width: 11%;
-  max-width: 11%;
-`;
-const ProblemItem6 = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  width: 40%;
-  min-width: 40%;
-  max-width: 40%;
-  font-weight: 500;
-`;
-
-const ProblemRowContainer = styled.div`
-  /* color: red; */
-  padding: 10px;
-`;
-
-const ProblemContainer = styled.div`
-  & ${ProblemRowContainer}:nth-child(even) {
-    background: #e8e8e8 !important;
-  }
-
-  /* color: green; */
-`;
-
 const ProblemReport = props => {
   const {
     problemReportArr,
-    sortOfTheLicenceNumber,
-    sortOfThereportCreationTime,
+    sortMethod,
     licenceNumberOrderIsAscending,
     reportDateOrderIsAscending,
   } = props;
@@ -157,8 +83,11 @@ const ProblemReport = props => {
     <React.Fragment>
       <FlexHeader>
         <ProblemItem0 />
-        <ProblemItem1 font-weight="normal" onClick={sortOfTheLicenceNumber}>
-          Rendszám{' '}
+        <ProblemItem1
+          font-weight="normal"
+          onClick={() => sortMethod('alphabethical')}
+        >
+          Rendszám
           <FontAwesomeIcon
             icon={
               licenceNumberOrderIsAscending
@@ -167,8 +96,8 @@ const ProblemReport = props => {
             }
           />
         </ProblemItem1>
-        <ProblemItem2 onClick={sortOfThereportCreationTime}>
-          Bejelentés ideje{' '}
+        <ProblemItem2 onClick={() => sortMethod('numeric')}>
+          Bejelentés ideje
           <FontAwesomeIcon
             icon={
               reportDateOrderIsAscending

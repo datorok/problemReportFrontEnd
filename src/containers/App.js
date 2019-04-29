@@ -108,6 +108,7 @@ class App extends Component {
       },
       errorFilterStatus: {
         reported: { enabled: true, value: 'Hiba bejelentve' },
+        appended: { enabled: true, value: 'Hozzáfűz' },
         goingOn: { enabled: true, value: 'Hibajavítás folyamatban' },
         waitingForInformation: { enabled: true, value: 'Információra vár' },
         serviceRecommended: { enabled: true, value: 'Szervizre javasolva' },
@@ -119,6 +120,7 @@ class App extends Component {
     };
   }
 
+  // class-on belül nem kell kiírni a method-ok elé, hogy function
   licencePlateChangeHandler = event => {
     const { ProblemReportArr } = this.state;
     const actProblemReportArr = [...ProblemReportArr];
@@ -185,20 +187,38 @@ class App extends Component {
     });
   };
 
-  sortOfTheLicenceNumber = () => {
-    const { ProblemReportArr, licenceNumberOrderIsAscending } = this.state;
+  sortMethod = typeOfSorting => {
+    const {
+      ProblemReportArr,
+      licenceNumberOrderIsAscending,
+      reportDateOrderIsAscending,
+    } = this.state;
+
+    const isAsc =
+      typeOfSorting === 'alphabethical'
+        ? licenceNumberOrderIsAscending
+        : reportDateOrderIsAscending;
+
+    let x;
+    let y;
+
     const actProblemReportArr = [...ProblemReportArr];
     actProblemReportArr.sort(function(a, b) {
-      const x = a.licencePlateNumber.toLowerCase();
-      const y = b.licencePlateNumber.toLowerCase();
-      if (licenceNumberOrderIsAscending === true) {
+      if (typeOfSorting === 'alphabethical') {
+        x = a.licencePlateNumber.toLowerCase();
+        y = b.licencePlateNumber.toLowerCase();
+      } else {
+        x = a.reportCreationTime.toLowerCase();
+        y = b.reportCreationTime.toLowerCase();
+      }
+      if (isAsc === true) {
         if (x < y) {
           return -1;
         }
       } else if (x < y) {
         return 1;
       }
-      if (licenceNumberOrderIsAscending === true) {
+      if (isAsc === true) {
         if (x > y) {
           return 1;
         }
@@ -208,44 +228,26 @@ class App extends Component {
       return 0;
     });
     const filteredProblemReportArr = [...actProblemReportArr];
-    this.setState({ filteredProblemReportArr });
-
-    if (licenceNumberOrderIsAscending === true) {
-      this.setState({ licenceNumberOrderIsAscending: false });
+    if (typeOfSorting === 'numeric') {
+      reportDateOrderIsAscending === true
+        ? this.setState({
+            reportDateOrderIsAscending: false,
+            filteredProblemReportArr,
+          })
+        : this.setState({
+            reportDateOrderIsAscending: true,
+            filteredProblemReportArr,
+          });
     } else {
-      this.setState({ licenceNumberOrderIsAscending: true });
-    }
-  };
-
-  sortOfThereportCreationTime = () => {
-    const { ProblemReportArr, reportDateOrderIsAscending } = this.state;
-    const actProblemReportArr = [...ProblemReportArr];
-    actProblemReportArr.sort(function(a, b) {
-      const x = a.reportCreationTime.toLowerCase();
-      const y = b.reportCreationTime.toLowerCase();
-      if (reportDateOrderIsAscending === true) {
-        if (x < y) {
-          return -1;
-        }
-      } else if (x < y) {
-        return 1;
-      }
-      if (reportDateOrderIsAscending === true) {
-        if (x > y) {
-          return 1;
-        }
-      } else if (x > y) {
-        return -1;
-      }
-      return 0;
-    });
-    const filteredProblemReportArr = [...actProblemReportArr];
-    console.log({ filteredProblemReportArr });
-    this.setState({ filteredProblemReportArr });
-    if (reportDateOrderIsAscending === true) {
-      this.setState({ reportDateOrderIsAscending: false });
-    } else {
-      this.setState({ reportDateOrderIsAscending: true });
+      licenceNumberOrderIsAscending === true
+        ? this.setState({
+            licenceNumberOrderIsAscending: false,
+            filteredProblemReportArr,
+          })
+        : this.setState({
+            licenceNumberOrderIsAscending: true,
+            filteredProblemReportArr,
+          });
     }
   };
 
@@ -293,8 +295,7 @@ class App extends Component {
           <br />
           <ProblemReport
             problemReportArr={result}
-            sortOfTheLicenceNumber={this.sortOfTheLicenceNumber}
-            sortOfThereportCreationTime={this.sortOfThereportCreationTime}
+            sortMethod={this.sortMethod}
             licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
             reportDateOrderIsAscending={reportDateOrderIsAscending}
           />
