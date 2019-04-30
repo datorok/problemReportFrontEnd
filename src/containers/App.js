@@ -30,7 +30,7 @@ class App extends Component {
 
         {
           id: 2,
-          licencePlateNumber: 'ABC-124',
+          licencePlateNumber: 'ABC-194',
           reportCreationTime: '2019.03.25',
           actualStatus: 'Hibajavítás folyamatban',
           errorType: 'Diszpécser központ',
@@ -108,7 +108,7 @@ class App extends Component {
       },
       errorFilterStatus: {
         reported: { enabled: true, value: 'Hiba bejelentve' },
-        appended: { enabled: true, value: 'Hozzáfűz' },
+        reportAppended: { enabled: true, value: 'Bejelentés kiegészítve' },
         goingOn: { enabled: true, value: 'Hibajavítás folyamatban' },
         waitingForInformation: { enabled: true, value: 'Információra vár' },
         serviceRecommended: { enabled: true, value: 'Szervizre javasolva' },
@@ -120,7 +120,6 @@ class App extends Component {
     };
   }
 
-  // class-on belül nem kell kiírni a method-ok elé, hogy function
   licencePlateChangeHandler = event => {
     const { ProblemReportArr } = this.state;
     const actProblemReportArr = [...ProblemReportArr];
@@ -160,41 +159,51 @@ class App extends Component {
     return filteredProblemReportArr;
   };
 
-  changeErrorType = fieldName => {
-    const { errorTypeFilterStatus } = this.state;
-    this.setState({
-      errorTypeFilterStatus: {
-        ...errorTypeFilterStatus,
-        [fieldName]: {
-          ...errorTypeFilterStatus[fieldName],
-          enabled: !errorTypeFilterStatus[fieldName].enabled,
+  // A changeErrorOrStatusType metódus végzi a hiba típusa és a hibajegy státusza szerint történő filterezést
+
+  changeErrorOrStatusType = fieldName => {
+    const filterType =
+      fieldName === 'dispatCenter' ||
+      fieldName === 'vehicleUnit' ||
+      fieldName === 'other'
+        ? 'errorTypeChange'
+        : 'statusChange';
+    if (filterType === 'errorTypeChange') {
+      const { errorTypeFilterStatus } = this.state;
+      this.setState({
+        errorTypeFilterStatus: {
+          ...errorTypeFilterStatus,
+          [fieldName]: {
+            ...errorTypeFilterStatus[fieldName],
+            enabled: !errorTypeFilterStatus[fieldName].enabled,
+          },
         },
-      },
-    });
+      });
+    } else {
+      const { errorFilterStatus } = this.state;
+      this.setState({
+        errorFilterStatus: {
+          ...errorFilterStatus,
+          [fieldName]: {
+            ...errorFilterStatus[fieldName],
+            enabled: !errorFilterStatus[fieldName].enabled,
+          },
+        },
+      });
+    }
   };
 
-  changeStatusType = fieldName => {
-    const { errorFilterStatus } = this.state;
-
-    this.setState({
-      errorFilterStatus: {
-        ...errorFilterStatus,
-        [fieldName]: {
-          ...errorFilterStatus[fieldName],
-          enabled: !errorFilterStatus[fieldName].enabled,
-        },
-      },
-    });
-  };
+  // A sortMethod metódus végzi a rendszám- és a bejelentés ideje alapján történő sorbarendezést
 
   sortMethod = typeOfSorting => {
-    const {
+    let {
       ProblemReportArr,
       licenceNumberOrderIsAscending,
       reportDateOrderIsAscending,
+      filteredProblemReportArr,
     } = this.state;
 
-    const isAsc =
+    const isAscending =
       typeOfSorting === 'alphabethical'
         ? licenceNumberOrderIsAscending
         : reportDateOrderIsAscending;
@@ -202,7 +211,10 @@ class App extends Component {
     let x;
     let y;
 
-    const actProblemReportArr = [...ProblemReportArr];
+    const actProblemReportArr =
+      filteredProblemReportArr === undefined
+        ? [...ProblemReportArr]
+        : [...filteredProblemReportArr];
     actProblemReportArr.sort(function(a, b) {
       if (typeOfSorting === 'alphabethical') {
         x = a.licencePlateNumber.toLowerCase();
@@ -211,14 +223,14 @@ class App extends Component {
         x = a.reportCreationTime.toLowerCase();
         y = b.reportCreationTime.toLowerCase();
       }
-      if (isAsc === true) {
+      if (isAscending === true) {
         if (x < y) {
           return -1;
         }
       } else if (x < y) {
         return 1;
       }
-      if (isAsc === true) {
+      if (isAscending === true) {
         if (x > y) {
           return 1;
         }
@@ -227,27 +239,32 @@ class App extends Component {
       }
       return 0;
     });
-    const filteredProblemReportArr = [...actProblemReportArr];
-    if (typeOfSorting === 'numeric') {
-      reportDateOrderIsAscending === true
-        ? this.setState({
-            reportDateOrderIsAscending: false,
-            filteredProblemReportArr,
-          })
-        : this.setState({
-            reportDateOrderIsAscending: true,
-            filteredProblemReportArr,
-          });
-    } else {
-      licenceNumberOrderIsAscending === true
-        ? this.setState({
-            licenceNumberOrderIsAscending: false,
-            filteredProblemReportArr,
-          })
-        : this.setState({
-            licenceNumberOrderIsAscending: true,
-            filteredProblemReportArr,
-          });
+    filteredProblemReportArr = [...actProblemReportArr];
+
+    if (isAscending === true) {
+      if (typeOfSorting === 'numeric') {
+        this.setState({
+          reportDateOrderIsAscending: false,
+          filteredProblemReportArr,
+        });
+      } else {
+        this.setState({
+          licenceNumberOrderIsAscending: false,
+          filteredProblemReportArr,
+        });
+      }
+    } else if (isAscending === false) {
+      if (typeOfSorting === 'numeric') {
+        this.setState({
+          reportDateOrderIsAscending: true,
+          filteredProblemReportArr,
+        });
+      } else {
+        this.setState({
+          licenceNumberOrderIsAscending: true,
+          filteredProblemReportArr,
+        });
+      }
     }
   };
 
@@ -277,8 +294,7 @@ class App extends Component {
           <TypeAndStatus
             errorTypeFilterStatusProp={errorTypeFilterStatus}
             errorFilterStatusProp={errorFilterStatus}
-            changeErrorType={this.changeErrorType}
-            changeStatusType={this.changeStatusType}
+            changeErrorOrStatusType={this.changeErrorOrStatusType}
             problemReportArr={ProblemReportArr}
           />
         </div>

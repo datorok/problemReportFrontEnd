@@ -7,9 +7,7 @@ const TypeAndStatus = props => {
   const {
     errorTypeFilterStatusProp,
     errorFilterStatusProp,
-    changeErrorType,
-    changeStatusType,
-    licencePlateList,
+    changeErrorOrStatusType,
     problemReportArr,
   } = props;
 
@@ -21,7 +19,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorTypeFilterStatusProp.dispatCenter.enabled}
-          onChange={() => changeErrorType('dispatCenter')}
+          onChange={() => changeErrorOrStatusType('dispatCenter')}
         />{' '}
         Diszpécser központ
       </div>
@@ -30,7 +28,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorTypeFilterStatusProp.vehicleUnit.enabled}
-          onChange={() => changeErrorType('vehicleUnit')}
+          onChange={() => changeErrorOrStatusType('vehicleUnit')}
         />{' '}
         Járműegység
       </div>
@@ -39,7 +37,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorTypeFilterStatusProp.other.enabled}
-          onChange={() => changeErrorType('other')}
+          onChange={() => changeErrorOrStatusType('other')}
         />{' '}
         Egyéb
       </div>
@@ -49,7 +47,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.reported.enabled}
-          onChange={() => changeStatusType('reported')}
+          onChange={() => changeErrorOrStatusType('reported')}
         />{' '}
         Hiba bejelentve
       </div>
@@ -57,8 +55,17 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
+          defaultChecked={errorFilterStatusProp.reported.enabled}
+          onChange={() => changeErrorOrStatusType('reportAppended')}
+        />{' '}
+        Bejelentés kiegészítve
+      </div>
+      <div>
+        <Input
+          type="checkbox"
+          className="option"
           defaultChecked={errorFilterStatusProp.goingOn.enabled}
-          onChange={() => changeStatusType('goingOn')}
+          onChange={() => changeErrorOrStatusType('goingOn')}
         />{' '}
         Hibajavítás folyamatban
       </div>
@@ -67,7 +74,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.waitingForInformation.enabled}
-          onChange={() => changeStatusType('waitingForInformation')}
+          onChange={() => changeErrorOrStatusType('waitingForInformation')}
         />{' '}
         Információra vár
       </div>
@@ -76,7 +83,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.serviceRecommended.enabled}
-          onChange={() => changeStatusType('serviceRecommended')}
+          onChange={() => changeErrorOrStatusType('serviceRecommended')}
         />{' '}
         Szervizre javasolva
       </div>
@@ -85,7 +92,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.repaired.enabled}
-          onChange={() => changeStatusType('repaired')}
+          onChange={() => changeErrorOrStatusType('repaired')}
         />{' '}
         Javítás befejezve
       </div>
@@ -94,7 +101,7 @@ const TypeAndStatus = props => {
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.answered.enabled}
-          onChange={() => changeStatusType('answered')}
+          onChange={() => changeErrorOrStatusType('answered')}
         />{' '}
         Megválaszolva
       </div>
@@ -112,7 +119,6 @@ const TypeAndStatus = props => {
               <Backdrop use={[Portal, Overlay.Hide]} {...overlay} />
               <Overlay use={Portal} {...overlay}>
                 <AddNewProblemReport
-                  licencePlateList={licencePlateList}
                   overlay={overlay}
                   problemReportArr={problemReportArr}
                 />
