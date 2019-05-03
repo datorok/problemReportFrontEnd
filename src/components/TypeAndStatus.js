@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, Block, Button, Backdrop, Portal, Overlay } from 'reakit';
 import AddNewProblemReport from './AddNewProblemReport';
-import './TypeAndStatus.css';
+import { TypeAndSatusText, BlockName, Option } from './TypeAndStatus.style';
 
 const TypeAndStatus = props => {
   const {
@@ -12,108 +12,104 @@ const TypeAndStatus = props => {
   } = props;
 
   return (
-    <div className="typeAndSatusText">
-      <div className="blockName">Hiba típusa</div>
-      <div>
+    <TypeAndSatusText>
+      <BlockName>Hiba típusa</BlockName>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorTypeFilterStatusProp.dispatCenter.enabled}
           onChange={() => changeErrorOrStatusType('dispatCenter')}
-        />{' '}
+        />
         Diszpécser központ
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorTypeFilterStatusProp.vehicleUnit.enabled}
           onChange={() => changeErrorOrStatusType('vehicleUnit')}
-        />{' '}
+        />
         Járműegység
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorTypeFilterStatusProp.other.enabled}
           onChange={() => changeErrorOrStatusType('other')}
-        />{' '}
+        />
         Egyéb
-      </div>
-      <div className="blockName">Státusz</div>
-      <div>
+      </Option>
+      <BlockName>Státusz</BlockName>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.reported.enabled}
           onChange={() => changeErrorOrStatusType('reported')}
-        />{' '}
+        />
         Hiba bejelentve
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.reported.enabled}
           onChange={() => changeErrorOrStatusType('reportAppended')}
-        />{' '}
+        />
         Bejelentés kiegészítve
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.goingOn.enabled}
           onChange={() => changeErrorOrStatusType('goingOn')}
-        />{' '}
+        />
         Hibajavítás folyamatban
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.waitingForInformation.enabled}
           onChange={() => changeErrorOrStatusType('waitingForInformation')}
-        />{' '}
+        />
         Információra vár
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.serviceRecommended.enabled}
           onChange={() => changeErrorOrStatusType('serviceRecommended')}
-        />{' '}
+        />
         Szervizre javasolva
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.repaired.enabled}
           onChange={() => changeErrorOrStatusType('repaired')}
-        />{' '}
+        />
         Javítás befejezve
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Input
           type="checkbox"
           className="option"
           defaultChecked={errorFilterStatusProp.answered.enabled}
           onChange={() => changeErrorOrStatusType('answered')}
-        />{' '}
+        />
         Megválaszolva
-      </div>
-      <div>
+      </Option>
+      <Option>
         <Overlay.Container>
           {overlay => (
             <Block>
-              <Button
-                use={Overlay.Show}
-                {...overlay}
-                className="addNewProblemReportButton"
-              >
+              <Button use={Overlay.Show} {...overlay}>
                 Új hibajegy
               </Button>
               <Backdrop use={[Portal, Overlay.Hide]} {...overlay} />
@@ -126,8 +122,9 @@ const TypeAndStatus = props => {
             </Block>
           )}
         </Overlay.Container>
-      </div>
-    </div>
+      </Option>
+    </TypeAndSatusText>
   );
 };
+
 export default TypeAndStatus;

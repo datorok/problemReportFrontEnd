@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Block, Group, Button, Step, Input, Overlay } from 'reakit';
-import './AddNewProblemReport.css';
+
 import {
   OpenTicketProblemItemRow,
   OpenTicketBasicData,
@@ -11,6 +11,9 @@ import {
   ProblemItem4,
   ProblemItem5,
   ProblemItem6,
+  NewTicketHead,
+  OpenTicketDescription,
+  ElementportalModalButtons,
 } from './AddNewProblemReport.style';
 
 const emptyString = '';
@@ -38,7 +41,10 @@ const AddNewProblemReport = props => {
     let shouldChange = false;
     for (let i = 0; i < problemReportArr.length; i++) {
       if (problemReportArr[i].id === parseInt(actChosenVehicleId)) {
-        if (ticketIsOpen(problemReportArr[i].actualStatus === true)) {
+        if (
+          problemReportArr[i].actualStatus !== 'Megválaszolva' &&
+          problemReportArr[i].actualStatus !== 'Javítás befejezve'
+        ) {
           shouldChange = true;
         }
         break;
@@ -88,13 +94,14 @@ const AddNewProblemReport = props => {
             isCurrent={isCurrent}
             className="elementportalModal"
           >
-            <h2>Bejelentő adatai</h2>
+            <NewTicketHead>Bejelentő adatai</NewTicketHead>
             <ProblemItemRow>
               <ProblemItem1>Név: </ProblemItem1>
               <ProblemItem2>
-                <input
-                  use="textarea"
-                  className="textInput"
+                <textarea
+                  use="text"
+                  rows={1}
+                  cols={40}
                   value={reporterName}
                   onChange={event => setReporterName(event.target.value)}
                 />
@@ -103,9 +110,10 @@ const AddNewProblemReport = props => {
             <ProblemItemRow>
               <ProblemItem1> E-mail cím:</ProblemItem1>
               <ProblemItem2>
-                <input
-                  use="textarea"
-                  className="textInput"
+                <textarea
+                  use="text"
+                  rows={1}
+                  cols={40}
                   value={reporterEmail}
                   onChange={event => setReporterEmail(event.target.value)}
                 />
@@ -114,9 +122,10 @@ const AddNewProblemReport = props => {
             <ProblemItemRow>
               <ProblemItem1>Telefonszám:</ProblemItem1>
               <ProblemItem2>
-                <input
-                  use="textarea"
-                  className="textInput"
+                <textarea
+                  use="text"
+                  rows={1}
+                  cols={40}
                   value={reporterPhone}
                   onChange={event => setReporterPhone(event.target.value)}
                 />
@@ -124,7 +133,7 @@ const AddNewProblemReport = props => {
             </ProblemItemRow>
 
             <div className="emptySpace" />
-            <div className="elementportalModalButtons">
+            <ElementportalModalButtons>
               <Group>
                 <Button
                   use={Overlay.Toggle}
@@ -139,7 +148,7 @@ const AddNewProblemReport = props => {
                   Következő
                 </Button>
               </Group>
-            </div>
+            </ElementportalModalButtons>
           </Step>
           <Step
             step="Step 2"
@@ -148,7 +157,7 @@ const AddNewProblemReport = props => {
             isCurrent={isCurrent}
             className="elementportalModal"
           >
-            <h2>Hiba típusa - leírása</h2>
+            <NewTicketHead>Hiba típusa - leírása</NewTicketHead>
             <div>
               <ProblemItemRow>
                 <ProblemItem1>Típusa: </ProblemItem1>
@@ -186,6 +195,8 @@ const AddNewProblemReport = props => {
                   </Input>
                 </ProblemItem2>
               </ProblemItemRow>
+              {console.log({ openTicketIsAvailable })}
+              {console.log({ chosenVehicleId })}
               {openTicketIsAvailable
                 ? problemReportArr
                     .filter(report => report.id === parseInt(chosenVehicleId))
@@ -234,21 +245,20 @@ const AddNewProblemReport = props => {
                       );
                     })
                 : null}
-              <div id="openTicketDescription">
+              <OpenTicketDescription>
                 {openTicketIsAvailable
                   ? 'Megjegyzés hozzáfűzése a nyitott jegyhez :'
                   : 'Leírás:'}
-              </div>
-              <div className="emptySpace2" />
-              <Input
-                className="longtextarea"
-                use="textarea"
-                multiline="true"
+              </OpenTicketDescription>
+              <textarea
+                use="text"
+                rows={5}
+                cols={69}
                 value={problemDescription}
                 id="problemDescriptionField"
                 onChange={event => setProblemDescription(event.target.value)}
               />
-              <div className="elementportalModalButtons">
+              <ElementportalModalButtons>
                 <Group>
                   <Button
                     use={Step.Previous}
@@ -278,7 +288,7 @@ const AddNewProblemReport = props => {
                     Mentés
                   </Button>
                 </Group>
-              </div>
+              </ElementportalModalButtons>
             </div>
           </Step>
         </Block>

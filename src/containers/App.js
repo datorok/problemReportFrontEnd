@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import ProblemReport from '../components/ProblemReport';
 import TypeAndStatus from '../components/TypeAndStatus';
+import { Application, SearchBar } from './App.style';
 
 class App extends Component {
   constructor(props) {
@@ -289,7 +290,7 @@ class App extends Component {
     }
 
     return (
-      <div className="App">
+      <Application>
         <div className="TypeAndStatusCSS">
           <TypeAndStatus
             errorTypeFilterStatusProp={errorTypeFilterStatus}
@@ -299,16 +300,13 @@ class App extends Component {
           />
         </div>
         <div className="ProblemReportCSS">
-          <br />
-          <div>
+          <SearchBar>
             <input
-              className="searchBar"
               type="text"
               placeholder="Keresés..."
               onChange={this.licencePlateChangeHandler}
             />
-          </div>
-          <br />
+          </SearchBar>
           <ProblemReport
             problemReportArr={result}
             sortMethod={this.sortMethod}
@@ -316,7 +314,7 @@ class App extends Component {
             reportDateOrderIsAscending={reportDateOrderIsAscending}
           />
         </div>
-      </div>
+      </Application>
     );
   }
 }

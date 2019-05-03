@@ -14,7 +14,7 @@ export const OpenTicketProblemItemRow = styled.div`
   flex-direction: row;
   display: flex;
   align-items: left;
-  width: 430px;
+  width: 500px;
   justify-content: space-around;
   flex-direction: row;
   border: 1px solid lightgray;
@@ -34,6 +34,7 @@ export const ProblemItem1 = styled.div`
   overflow: 'scroll';
   flex-direction: row;
   align-items: center;
+  margin: 5px 5px;
   width: 30%;
   min-width: 30%;
   max-width: 30%;
@@ -67,10 +68,71 @@ export const ProblemItem5 = styled.div`
   width: 30%;
   min-width: 30%;
   max-width: 30%;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 export const ProblemItem6 = styled.div`
   flex-direction: row;
   width: 30%;
   min-width: 30%;
   max-width: 30%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+export const ElementportalModalButtons = styled.div`
+  float: center;
+  text-align: center;
+  margin: 1px;
+  margin-left: 350px;
+`;
+
+export const NewTicketHead = styled.div`
+  text-align: center;
+  font-size: 25px;
+  font-weight: 400;
+  margin-top: 0px;
+  margin-bottom: 30px;
+`;
+
+export const input = styled.div`
+  text-align: left;
+  color: black;
+  width: 150px;
+  padding: 5px 5px;
+  margin: 2px;
+`;
+
+export const ElementPortalModal = styled.div`
+  text-align: left;
+  width: 470px;
+  height: 360px;
+  min-height: 360px;
+  max-height: 600px;
+  padding: 20px 20px;
+  margin: 0px;
+`;
+
+export const DropDownList = styled.div`
+  text-align: left;
+  color: black;
+  width: 250px;
+  height: 39px;
+  padding: 1px 1px;
+  margin: 3px;
+  border: 1px solid lightgray;
+`;
+
+export const Longtextarea = styled.div`
+  color: black;
+  width: 430px;
+  height: 100px;
+  padding: 5px 5px;
+  margin: 2px;
+  border: 1px solid lightgray;
+`;
+
+export const OpenTicketDescription = styled.div`
+  margin-top: 10px;
+  margin-bottom: 5px;
 `;
