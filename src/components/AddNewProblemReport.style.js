@@ -83,8 +83,8 @@ export const ProblemItem6 = styled.div`
 export const ElementportalModalButtons = styled.div`
   float: center;
   text-align: center;
-  margin: 1px;
-  margin-left: 350px;
+  margin: 5px;
+  margin-left: 220px;
 `;
 
 export const NewTicketHead = styled.div`

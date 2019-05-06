@@ -14,7 +14,7 @@ class App extends Component {
           id: 1,
           licencePlateNumber: 'ABC-129',
           reportCreationTime: '2019.03.24',
-          actualStatus: 'Hiba bejelentve',
+          actualStatus: 'Bejelentés kiegészítve',
           errorType: 'Egyéb',
           reporterName: 'Ó Pál',
           reporterEmail: 'pal.o@gmail.com',

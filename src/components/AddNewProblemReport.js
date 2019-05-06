@@ -36,6 +36,67 @@ const AddNewProblemReport = props => {
     ticketIsOpen(problemReportArr[0].actualStatus)
   );
 
+  const red = {
+    backgroundColor: 'OrangeRed',
+    font: 'inherit',
+    border: '1px solid black',
+    padding: '10px',
+  };
+  const green = {
+    backgroundColor: 'SpringGreen',
+    font: 'inherit',
+    border: '1px solid black',
+    padding: '10px',
+  };
+  const blue = {
+    backgroundColor: 'SkyBlue',
+    font: 'inherit',
+    border: '1px solid black',
+    padding: '10px',
+  };
+  const yellow = {
+    backgroundColor: 'Yellow',
+    font: 'inherit',
+    border: '1px solid black',
+    padding: '10px',
+  };
+  const magenta = {
+    backgroundColor: 'Magenta',
+    font: 'inherit',
+    border: '1px solid black',
+    padding: '10px',
+  };
+  const colorless = {
+    backgroundColor: 'white',
+    font: 'inherit',
+    padding: '10px',
+  };
+  const colorChoser = () => {
+    if (
+      problemReportArr[0].actualStatus === 'Megválaszolva' ||
+      problemReportArr[0].actualStatus === 'Javítás befejezve'
+    ) {
+      return colorless;
+    }
+    if (problemReportArr[0].actualStatus === 'Hiba bejelentve') {
+      return red;
+    }
+    if (problemReportArr[0].actualStatus === 'Bejelentés kiegészítve') {
+      return green;
+    }
+    if (problemReportArr[0].actualStatus === 'Hibajavítás folyamatban') {
+      return blue;
+    }
+    if (problemReportArr[0].actualStatus === 'Információra vár') {
+      return yellow;
+    }
+    if (problemReportArr[0].actualStatus === 'Szervizre javasolva') {
+      return magenta;
+    }
+  };
+
+  const [actualStatusStyling, setActualStatusStyling] = useState(colorChoser);
+
   const checkActualStatusOfTheChosenVehicle = event => {
     const actChosenVehicleId = event.target.value;
     let shouldChange = false;
@@ -46,8 +107,30 @@ const AddNewProblemReport = props => {
           problemReportArr[i].actualStatus !== 'Javítás befejezve'
         ) {
           shouldChange = true;
+          if (problemReportArr[i].actualStatus === 'Hiba bejelentve') {
+            setActualStatusStyling(red);
+          } else if (
+            problemReportArr[i].actualStatus === 'Bejelentés kiegészítve'
+          ) {
+            setActualStatusStyling(green);
+          } else if (
+            problemReportArr[i].actualStatus === 'Hibajavítás folyamatban'
+          ) {
+            setActualStatusStyling(blue);
+          } else if (problemReportArr[i].actualStatus === 'Információra vár') {
+            setActualStatusStyling(yellow);
+          } else if (
+            problemReportArr[i].actualStatus === 'Szervizre javasolva'
+          ) {
+            setActualStatusStyling(magenta);
+          }
+        } else if (
+          problemReportArr[i].actualStatus === 'Megválaszolva' &&
+          problemReportArr[i].actualStatus === 'Javítás befejezve'
+        ) {
+          setActualStatusStyling(colorless);
+          break;
         }
-        break;
       }
     }
     if (shouldChange === true) {
@@ -132,7 +215,6 @@ const AddNewProblemReport = props => {
               </ProblemItem2>
             </ProblemItemRow>
 
-            <div className="emptySpace" />
             <ElementportalModalButtons>
               <Group>
                 <Button
@@ -195,19 +277,21 @@ const AddNewProblemReport = props => {
                   </Input>
                 </ProblemItem2>
               </ProblemItemRow>
-              {console.log({ openTicketIsAvailable })}
-              {console.log({ chosenVehicleId })}
               {openTicketIsAvailable
                 ? problemReportArr
                     .filter(report => report.id === parseInt(chosenVehicleId))
                     .map(report => (
                       <OpenTicketBasicData>
                         <ProblemItem5>{report.reporterName}</ProblemItem5>
-                        <ProblemItem6>{report.actualStatus}</ProblemItem6>
+                        <ProblemItem6 style={actualStatusStyling}>
+                          {report.actualStatus}
+                        </ProblemItem6>
                       </OpenTicketBasicData>
                     ))
                 : null}
-
+              {console.log(
+                `actualStatusStyling: ${actualStatusStyling.backgroundColor}`
+              )}
               {openTicketIsAvailable
                 ? problemReportArr
                     .filter(report => report.id === parseInt(chosenVehicleId))
@@ -221,7 +305,6 @@ const AddNewProblemReport = props => {
                           : undefined;
                       return (
                         <div>
-                          <div className="emptySpace2" />
                           <OpenTicketProblemItemRow>
                             <ProblemItem3>
                               {changeFirst.stateChangeTime}
@@ -230,7 +313,6 @@ const AddNewProblemReport = props => {
                               {changeFirst.stateChangeMessage}
                             </ProblemItem4>
                           </OpenTicketProblemItemRow>
-                          <div className="emptySpace2" />
                           {changeLast && (
                             <OpenTicketProblemItemRow>
                               <ProblemItem3>
