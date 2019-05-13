@@ -14,7 +14,7 @@ class App extends Component {
           id: 1,
           licencePlateNumber: 'ABC-129',
           reportCreationTime: '2019.03.24',
-          actualStatus: 'Bejelentés kiegészítve',
+          actualStatus: 'Hiba bejelentve',
           errorType: 'Egyéb',
           reporterName: 'Ó Pál',
           reporterEmail: 'pal.o@gmail.com',
@@ -57,7 +57,7 @@ class App extends Component {
           id: 3,
           licencePlateNumber: 'ABC-125',
           reportCreationTime: '2019.03.26',
-          actualStatus: 'Megválaszolva',
+          actualStatus: 'Szervizre javasolva',
           errorType: 'Járműegység',
           reporterName: 'Lenti Lenke',
           reporterEmail: 'lenke.lenti@gmail.com',
@@ -298,17 +298,12 @@ class App extends Component {
           problemReportArr={ProblemReportArr}
         />
 
-        <Input
-          type="text"
-          placeholder="Keresés..."
-          onChange={this.licencePlateChangeHandler}
-        />
-
         <ProblemReport
           problemReportArr={result}
           sortMethod={this.sortMethod}
           licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
           reportDateOrderIsAscending={reportDateOrderIsAscending}
+          licencePlateChangeHandler={this.licencePlateChangeHandler}
         />
       </Application>
     );

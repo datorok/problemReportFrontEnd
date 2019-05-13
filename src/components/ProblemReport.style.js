@@ -1,5 +1,17 @@
 import styled from 'styled-components';
+import { Input as ReakitInput } from 'reakit';
 
+export const Input = styled(ReakitInput)`
+  width: 400px;
+  max-width: 400px;
+  min-width: 400px;
+  height: 20px;
+  display: inline-block;
+  justify-content: space-around;
+  padding: 3px 3px;
+  margin: 20px;
+  border: 1px solid lightgray;
+`;
 export const ProblemReportBlock = styled.div`
   width: 100%;
   max-width: 1750px;
@@ -11,6 +23,7 @@ export const ProblemReportBlock = styled.div`
   grid-row-end: 1;
   height: 950px;
   max-height: 950px;
+  border: 1px solid #1e90ff;
 `;
 export const ProblemRowContainer = styled.div`
   max-width: 1750px;

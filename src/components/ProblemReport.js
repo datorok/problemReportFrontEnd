@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
+  Input,
   ProblemReportBlock,
   FlexHeader,
   ProblemRow,
@@ -44,6 +45,7 @@ const ProblemReport = props => {
     sortMethod,
     licenceNumberOrderIsAscending,
     reportDateOrderIsAscending,
+    licencePlateChangeHandler,
   } = props;
 
   const rows = problemReportArr.map((problemReport, index) => (
@@ -82,6 +84,11 @@ const ProblemReport = props => {
 
   return (
     <ProblemReportBlock>
+      <Input
+        type="text"
+        placeholder="Keresés..."
+        onChange={event => licencePlateChangeHandler(event)}
+      />
       <React.Fragment>
         <FlexHeader>
           <ProblemItem0 />

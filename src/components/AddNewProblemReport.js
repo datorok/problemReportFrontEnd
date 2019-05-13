@@ -39,8 +39,8 @@ const AddNewProblemReport = props => {
     ticketIsOpen(problemReportArr[0].actualStatus)
   );
 
-  const red = {
-    backgroundColor: 'OrangeRed',
+  const clAqua = {
+    backgroundColor: '#00FFFF',
     textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
@@ -53,22 +53,22 @@ const AddNewProblemReport = props => {
     border: '1px solid black',
     padding: '5px',
   };
-  const blue = {
-    backgroundColor: 'SkyBlue',
+  const clYellow = {
+    backgroundColor: '#FFFF00',
     textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
     padding: '5px',
   };
-  const yellow = {
-    backgroundColor: 'Yellow',
+  const purple = {
+    backgroundColor: '#B366FF',
     textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
     padding: '5px',
   };
-  const magenta = {
-    backgroundColor: 'Magenta',
+  const indianRed = {
+    backgroundColor: '#FF6A6A',
     textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
@@ -88,19 +88,19 @@ const AddNewProblemReport = props => {
       return colorless;
     }
     if (problemReportArr[0].actualStatus === 'Hiba bejelentve') {
-      return red;
+      return clAqua;
     }
     if (problemReportArr[0].actualStatus === 'Bejelentés kiegészítve') {
       return green;
     }
     if (problemReportArr[0].actualStatus === 'Hibajavítás folyamatban') {
-      return blue;
+      return clYellow;
     }
     if (problemReportArr[0].actualStatus === 'Információra vár') {
-      return yellow;
+      return purple;
     }
     if (problemReportArr[0].actualStatus === 'Szervizre javasolva') {
-      return magenta;
+      return indianRed;
     }
   };
 
@@ -117,7 +117,7 @@ const AddNewProblemReport = props => {
         ) {
           shouldChange = true;
           if (problemReportArr[i].actualStatus === 'Hiba bejelentve') {
-            setActualStatusStyling(red);
+            setActualStatusStyling(clAqua);
           } else if (
             problemReportArr[i].actualStatus === 'Bejelentés kiegészítve'
           ) {
@@ -125,13 +125,13 @@ const AddNewProblemReport = props => {
           } else if (
             problemReportArr[i].actualStatus === 'Hibajavítás folyamatban'
           ) {
-            setActualStatusStyling(blue);
+            setActualStatusStyling(clYellow);
           } else if (problemReportArr[i].actualStatus === 'Információra vár') {
-            setActualStatusStyling(yellow);
+            setActualStatusStyling(purple);
           } else if (
             problemReportArr[i].actualStatus === 'Szervizre javasolva'
           ) {
-            setActualStatusStyling(magenta);
+            setActualStatusStyling(indianRed);
           }
         } else if (
           problemReportArr[i].actualStatus === 'Megválaszolva' &&
