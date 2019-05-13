@@ -13,6 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
+  ProblemReportBlock,
   FlexHeader,
   ProblemRow,
   ProblemItem0,
@@ -80,39 +81,41 @@ const ProblemReport = props => {
   ));
 
   return (
-    <React.Fragment>
-      <FlexHeader>
-        <ProblemItem0 />
-        <ProblemItem1
-          font-weight="normal"
-          onClick={() => sortMethod('alphabethical')}
-        >
-          Rendszám
-          <FontAwesomeIcon
-            icon={
-              licenceNumberOrderIsAscending
-                ? 'sort-alpha-up'
-                : 'sort-alpha-down'
-            }
-          />
-        </ProblemItem1>
-        <ProblemItem2 onClick={() => sortMethod('numeric')}>
-          Bejelentés ideje
-          <FontAwesomeIcon
-            icon={
-              reportDateOrderIsAscending
-                ? 'sort-numeric-up'
-                : 'sort-numeric-down'
-            }
-          />
-        </ProblemItem2>
-        <ProblemItem3>Aktuális státusz</ProblemItem3>
-        <ProblemItem4>Hiba típusa</ProblemItem4>
-        <ProblemItem5>Bejelentő</ProblemItem5>
-        <ProblemItem6 font-weight="normal">Leírás</ProblemItem6>
-      </FlexHeader>
-      <ProblemContainer>{rows}</ProblemContainer>
-    </React.Fragment>
+    <ProblemReportBlock>
+      <React.Fragment>
+        <FlexHeader>
+          <ProblemItem0 />
+          <ProblemItem1
+            font-weight="normal"
+            onClick={() => sortMethod('alphabethical')}
+          >
+            Rendszám
+            <FontAwesomeIcon
+              icon={
+                licenceNumberOrderIsAscending
+                  ? 'sort-alpha-up'
+                  : 'sort-alpha-down'
+              }
+            />
+          </ProblemItem1>
+          <ProblemItem2 onClick={() => sortMethod('numeric')}>
+            Bejelentés ideje
+            <FontAwesomeIcon
+              icon={
+                reportDateOrderIsAscending
+                  ? 'sort-numeric-up'
+                  : 'sort-numeric-down'
+              }
+            />
+          </ProblemItem2>
+          <ProblemItem3>Aktuális státusz</ProblemItem3>
+          <ProblemItem4>Hiba típusa</ProblemItem4>
+          <ProblemItem5>Bejelentő</ProblemItem5>
+          <ProblemItem6 font-weight="normal">Leírás</ProblemItem6>
+        </FlexHeader>
+        <ProblemContainer>{rows}</ProblemContainer>
+      </React.Fragment>
+    </ProblemReportBlock>
   );
 };
 

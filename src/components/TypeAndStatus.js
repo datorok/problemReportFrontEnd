@@ -1,7 +1,23 @@
 import React from 'react';
-import { Input, Block, Button, Backdrop, Portal, Overlay } from 'reakit';
+import { Input, Block, Backdrop, Portal, Overlay } from 'reakit';
 import AddNewProblemReport from './AddNewProblemReport';
-import { TypeAndSatusText, BlockName, Option } from './TypeAndStatus.style';
+import {
+  TypeAndSatusText,
+  BlockName,
+  Option,
+  Button,
+} from './TypeAndStatus.style';
+
+const errorType1 = ' Diszpécser központ';
+const errorType2 = ' Járműegység';
+const errorType3 = ' Egyéb';
+const status1 = ' Hiba bejelentve';
+const status2 = ' Bejelentés kiegészítve';
+const status3 = ' Hibajavítás folyamatban';
+const status4 = ' Információra vár';
+const status5 = ' Szervizre javasolva';
+const status6 = ' Javítás befejezve';
+const status7 = ' Megválaszolva';
 
 const TypeAndStatus = props => {
   const {
@@ -21,7 +37,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorTypeFilterStatusProp.dispatCenter.enabled}
           onChange={() => changeErrorOrStatusType('dispatCenter')}
         />
-        Diszpécser központ
+        {errorType1}
       </Option>
       <Option>
         <Input
@@ -30,7 +46,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorTypeFilterStatusProp.vehicleUnit.enabled}
           onChange={() => changeErrorOrStatusType('vehicleUnit')}
         />
-        Járműegység
+        {errorType2}
       </Option>
       <Option>
         <Input
@@ -39,7 +55,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorTypeFilterStatusProp.other.enabled}
           onChange={() => changeErrorOrStatusType('other')}
         />
-        Egyéb
+        {errorType3}
       </Option>
       <BlockName>Státusz</BlockName>
       <Option>
@@ -49,7 +65,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorFilterStatusProp.reported.enabled}
           onChange={() => changeErrorOrStatusType('reported')}
         />
-        Hiba bejelentve
+        {status1}
       </Option>
       <Option>
         <Input
@@ -58,7 +74,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorFilterStatusProp.reported.enabled}
           onChange={() => changeErrorOrStatusType('reportAppended')}
         />
-        Bejelentés kiegészítve
+        {status2}
       </Option>
       <Option>
         <Input
@@ -67,7 +83,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorFilterStatusProp.goingOn.enabled}
           onChange={() => changeErrorOrStatusType('goingOn')}
         />
-        Hibajavítás folyamatban
+        {status3}
       </Option>
       <Option>
         <Input
@@ -76,7 +92,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorFilterStatusProp.waitingForInformation.enabled}
           onChange={() => changeErrorOrStatusType('waitingForInformation')}
         />
-        Információra vár
+        {status4}
       </Option>
       <Option>
         <Input
@@ -85,7 +101,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorFilterStatusProp.serviceRecommended.enabled}
           onChange={() => changeErrorOrStatusType('serviceRecommended')}
         />
-        Szervizre javasolva
+        {status5}
       </Option>
       <Option>
         <Input
@@ -94,7 +110,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorFilterStatusProp.repaired.enabled}
           onChange={() => changeErrorOrStatusType('repaired')}
         />
-        Javítás befejezve
+        {status6}
       </Option>
       <Option>
         <Input
@@ -103,7 +119,7 @@ const TypeAndStatus = props => {
           defaultChecked={errorFilterStatusProp.answered.enabled}
           onChange={() => changeErrorOrStatusType('answered')}
         />
-        Megválaszolva
+        {status7}
       </Option>
       <Option>
         <Overlay.Container>

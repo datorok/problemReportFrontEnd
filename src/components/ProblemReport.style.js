@@ -1,10 +1,33 @@
 import styled from 'styled-components';
 
+export const ProblemReportBlock = styled.div`
+  width: 100%;
+  max-width: 1750px;
+  display: table-cell;
+  justify-self: center;
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 1;
+  height: 950px;
+  max-height: 950px;
+`;
+export const ProblemRowContainer = styled.div`
+  max-width: 1750px;
+  padding: 10px;
+`;
+export const ProblemContainer = styled.div`
+  max-width: 1750px;
+  & ${ProblemRowContainer}:nth-child(even) {
+    background: #e8e8e8 !important;
+  }
+`;
 export const FlexHeader = styled.div`
   overflow: 'scroll';
   flex-direction: row;
   display: flex;
-  width: 95%;
+  width: 98%;
+  max-width: 1750px;
   align-items: center;
   justify-content: space-around;
   flex-direction: row;
@@ -20,7 +43,8 @@ export const ProblemRow = styled.div`
   flex-direction: row;
   display: flex;
   align-items: center;
-  width: 95%;
+  width: 98%;
+  max-width: 1750px;
   justify-content: space-around;
   flex-direction: row;
 `;
@@ -72,12 +96,4 @@ export const ProblemItem6 = styled.div`
   min-width: 40%;
   max-width: 40%;
   font-weight: 500;
-`;
-export const ProblemRowContainer = styled.div`
-  padding: 10px;
-`;
-export const ProblemContainer = styled.div`
-  & ${ProblemRowContainer}:nth-child(even) {
-    background: #e8e8e8 !important;
-  }
 `;

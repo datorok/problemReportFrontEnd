@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
-import ProblemReport from '../components/ProblemReport';
 import TypeAndStatus from '../components/TypeAndStatus';
-import { Application, SearchBar } from './App.style';
+import ProblemReport from '../components/ProblemReport';
+
+import { Application, Input } from './App.style';
 
 class App extends Component {
   constructor(props) {
@@ -291,29 +291,25 @@ class App extends Component {
 
     return (
       <Application>
-        <div className="TypeAndStatusCSS">
-          <TypeAndStatus
-            errorTypeFilterStatusProp={errorTypeFilterStatus}
-            errorFilterStatusProp={errorFilterStatus}
-            changeErrorOrStatusType={this.changeErrorOrStatusType}
-            problemReportArr={ProblemReportArr}
-          />
-        </div>
-        <div className="ProblemReportCSS">
-          <SearchBar>
-            <input
-              type="text"
-              placeholder="Keresés..."
-              onChange={this.licencePlateChangeHandler}
-            />
-          </SearchBar>
-          <ProblemReport
-            problemReportArr={result}
-            sortMethod={this.sortMethod}
-            licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
-            reportDateOrderIsAscending={reportDateOrderIsAscending}
-          />
-        </div>
+        <TypeAndStatus
+          errorTypeFilterStatusProp={errorTypeFilterStatus}
+          errorFilterStatusProp={errorFilterStatus}
+          changeErrorOrStatusType={this.changeErrorOrStatusType}
+          problemReportArr={ProblemReportArr}
+        />
+
+        <Input
+          type="text"
+          placeholder="Keresés..."
+          onChange={this.licencePlateChangeHandler}
+        />
+
+        <ProblemReport
+          problemReportArr={result}
+          sortMethod={this.sortMethod}
+          licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
+          reportDateOrderIsAscending={reportDateOrderIsAscending}
+        />
       </Application>
     );
   }

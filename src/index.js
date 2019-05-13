@@ -9,16 +9,6 @@ import * as serviceWorker from './serviceWorker';
 const theme = {
   ...defaultTheme,
 
-  Button: `
-  //background-color: orange;
-    margin-top: 20px;
-  //font: inherit;
-    arrange: center;
-    padding: 5px;
-    margin-left: 35px;
-    cursor: pointer;
-   `,
-
   Overlay: css`
     ${defaultTheme.Overlay};
     border: 1px solid orange;

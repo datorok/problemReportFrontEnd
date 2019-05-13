@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Block, Group, Button, Step, Input, Overlay } from 'reakit';
+import { Block, Group, Step, Button, Overlay } from 'reakit';
 
 import {
+  Input,
   OpenTicketProblemItemRow,
   OpenTicketBasicData,
   ProblemItemRow,
@@ -14,6 +15,8 @@ import {
   NewTicketHead,
   OpenTicketDescription,
   ElementportalModalButtons,
+  ElementPortalModal,
+  Longtextarea,
 } from './AddNewProblemReport.style';
 
 const emptyString = '';
@@ -38,38 +41,44 @@ const AddNewProblemReport = props => {
 
   const red = {
     backgroundColor: 'OrangeRed',
+    textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
     padding: '10px',
   };
   const green = {
     backgroundColor: 'SpringGreen',
+    textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
-    padding: '10px',
+    padding: '5px',
   };
   const blue = {
     backgroundColor: 'SkyBlue',
+    textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
-    padding: '10px',
+    padding: '5px',
   };
   const yellow = {
     backgroundColor: 'Yellow',
+    textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
-    padding: '10px',
+    padding: '5px',
   };
   const magenta = {
     backgroundColor: 'Magenta',
+    textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
-    padding: '10px',
+    padding: '5px',
   };
   const colorless = {
     backgroundColor: 'white',
+    textAlign: 'center',
     font: 'inherit',
-    padding: '10px',
+    padding: '5px',
   };
   const colorChoser = () => {
     if (
@@ -175,62 +184,69 @@ const AddNewProblemReport = props => {
             register={register}
             unregister={unregister}
             isCurrent={isCurrent}
-            className="elementportalModal"
           >
-            <NewTicketHead>Bejelentő adatai</NewTicketHead>
-            <ProblemItemRow>
-              <ProblemItem1>Név: </ProblemItem1>
-              <ProblemItem2>
-                <textarea
-                  use="text"
-                  rows={1}
-                  cols={40}
-                  value={reporterName}
-                  onChange={event => setReporterName(event.target.value)}
-                />
-              </ProblemItem2>
-            </ProblemItemRow>
-            <ProblemItemRow>
-              <ProblemItem1> E-mail cím:</ProblemItem1>
-              <ProblemItem2>
-                <textarea
-                  use="text"
-                  rows={1}
-                  cols={40}
-                  value={reporterEmail}
-                  onChange={event => setReporterEmail(event.target.value)}
-                />
-              </ProblemItem2>
-            </ProblemItemRow>
-            <ProblemItemRow>
-              <ProblemItem1>Telefonszám:</ProblemItem1>
-              <ProblemItem2>
-                <textarea
-                  use="text"
-                  rows={1}
-                  cols={40}
-                  value={reporterPhone}
-                  onChange={event => setReporterPhone(event.target.value)}
-                />
-              </ProblemItem2>
-            </ProblemItemRow>
+            <ElementPortalModal>
+              <NewTicketHead>Bejelentő adatai</NewTicketHead>
+              <ProblemItemRow>
+                <ProblemItem1>Név: </ProblemItem1>
+                <ProblemItem2>
+                  <textarea
+                    use="text"
+                    rows={1}
+                    cols={40}
+                    value={reporterName}
+                    onChange={event => setReporterName(event.target.value)}
+                  />
+                </ProblemItem2>
+              </ProblemItemRow>
+              <ProblemItemRow>
+                <ProblemItem1> E-mail cím:</ProblemItem1>
+                <ProblemItem2>
+                  <textarea
+                    use="text"
+                    rows={1}
+                    cols={40}
+                    value={reporterEmail}
+                    onChange={event => setReporterEmail(event.target.value)}
+                  />
+                </ProblemItem2>
+              </ProblemItemRow>
+              <ProblemItemRow>
+                <ProblemItem1>Telefonszám:</ProblemItem1>
+                <ProblemItem2>
+                  <textarea
+                    use="text"
+                    rows={1}
+                    cols={40}
+                    value={reporterPhone}
+                    onChange={event => setReporterPhone(event.target.value)}
+                  />
+                </ProblemItem2>
+              </ProblemItemRow>
 
-            <ElementportalModalButtons>
-              <Group>
-                <Button
-                  use={Overlay.Toggle}
-                  {...overlay}
-                  onClick={event => {
-                    afterCancel();
-                  }}
-                >
-                  Mégse
-                </Button>
-                <Button use={Step.Next} next={next} hasNext={hasNext}>
-                  Következő
-                </Button>
-              </Group>
-            </ElementportalModalButtons>
+              <ElementportalModalButtons>
+                <Group>
+                  <Button
+                    use={Overlay.Toggle}
+                    {...overlay}
+                    onClick={event => {
+                      afterCancel();
+                    }}
+                    width={90}
+                  >
+                    Mégse
+                  </Button>
+                  <Button
+                    use={Step.Next}
+                    next={next}
+                    hasNext={hasNext}
+                    width={90}
+                  >
+                    Következő
+                  </Button>
+                </Group>
+              </ElementportalModalButtons>
+            </ElementPortalModal>
           </Step>
           <Step
             step="Step 2"
@@ -239,139 +255,139 @@ const AddNewProblemReport = props => {
             isCurrent={isCurrent}
             className="elementportalModal"
           >
-            <NewTicketHead>Hiba típusa - leírása</NewTicketHead>
-            <div>
-              <ProblemItemRow>
-                <ProblemItem1>Típusa: </ProblemItem1>
-                <ProblemItem2>
-                  <Input
-                    className="dropDownList"
-                    value={errorType}
-                    use="select"
-                    onChange={event => setErrorType(event.target.value)}
-                  >
-                    <option>Egyik sem</option>
-                    <option>Diszpécserközpont</option>
-                    <option>Járműegység</option>
-                    <option>Egyéb</option>
-                  </Input>
-                </ProblemItem2>
-              </ProblemItemRow>
-              <ProblemItemRow>
-                <ProblemItem1>Gépjármű: </ProblemItem1>
-                <ProblemItem2>
-                  <Input
-                    className="dropDownList"
-                    use="select"
-                    value={chosenVehicleId}
-                    onChange={event => {
-                      setChosenVehicleId(event.target.value);
-                      checkActualStatusOfTheChosenVehicle(event);
-                    }}
-                  >
-                    {problemReportArr.map(value => (
-                      <option value={value.id} key={value.licencePlateNumber}>
-                        {value.licencePlateNumber}
-                      </option>
-                    ))}
-                  </Input>
-                </ProblemItem2>
-              </ProblemItemRow>
-              {openTicketIsAvailable
-                ? problemReportArr
-                    .filter(report => report.id === parseInt(chosenVehicleId))
-                    .map(report => (
-                      <OpenTicketBasicData>
-                        <ProblemItem5>{report.reporterName}</ProblemItem5>
-                        <ProblemItem6 style={actualStatusStyling}>
-                          {report.actualStatus}
-                        </ProblemItem6>
-                      </OpenTicketBasicData>
-                    ))
-                : null}
-              {console.log(
-                `actualStatusStyling: ${actualStatusStyling.backgroundColor}`
-              )}
-              {openTicketIsAvailable
-                ? problemReportArr
-                    .filter(report => report.id === parseInt(chosenVehicleId))
-                    .map(report => {
-                      const changeFirst = report.problemReportChangeList[0];
-                      const changeLast =
-                        report.problemReportChangeList.length > 1
-                          ? report.problemReportChangeList[
-                              report.problemReportChangeList.length - 1
-                            ]
-                          : undefined;
-                      return (
-                        <div>
-                          <OpenTicketProblemItemRow>
-                            <ProblemItem3>
-                              {changeFirst.stateChangeTime}
-                            </ProblemItem3>
-                            <ProblemItem4>
-                              {changeFirst.stateChangeMessage}
-                            </ProblemItem4>
-                          </OpenTicketProblemItemRow>
-                          {changeLast && (
+            <ElementPortalModal>
+              <NewTicketHead>Hiba típusa - leírása</NewTicketHead>
+              <div>
+                <ProblemItemRow>
+                  <ProblemItem1>Típusa: </ProblemItem1>
+                  <ProblemItem2>
+                    <Input
+                      value={errorType}
+                      use="select"
+                      onChange={event => setErrorType(event.target.value)}
+                    >
+                      <option>Egyik sem</option>
+                      <option>Diszpécserközpont</option>
+                      <option>Járműegység</option>
+                      <option>Egyéb</option>
+                    </Input>
+                  </ProblemItem2>
+                </ProblemItemRow>
+                <ProblemItemRow>
+                  <ProblemItem1>Gépjármű: </ProblemItem1>
+                  <ProblemItem2>
+                    <Input
+                      use="select"
+                      value={chosenVehicleId}
+                      onChange={event => {
+                        setChosenVehicleId(event.target.value);
+                        checkActualStatusOfTheChosenVehicle(event);
+                      }}
+                    >
+                      {problemReportArr.map(value => (
+                        <option value={value.id} key={value.licencePlateNumber}>
+                          {value.licencePlateNumber}
+                        </option>
+                      ))}
+                    </Input>
+                  </ProblemItem2>
+                </ProblemItemRow>
+                {openTicketIsAvailable
+                  ? problemReportArr
+                      .filter(report => report.id === parseInt(chosenVehicleId))
+                      .map(report => (
+                        <OpenTicketBasicData>
+                          <ProblemItem5>{report.reporterName}</ProblemItem5>
+                          <ProblemItem6 style={actualStatusStyling}>
+                            {report.actualStatus}
+                          </ProblemItem6>
+                        </OpenTicketBasicData>
+                      ))
+                  : null}
+                {console.log(
+                  `actualStatusStyling: ${actualStatusStyling.backgroundColor}`
+                )}
+                {openTicketIsAvailable
+                  ? problemReportArr
+                      .filter(report => report.id === parseInt(chosenVehicleId))
+                      .map(report => {
+                        const changeFirst = report.problemReportChangeList[0];
+                        const changeLast =
+                          report.problemReportChangeList.length > 1
+                            ? report.problemReportChangeList[
+                                report.problemReportChangeList.length - 1
+                              ]
+                            : undefined;
+                        return (
+                          <div>
                             <OpenTicketProblemItemRow>
                               <ProblemItem3>
-                                {changeLast.stateChangeTime}
+                                {changeFirst.stateChangeTime}
                               </ProblemItem3>
                               <ProblemItem4>
-                                {changeLast.stateChangeMessage}
+                                {changeFirst.stateChangeMessage}
                               </ProblemItem4>
                             </OpenTicketProblemItemRow>
-                          )}
-                        </div>
-                      );
-                    })
-                : null}
-              <OpenTicketDescription>
-                {openTicketIsAvailable
-                  ? 'Megjegyzés hozzáfűzése a nyitott jegyhez :'
-                  : 'Leírás:'}
-              </OpenTicketDescription>
-              <textarea
-                use="text"
-                rows={5}
-                cols={69}
-                value={problemDescription}
-                id="problemDescriptionField"
-                onChange={event => setProblemDescription(event.target.value)}
-              />
-              <ElementportalModalButtons>
-                <Group>
-                  <Button
-                    use={Step.Previous}
-                    previous={previous}
-                    hasPrevious={hasPrevious}
-                  >
-                    Előző
-                  </Button>
-                  <Button
-                    use={Overlay.Toggle}
-                    {...overlay}
-                    onClick={event => {
-                      afterCancel();
-                      previous();
-                    }}
-                  >
-                    Mégse
-                  </Button>
-                  <Button
-                    use={Overlay.Toggle}
-                    {...overlay}
-                    onClick={event => {
-                      displayNewReport();
-                      afterCancel();
-                    }}
-                  >
-                    Mentés
-                  </Button>
-                </Group>
-              </ElementportalModalButtons>
-            </div>
+                            {changeLast && (
+                              <OpenTicketProblemItemRow>
+                                <ProblemItem3>
+                                  {changeLast.stateChangeTime}
+                                </ProblemItem3>
+                                <ProblemItem4>
+                                  {changeLast.stateChangeMessage}
+                                </ProblemItem4>
+                              </OpenTicketProblemItemRow>
+                            )}
+                          </div>
+                        );
+                      })
+                  : null}
+                <OpenTicketDescription>
+                  {openTicketIsAvailable
+                    ? 'Megjegyzés hozzáfűzése a nyitott jegyhez :'
+                    : 'Leírás:'}
+                </OpenTicketDescription>
+                <Longtextarea
+                  use="text"
+                  value={problemDescription}
+                  onChange={event => setProblemDescription(event.target.value)}
+                />
+                <ElementportalModalButtons>
+                  <Group>
+                    <Button
+                      use={Step.Previous}
+                      previous={previous}
+                      hasPrevious={hasPrevious}
+                      width={90}
+                    >
+                      Előző
+                    </Button>
+                    <Button
+                      use={Overlay.Toggle}
+                      {...overlay}
+                      onClick={event => {
+                        afterCancel();
+                        previous();
+                      }}
+                      width={90}
+                    >
+                      Mégse
+                    </Button>
+                    <Button
+                      use={Overlay.Toggle}
+                      {...overlay}
+                      onClick={event => {
+                        displayNewReport();
+                        afterCancel();
+                      }}
+                      width={90}
+                    >
+                      Mentés
+                    </Button>
+                  </Group>
+                </ElementportalModalButtons>
+              </div>
+            </ElementPortalModal>
           </Step>
         </Block>
       )}

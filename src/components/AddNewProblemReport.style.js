@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Input as ReakitInput } from 'reakit';
 
 export const ProblemItemRow = styled.div`
   overflow: 'scroll';
@@ -81,10 +82,9 @@ export const ProblemItem6 = styled.div`
 `;
 
 export const ElementportalModalButtons = styled.div`
-  float: center;
-  text-align: center;
+  float: right;
+  text-align: right;
   margin: 5px;
-  margin-left: 220px;
 `;
 
 export const NewTicketHead = styled.div`
@@ -105,28 +105,23 @@ export const input = styled.div`
 
 export const ElementPortalModal = styled.div`
   text-align: left;
-  width: 470px;
-  height: 360px;
-  min-height: 360px;
-  max-height: 600px;
+  width: 490px;
+  min-width: 490px;
+  max-width: 490px;
   padding: 20px 20px;
   margin: 0px;
 `;
 
-export const DropDownList = styled.div`
+export const Input = styled(ReakitInput)`
   text-align: left;
-  color: black;
-  width: 250px;
-  height: 39px;
-  padding: 1px 1px;
-  margin: 3px;
+  width: 300px;
   border: 1px solid lightgray;
 `;
 
-export const Longtextarea = styled.div`
+export const Longtextarea = styled.textarea`
   color: black;
-  width: 430px;
-  height: 100px;
+  width: 490px;
+  height: 60px;
   padding: 5px 5px;
   margin: 2px;
   border: 1px solid lightgray;

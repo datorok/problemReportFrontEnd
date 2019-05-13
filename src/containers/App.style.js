@@ -8,23 +8,7 @@ export const Application = styled.div`
   max-width: 1920px;
 `;
 
-export const TypeAndStatus = styled.div`
-  display: table-cell;
-  justify-self: end;
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 1;
-  text-align: left;
-  justify-content: space-around;
-  padding: 0.5em 2em;
-  border: 1px solid lightgray;
-  height: 970px;
-  max-height: 970px;
-  background-color: #f8f8f8;
-`;
-
-export const ProblemReport = styled.div`
+export const SecondColomn = styled.div`
   width: 100%;
   max-width: 1450px;
   display: table-cell;
@@ -37,11 +21,14 @@ export const ProblemReport = styled.div`
   max-height: 950px;
   border: 1px solid #1e90ff;
 `;
-export const SearchBar = styled.div`
+
+export const Input = styled.input`
   width: 400px;
-  height: 20px;
+  max-width: 400px;
+  min-width: 400px;
+  height: 15px;
   display: inline-block;
   justify-content: space-around;
-  padding: 0.5em 2em;
+  padding: 3px 3px;
   margin: 20px;
 `;
