@@ -25,6 +25,7 @@ const TypeAndStatus = props => {
     errorFilterStatusProp,
     changeErrorOrStatusType,
     problemReportArr,
+    loading,
   } = props;
 
   return (

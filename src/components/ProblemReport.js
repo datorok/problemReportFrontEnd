@@ -1,6 +1,6 @@
 import React from 'react';
 import { Block, Hidden } from 'reakit';
-// a fontawesome ikonok importálása teszi lehetővé a szám- és alfanumerikus rendezés és a sorlenyílás piktogramjának megjelenítését
+// a fontawesome ikonok importálása teszi lehetővé a szám- és alfanumerikus rendezés- és a sorlenyílás piktogramjának megjelenítését
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

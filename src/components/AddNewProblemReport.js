@@ -27,6 +27,10 @@ const ticketIsOpen = actualStatus =>
 const AddNewProblemReport = props => {
   const { problemReportArr, overlay } = props;
 
+  if (problemReportArr.length <= 0) {
+    return;
+  }
+
   const [reporterName, setReporterName] = useState(emptyString);
   const [reporterEmail, setReporterEmail] = useState(emptyString);
   const [reporterPhone, setReporterPhone] = useState(emptyString);
@@ -46,8 +50,8 @@ const AddNewProblemReport = props => {
     border: '1px solid black',
     padding: '10px',
   };
-  const green = {
-    backgroundColor: 'SpringGreen',
+  const clNavy = {
+    backgroundColor: '#0080FF',
     textAlign: 'center',
     font: 'inherit',
     border: '1px solid black',
@@ -91,7 +95,7 @@ const AddNewProblemReport = props => {
       return clAqua;
     }
     if (problemReportArr[0].actualStatus === 'Bejelentés kiegészítve') {
-      return green;
+      return clNavy;
     }
     if (problemReportArr[0].actualStatus === 'Hibajavítás folyamatban') {
       return clYellow;
@@ -121,7 +125,7 @@ const AddNewProblemReport = props => {
           } else if (
             problemReportArr[i].actualStatus === 'Bejelentés kiegészítve'
           ) {
-            setActualStatusStyling(green);
+            setActualStatusStyling(clNavy);
           } else if (
             problemReportArr[i].actualStatus === 'Hibajavítás folyamatban'
           ) {
@@ -304,9 +308,6 @@ const AddNewProblemReport = props => {
                         </OpenTicketBasicData>
                       ))
                   : null}
-                {console.log(
-                  `actualStatusStyling: ${actualStatusStyling.backgroundColor}`
-                )}
                 {openTicketIsAvailable
                   ? problemReportArr
                       .filter(report => report.id === parseInt(chosenVehicleId))

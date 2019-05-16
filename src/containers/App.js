@@ -1,107 +1,17 @@
 import React, { Component } from 'react';
+
+import { Subscribe } from 'unstated';
+import { ClimbingBoxLoader } from 'react-spinners';
 import TypeAndStatus from '../components/TypeAndStatus';
 import ProblemReport from '../components/ProblemReport';
-
-import { Application, Input } from './App.style';
+import ProblemContainer, { ProblemContainerObject } from './ProblemContainer';
+import { Application, AnimationLoader } from './App.style';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       filteredProblemReportArr: undefined,
-      ProblemReportArr: [
-        {
-          id: 1,
-          licencePlateNumber: 'ABC-129',
-          reportCreationTime: '2019.03.24',
-          actualStatus: 'Hiba bejelentve',
-          errorType: 'Egyéb',
-          reporterName: 'Ó Pál',
-          reporterEmail: 'pal.o@gmail.com',
-          reporterPhone: '+36705555555',
-          problemReportChangeList: [
-            {
-              id: 1,
-              stateChangeTime: '2019.03.26',
-              stateChangeMessage:
-                'Sziasztok, 03.24-én volt egy nagy akadása a járműegységnek, nem volt GPS adatforgalom',
-            },
-          ],
-        },
-
-        {
-          id: 2,
-          licencePlateNumber: 'ABC-194',
-          reportCreationTime: '2019.03.25',
-          actualStatus: 'Hibajavítás folyamatban',
-          errorType: 'Diszpécser központ',
-          reporterName: 'Ló Péter',
-          reporterEmail: 'peter.lo@gmail.com',
-          reporterPhone: '+36705555556',
-          problemReportChangeList: [
-            {
-              id: 1,
-              stateChangeTime: '2019.03.25',
-              stateChangeMessage:
-                'Sziasztok, Legyetek szívesek leellenőrizni a tankszondák működését!',
-            },
-            {
-              id: 2,
-              stateChangeTime: '2019.03.26',
-              stateChangeMessage:
-                'Szia, a tapasztalt probléma megoldásához a jármű szervizelését javasoljuk!',
-            },
-          ],
-        },
-        {
-          id: 3,
-          licencePlateNumber: 'ABC-125',
-          reportCreationTime: '2019.03.26',
-          actualStatus: 'Szervizre javasolva',
-          errorType: 'Járműegység',
-          reporterName: 'Lenti Lenke',
-          reporterEmail: 'lenke.lenti@gmail.com',
-          reporterPhone: '+36705555557',
-          problemReportChangeList: [
-            {
-              id: 1,
-              stateChangeTime: '2019.03.26',
-              stateChangeMessage:
-                'Sziasztok, Legyetek szívesek ellenőrizni a járműegységek működését!',
-            },
-            {
-              id: 2,
-              stateChangeTime: '2019.03.26',
-              stateChangeMessage:
-                'Szia, a tapasztalt probléma megoldásához a jármű szervizelését javasoljuk!',
-            },
-          ],
-        },
-        {
-          id: 4,
-          licencePlateNumber: 'ABC-127',
-          reportCreationTime: '2019.03.21',
-          actualStatus: 'Javítás befejezve',
-          errorType: 'Járműegység',
-          reporterName: 'Lapos Lajos',
-          reporterEmail: 'lajos.lapos@gmail.com',
-          reporterPhone: '+36705555558',
-          problemReportChangeList: [
-            {
-              id: 1,
-              stateChangeTime: '2019.03.26',
-              stateChangeMessage:
-                'Sziasztok, Legyetek szívesek ellenőrizni a járműegységek működését!',
-            },
-            {
-              id: 2,
-              stateChangeTime: '2019.03.26',
-              stateChangeMessage:
-                'Szia, a tapasztalt probléma megoldásához a jármű szervizelését javasoljuk!',
-            },
-          ],
-        },
-      ],
       errorTypeFilterStatus: {
         dispatCenter: { enabled: true, value: 'Diszpécser központ' },
         vehicleUnit: { enabled: true, value: 'Járműegység' },
@@ -269,11 +179,14 @@ class App extends Component {
     }
   };
 
+  componentDidMount() {
+    ProblemContainerObject.fetch();
+  }
+
   render() {
     const {
       errorTypeFilterStatus,
       errorFilterStatus,
-      ProblemReportArr,
       filteredProblemReportArr,
       licenceNumberOrderIsAscending,
       reportDateOrderIsAscending,
@@ -282,7 +195,9 @@ class App extends Component {
     let result = null;
 
     if (filteredProblemReportArr === undefined) {
-      result = this.filterErrorChangeHandler(ProblemReportArr);
+      result = this.filterErrorChangeHandler(
+        ProblemContainerObject.state.ProblemReportArr
+      );
       result = this.filterStatusChangeHandler(result);
     } else {
       result = this.filterErrorChangeHandler(filteredProblemReportArr);
@@ -290,22 +205,31 @@ class App extends Component {
     }
 
     return (
-      <Application>
-        <TypeAndStatus
-          errorTypeFilterStatusProp={errorTypeFilterStatus}
-          errorFilterStatusProp={errorFilterStatus}
-          changeErrorOrStatusType={this.changeErrorOrStatusType}
-          problemReportArr={ProblemReportArr}
-        />
-
-        <ProblemReport
-          problemReportArr={result}
-          sortMethod={this.sortMethod}
-          licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
-          reportDateOrderIsAscending={reportDateOrderIsAscending}
-          licencePlateChangeHandler={this.licencePlateChangeHandler}
-        />
-      </Application>
+      <Subscribe to={[ProblemContainer]}>
+        {problemStore =>
+          ProblemContainerObject.state.loading ? (
+            <AnimationLoader>
+              <ClimbingBoxLoader sizeUnit="px" size={30} color="#ffa500" />
+            </AnimationLoader>
+          ) : (
+            <Application>
+              <TypeAndStatus
+                errorTypeFilterStatusProp={errorTypeFilterStatus}
+                errorFilterStatusProp={errorFilterStatus}
+                changeErrorOrStatusType={this.changeErrorOrStatusType}
+                problemReportArr={problemStore.state.ProblemReportArr}
+              />
+              <ProblemReport
+                problemReportArr={result}
+                sortMethod={this.sortMethod}
+                licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
+                reportDateOrderIsAscending={reportDateOrderIsAscending}
+                licencePlateChangeHandler={this.licencePlateChangeHandler}
+              />
+            </Application>
+          )
+        }
+      </Subscribe>
     );
   }
 }

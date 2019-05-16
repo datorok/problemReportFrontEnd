@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Provider, css } from 'reakit';
+import { Provider as ReakitProvider, css } from 'reakit';
 import defaultTheme from 'reakit-theme-default';
+import { Provider } from 'unstated';
 import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
+import { ProblemContainerObject } from './containers/ProblemContainer';
 
 const theme = {
   ...defaultTheme,
@@ -16,8 +18,10 @@ const theme = {
 };
 
 ReactDOM.render(
-  <Provider theme={theme}>
-    <App />
+  <Provider inject={[ProblemContainerObject]}>
+    <ReakitProvider theme={theme}>
+      <App />
+    </ReakitProvider>
   </Provider>,
   document.getElementById('root')
 );
