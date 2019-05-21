@@ -11,97 +11,20 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredProblemReportArr: undefined,
-      errorTypeFilterStatus: {
-        dispatCenter: { enabled: true, value: 'Diszpécser központ' },
-        vehicleUnit: { enabled: true, value: 'Járműegység' },
-        other: { enabled: true, value: 'Egyéb' },
-      },
-      errorFilterStatus: {
-        reported: { enabled: true, value: 'Hiba bejelentve' },
-        reportAppended: { enabled: true, value: 'Bejelentés kiegészítve' },
-        goingOn: { enabled: true, value: 'Hibajavítás folyamatban' },
-        waitingForInformation: { enabled: true, value: 'Információra vár' },
-        serviceRecommended: { enabled: true, value: 'Szervizre javasolva' },
-        repaired: { enabled: false, value: 'Javítás befejezve' },
-        answered: { enabled: false, value: 'Megválaszolva' },
-      },
       licenceNumberOrderIsAscending: true,
       reportDateOrderIsAscending: true,
     };
   }
 
   licencePlateChangeHandler = event => {
-    const { ProblemReportArr } = this.state;
+    const { ProblemReportArr } = ProblemContainerObject.state;
     const actProblemReportArr = [...ProblemReportArr];
     const filteredProblemReportArr = actProblemReportArr.filter(problemReport =>
       problemReport.licencePlateNumber
         .toUpperCase()
         .includes(event.target.value.toUpperCase())
     );
-    this.setState({ filteredProblemReportArr });
-  };
-
-  filterErrorChangeHandler = ProblemReportArr => {
-    const { errorTypeFilterStatus } = this.state;
-    const activeErrorTypeArr = Object.values(errorTypeFilterStatus);
-    const actProblemReportArr = [...ProblemReportArr];
-    const filteredProblemReportArr = actProblemReportArr.filter(
-      problemReport =>
-        activeErrorTypeArr.find(
-          errorTypeToFilter =>
-            errorTypeToFilter.value === problemReport.errorType
-        ).enabled
-    );
-    return filteredProblemReportArr;
-  };
-
-  filterStatusChangeHandler = ProblemReportArr => {
-    const { errorFilterStatus } = this.state;
-    const activeFilterStatusArr = Object.values(errorFilterStatus);
-    const actProblemReportArr = [...ProblemReportArr];
-    const filteredProblemReportArr = actProblemReportArr.filter(
-      problemReport =>
-        activeFilterStatusArr.find(
-          filterStateToFilter =>
-            filterStateToFilter.value === problemReport.actualStatus
-        ).enabled
-    );
-    return filteredProblemReportArr;
-  };
-
-  // A changeErrorOrStatusType metódus végzi a hiba típusa és a hibajegy státusza szerint történő filterezést
-
-  changeErrorOrStatusType = fieldName => {
-    const filterType =
-      fieldName === 'dispatCenter' ||
-      fieldName === 'vehicleUnit' ||
-      fieldName === 'other'
-        ? 'errorTypeChange'
-        : 'statusChange';
-    if (filterType === 'errorTypeChange') {
-      const { errorTypeFilterStatus } = this.state;
-      this.setState({
-        errorTypeFilterStatus: {
-          ...errorTypeFilterStatus,
-          [fieldName]: {
-            ...errorTypeFilterStatus[fieldName],
-            enabled: !errorTypeFilterStatus[fieldName].enabled,
-          },
-        },
-      });
-    } else {
-      const { errorFilterStatus } = this.state;
-      this.setState({
-        errorFilterStatus: {
-          ...errorFilterStatus,
-          [fieldName]: {
-            ...errorFilterStatus[fieldName],
-            enabled: !errorFilterStatus[fieldName].enabled,
-          },
-        },
-      });
-    }
+    ProblemContainerObject.setState({ filteredProblemReportArr });
   };
 
   // A sortMethod metódus végzi a rendszám- és a bejelentés ideje alapján történő sorbarendezést
@@ -109,9 +32,12 @@ class App extends Component {
   sortMethod = typeOfSorting => {
     let {
       ProblemReportArr,
+      filteredProblemReportArr,
+    } = ProblemContainerObject.state;
+
+    const {
       licenceNumberOrderIsAscending,
       reportDateOrderIsAscending,
-      filteredProblemReportArr,
     } = this.state;
 
     const isAscending =
@@ -156,11 +82,15 @@ class App extends Component {
       if (typeOfSorting === 'numeric') {
         this.setState({
           reportDateOrderIsAscending: false,
+        });
+        ProblemContainerObject.setState({
           filteredProblemReportArr,
         });
       } else {
         this.setState({
           licenceNumberOrderIsAscending: false,
+        });
+        ProblemContainerObject.setState({
           filteredProblemReportArr,
         });
       }
@@ -168,11 +98,15 @@ class App extends Component {
       if (typeOfSorting === 'numeric') {
         this.setState({
           reportDateOrderIsAscending: true,
+        });
+        ProblemContainerObject.setState({
           filteredProblemReportArr,
         });
       } else {
         this.setState({
           licenceNumberOrderIsAscending: true,
+        });
+        ProblemContainerObject.setState({
           filteredProblemReportArr,
         });
       }
@@ -184,24 +118,20 @@ class App extends Component {
   }
 
   render() {
+    const { filteredProblemReportArr } = ProblemContainerObject.state;
     const {
-      errorTypeFilterStatus,
-      errorFilterStatus,
-      filteredProblemReportArr,
       licenceNumberOrderIsAscending,
       reportDateOrderIsAscending,
     } = this.state;
-
+    const { filterErrorChangeHandler, filterStatusChangeHandler } = this.props;
     let result = null;
 
     if (filteredProblemReportArr === undefined) {
-      result = this.filterErrorChangeHandler(
-        ProblemContainerObject.state.ProblemReportArr
-      );
-      result = this.filterStatusChangeHandler(result);
+      result = filterErrorChangeHandler;
+      result = filterStatusChangeHandler;
     } else {
-      result = this.filterErrorChangeHandler(filteredProblemReportArr);
-      result = this.filterStatusChangeHandler(result);
+      result = filterErrorChangeHandler;
+      result = filterStatusChangeHandler;
     }
 
     return (
@@ -214,16 +144,15 @@ class App extends Component {
           ) : (
             <Application>
               <TypeAndStatus
-                errorTypeFilterStatusProp={errorTypeFilterStatus}
-                errorFilterStatusProp={errorFilterStatus}
-                changeErrorOrStatusType={this.changeErrorOrStatusType}
+                errorTypeFilterStatus={problemStore.errorTypeFilterStatus}
+                errorFilterStatus={problemStore.state.errorFilterStatus}
+                changeErrorOrStatusType={problemStore.changeErrorOrStatusType}
                 problemReportArr={problemStore.state.ProblemReportArr}
               />
               <ProblemReport
-                problemReportArr={result}
-                sortMethod={this.sortMethod}
                 licenceNumberOrderIsAscending={licenceNumberOrderIsAscending}
                 reportDateOrderIsAscending={reportDateOrderIsAscending}
+                sortMethod={this.sortMethod}
                 licencePlateChangeHandler={this.licencePlateChangeHandler}
               />
             </Application>

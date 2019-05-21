@@ -11,6 +11,8 @@ import {
   faMinus,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
+import { ProblemContainerObject } from '../containers/ProblemContainer';
+import App from '../containers/App';
 
 import {
   Input,
@@ -39,48 +41,86 @@ library.add(
   faPlus
 );
 
+const stateIdToStateNumber = stateID => {
+  if (stateID === '0') {
+    return 'Hiba bejelentve';
+  }
+  if (stateID === '1') {
+    return 'Hibajavítás folyamatban';
+  }
+  if (stateID === '2') {
+    return 'Várakozás információra';
+  }
+  if (stateID === '3') {
+    return 'Szervizre rendelve';
+  }
+  if (stateID === '4') {
+    return 'Javítás befejezve';
+  }
+  if (stateID === '5') {
+    return 'Megválaszolva';
+  }
+  if (stateID === '6') {
+    return 'Bejelentés kiegészítve';
+  }
+  if (stateID === '7') {
+    return 'Szervizelés folyamatban';
+  }
+};
+
 const ProblemReport = props => {
+  const { ProblemReportArr } = ProblemContainerObject.state;
+
   const {
-    problemReportArr,
-    sortMethod,
     licenceNumberOrderIsAscending,
     reportDateOrderIsAscending,
     licencePlateChangeHandler,
+    sortMethod,
   } = props;
-
-  const rows = problemReportArr.map((problemReport, index) => (
-    <ProblemRowContainer>
-      <Hidden.Container key={problemReport.id}>
-        {({ visible, toggle }) => (
-          <Block>
-            <Hidden.Toggle
-              toggle={toggle}
-              style={{ width: '100%', height: 'inherit' }}
-            >
-              <ProblemRow className="row">
-                <ProblemItem0>
-                  <FontAwesomeIcon icon={visible ? 'minus' : 'plus'} />
-                </ProblemItem0>
-                <ProblemItem1>{problemReport.licencePlateNumber}</ProblemItem1>
-                <ProblemItem2>{problemReport.reportCreationTime}</ProblemItem2>
-                <ProblemItem3>{problemReport.actualStatus}</ProblemItem3>
-                <ProblemItem4>{problemReport.errorType}</ProblemItem4>
-                <ProblemItem5>{problemReport.reporterName}</ProblemItem5>
-                <ProblemItem6>
-                  {problemReport.problemReportChangeList[0].stateChangeMessage}
-                </ProblemItem6>
-              </ProblemRow>
-            </Hidden.Toggle>
-            <Hidden visible={visible}>
-              <ProblemReportChange
-                problemReportChangeArr={problemReport.problemReportChangeList}
-              />
-            </Hidden>
-          </Block>
-        )}
-      </Hidden.Container>
-    </ProblemRowContainer>
-  ));
+  const rows = ProblemContainerObject.getFilteredProblemArr2()
+    // .sort()
+    .map((problemReport, index) => (
+      <ProblemRowContainer>
+        <Hidden.Container key={problemReport.id}>
+          {({ visible, toggle }) => (
+            <Block>
+              <Hidden.Toggle
+                toggle={toggle}
+                style={{ width: '100%', height: 'inherit' }}
+              >
+                <ProblemRow className="row">
+                  <ProblemItem0>
+                    <FontAwesomeIcon icon={visible ? 'minus' : 'plus'} />
+                  </ProblemItem0>
+                  <ProblemItem1>
+                    {problemReport.licencePlateNumber}
+                  </ProblemItem1>
+                  <ProblemItem2>
+                    {problemReport.reportCreationTime}
+                  </ProblemItem2>
+                  <ProblemItem3>
+                    {stateIdToStateNumber(problemReport.actualStatus)}
+                  </ProblemItem3>
+                  <ProblemItem4>{problemReport.errorType}</ProblemItem4>
+                  <ProblemItem5>{problemReport.reporterName}</ProblemItem5>
+                  <ProblemItem6>
+                    {
+                      problemReport.problemReportChangeList[0]
+                        .stateChangeMessage
+                    }
+                  </ProblemItem6>
+                </ProblemRow>
+              </Hidden.Toggle>
+              <Hidden visible={visible}>
+                <ProblemReportChange
+                  problemReportChangeArr={problemReport.problemReportChangeList}
+                />
+              </Hidden>
+            </Block>
+          )}
+        </Hidden.Container>
+      </ProblemRowContainer>
+    ));
 
   return (
     <ProblemReportBlock>

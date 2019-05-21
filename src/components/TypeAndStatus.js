@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input, Block, Backdrop, Portal, Overlay } from 'reakit';
 import AddNewProblemReport from './AddNewProblemReport';
+import { ProblemContainerObject } from '../containers/ProblemContainer';
 import {
   TypeAndSatusText,
   BlockName,
@@ -11,22 +12,23 @@ import {
 const errorType1 = ' Diszpécser központ';
 const errorType2 = ' Járműegység';
 const errorType3 = ' Egyéb';
-const status1 = ' Hiba bejelentve';
-const status2 = ' Bejelentés kiegészítve';
-const status3 = ' Hibajavítás folyamatban';
-const status4 = ' Információra vár';
-const status5 = ' Szervizre javasolva';
+const status0 = ' Hiba bejelentve';
+const status1 = ' Bejelentés kiegészítve';
+const status2 = ' Feldolgozás alatt';
+const status3 = ' Várakozás információra';
+const status4 = ' Szervizre rendelve';
+const status5 = ' Szervizelés alatt';
 const status6 = ' Javítás befejezve';
 const status7 = ' Megválaszolva';
 
 const TypeAndStatus = props => {
   const {
-    errorTypeFilterStatusProp,
-    errorFilterStatusProp,
-    changeErrorOrStatusType,
-    problemReportArr,
-    loading,
-  } = props;
+    errorTypeFilterStatus,
+    errorFilterStatus,
+    ProblemReportArr,
+  } = ProblemContainerObject.state;
+
+  const { changeErrorOrStatusType } = props;
 
   return (
     <TypeAndSatusText>
@@ -35,7 +37,7 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorTypeFilterStatusProp.dispatCenter.enabled}
+          defaultChecked={errorTypeFilterStatus.dispatCenter.enabled}
           onChange={() => changeErrorOrStatusType('dispatCenter')}
         />
         {errorType1}
@@ -44,7 +46,7 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorTypeFilterStatusProp.vehicleUnit.enabled}
+          defaultChecked={errorTypeFilterStatus.vehicleUnit.enabled}
           onChange={() => changeErrorOrStatusType('vehicleUnit')}
         />
         {errorType2}
@@ -53,7 +55,7 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorTypeFilterStatusProp.other.enabled}
+          defaultChecked={errorTypeFilterStatus.other.enabled}
           onChange={() => changeErrorOrStatusType('other')}
         />
         {errorType3}
@@ -63,8 +65,17 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorFilterStatusProp.reported.enabled}
-          onChange={() => changeErrorOrStatusType('reported')}
+          defaultChecked={errorFilterStatus.new.enabled}
+          onChange={() => changeErrorOrStatusType('new')}
+        />
+        {status0}
+      </Option>
+      <Option>
+        <Input
+          type="checkbox"
+          className="option"
+          defaultChecked={errorFilterStatus.appended.enabled}
+          onChange={() => changeErrorOrStatusType('appended')}
         />
         {status1}
       </Option>
@@ -72,8 +83,8 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorFilterStatusProp.reported.enabled}
-          onChange={() => changeErrorOrStatusType('reportAppended')}
+          defaultChecked={errorFilterStatus.goingOn.enabled}
+          onChange={() => changeErrorOrStatusType('goingOn')}
         />
         {status2}
       </Option>
@@ -81,8 +92,8 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorFilterStatusProp.goingOn.enabled}
-          onChange={() => changeErrorOrStatusType('goingOn')}
+          defaultChecked={errorFilterStatus.waitingForInformation.enabled}
+          onChange={() => changeErrorOrStatusType('waitingForInformation')}
         />
         {status3}
       </Option>
@@ -90,8 +101,8 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorFilterStatusProp.waitingForInformation.enabled}
-          onChange={() => changeErrorOrStatusType('waitingForInformation')}
+          defaultChecked={errorFilterStatus.serviceRecommended.enabled}
+          onChange={() => changeErrorOrStatusType('serviceRecommended')}
         />
         {status4}
       </Option>
@@ -99,8 +110,8 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorFilterStatusProp.serviceRecommended.enabled}
-          onChange={() => changeErrorOrStatusType('serviceRecommended')}
+          defaultChecked={errorFilterStatus.underRepair.enabled}
+          onChange={() => changeErrorOrStatusType('underRepair')}
         />
         {status5}
       </Option>
@@ -108,8 +119,8 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorFilterStatusProp.repaired.enabled}
-          onChange={() => changeErrorOrStatusType('repaired')}
+          defaultChecked={errorFilterStatus.ready.enabled}
+          onChange={() => changeErrorOrStatusType('ready')}
         />
         {status6}
       </Option>
@@ -117,7 +128,7 @@ const TypeAndStatus = props => {
         <Input
           type="checkbox"
           className="option"
-          defaultChecked={errorFilterStatusProp.answered.enabled}
+          defaultChecked={errorFilterStatus.answered.enabled}
           onChange={() => changeErrorOrStatusType('answered')}
         />
         {status7}
@@ -133,7 +144,7 @@ const TypeAndStatus = props => {
               <Overlay use={Portal} {...overlay}>
                 <AddNewProblemReport
                   overlay={overlay}
-                  problemReportArr={problemReportArr}
+                  ProblemReportArr={ProblemReportArr}
                 />
               </Overlay>
             </Block>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Block, Group, Step, Button, Overlay } from 'reakit';
-
+import { ProblemContainerObject } from '../containers/ProblemContainer';
 import {
   Input,
   OpenTicketProblemItemRow,
@@ -25,9 +25,9 @@ const ticketIsOpen = actualStatus =>
   actualStatus !== 'Megválaszolva' && actualStatus !== 'Javítás befejezve';
 
 const AddNewProblemReport = props => {
-  const { problemReportArr, overlay } = props;
+  const { ProblemReportArr, overlay } = ProblemContainerObject.state;
 
-  if (problemReportArr.length <= 0) {
+  if (ProblemReportArr.length <= 0) {
     return;
   }
 
@@ -36,11 +36,11 @@ const AddNewProblemReport = props => {
   const [reporterPhone, setReporterPhone] = useState(emptyString);
   const [errorType, setErrorType] = useState(defaultErrorType);
   const [chosenVehicleId, setChosenVehicleId] = useState(
-    problemReportArr[0].id
+    ProblemReportArr[0].id
   );
   const [problemDescription, setProblemDescription] = useState(emptyString);
   const [openTicketIsAvailable, setTicketStatus] = useState(
-    ticketIsOpen(problemReportArr[0].actualStatus)
+    ticketIsOpen(ProblemReportArr[0].actualStatus)
   );
 
   const clAqua = {
@@ -78,33 +78,71 @@ const AddNewProblemReport = props => {
     border: '1px solid black',
     padding: '5px',
   };
+  const clOrange = {
+    backgroundColor: '#FF8000',
+    textAlign: 'center',
+    font: 'inherit',
+    border: '1px solid black',
+    padding: '5px',
+  };
   const colorless = {
     backgroundColor: 'white',
     textAlign: 'center',
     font: 'inherit',
     padding: '5px',
   };
+
+  const stateIdToStateNumber = stateID => {
+    if (stateID === '0') {
+      return 'Hiba bejelentve';
+    }
+    if (stateID === '1') {
+      return 'Hibajavítás folyamatban';
+    }
+    if (stateID === '2') {
+      return 'Várakozás információra';
+    }
+    if (stateID === '3') {
+      return 'Szervizre rendelve';
+    }
+    if (stateID === '4') {
+      return 'Javítás befejezve';
+    }
+    if (stateID === '5') {
+      return 'Megválaszolva';
+    }
+    if (stateID === '6') {
+      return 'Bejelentés kiegészítve';
+    }
+    if (stateID === '7') {
+      return 'Szervizelés folyamatban';
+    }
+  };
+
   const colorChoser = () => {
     if (
-      problemReportArr[0].actualStatus === 'Megválaszolva' ||
-      problemReportArr[0].actualStatus === 'Javítás befejezve'
+      ProblemReportArr[0].actualStatus === '4' ||
+      ProblemReportArr[0].actualStatus === '5'
     ) {
       return colorless;
     }
-    if (problemReportArr[0].actualStatus === 'Hiba bejelentve') {
+    if (ProblemReportArr[0].actualStatus === '0') {
       return clAqua;
     }
-    if (problemReportArr[0].actualStatus === 'Bejelentés kiegészítve') {
+    if (ProblemReportArr[0].actualStatus === '6') {
       return clNavy;
     }
-    if (problemReportArr[0].actualStatus === 'Hibajavítás folyamatban') {
+    if (ProblemReportArr[0].actualStatus === '1') {
       return clYellow;
     }
-    if (problemReportArr[0].actualStatus === 'Információra vár') {
+    if (ProblemReportArr[0].actualStatus === '2') {
       return purple;
     }
-    if (problemReportArr[0].actualStatus === 'Szervizre javasolva') {
+    if (ProblemReportArr[0].actualStatus === '3') {
       return indianRed;
+    }
+    if (ProblemReportArr[0].actualStatus === '7') {
+      return clOrange;
     }
   };
 
@@ -113,33 +151,27 @@ const AddNewProblemReport = props => {
   const checkActualStatusOfTheChosenVehicle = event => {
     const actChosenVehicleId = event.target.value;
     let shouldChange = false;
-    for (let i = 0; i < problemReportArr.length; i++) {
-      if (problemReportArr[i].id === parseInt(actChosenVehicleId)) {
+    for (let i = 0; i < ProblemReportArr.length; i++) {
+      if (ProblemReportArr[i].id === parseInt(actChosenVehicleId)) {
         if (
-          problemReportArr[i].actualStatus !== 'Megválaszolva' &&
-          problemReportArr[i].actualStatus !== 'Javítás befejezve'
+          ProblemReportArr[i].actualStatus !== '5' &&
+          ProblemReportArr[i].actualStatus !== '4'
         ) {
           shouldChange = true;
-          if (problemReportArr[i].actualStatus === 'Hiba bejelentve') {
+          if (ProblemReportArr[i].actualStatus === '0') {
             setActualStatusStyling(clAqua);
-          } else if (
-            problemReportArr[i].actualStatus === 'Bejelentés kiegészítve'
-          ) {
+          } else if (ProblemReportArr[i].actualStatus === '6') {
             setActualStatusStyling(clNavy);
-          } else if (
-            problemReportArr[i].actualStatus === 'Hibajavítás folyamatban'
-          ) {
+          } else if (ProblemReportArr[i].actualStatus === '1') {
             setActualStatusStyling(clYellow);
-          } else if (problemReportArr[i].actualStatus === 'Információra vár') {
+          } else if (ProblemReportArr[i].actualStatus === '2') {
             setActualStatusStyling(purple);
-          } else if (
-            problemReportArr[i].actualStatus === 'Szervizre javasolva'
-          ) {
+          } else if (ProblemReportArr[i].actualStatus === '3') {
             setActualStatusStyling(indianRed);
           }
         } else if (
-          problemReportArr[i].actualStatus === 'Megválaszolva' &&
-          problemReportArr[i].actualStatus === 'Javítás befejezve'
+          ProblemReportArr[i].actualStatus === '5' &&
+          ProblemReportArr[i].actualStatus === '4'
         ) {
           setActualStatusStyling(colorless);
           break;
@@ -167,7 +199,7 @@ const AddNewProblemReport = props => {
     setReporterEmail(emptyString);
     setReporterPhone(emptyString);
     setErrorType(defaultErrorType);
-    setChosenVehicleId(problemReportArr[0].id);
+    setChosenVehicleId(ProblemReportArr[0].id);
     setProblemDescription(emptyString);
   };
 
@@ -288,7 +320,7 @@ const AddNewProblemReport = props => {
                         checkActualStatusOfTheChosenVehicle(event);
                       }}
                     >
-                      {problemReportArr.map(value => (
+                      {ProblemReportArr.map(value => (
                         <option value={value.id} key={value.licencePlateNumber}>
                           {value.licencePlateNumber}
                         </option>
@@ -297,51 +329,51 @@ const AddNewProblemReport = props => {
                   </ProblemItem2>
                 </ProblemItemRow>
                 {openTicketIsAvailable
-                  ? problemReportArr
-                      .filter(report => report.id === parseInt(chosenVehicleId))
-                      .map(report => (
-                        <OpenTicketBasicData>
-                          <ProblemItem5>{report.reporterName}</ProblemItem5>
-                          <ProblemItem6 style={actualStatusStyling}>
-                            {report.actualStatus}
-                          </ProblemItem6>
-                        </OpenTicketBasicData>
-                      ))
+                  ? ProblemReportArr.filter(
+                      report => report.id === parseInt(chosenVehicleId)
+                    ).map(report => (
+                      <OpenTicketBasicData>
+                        <ProblemItem5>{report.reporterName}</ProblemItem5>
+                        <ProblemItem6 style={actualStatusStyling}>
+                          {stateIdToStateNumber(report.actualStatus)}
+                        </ProblemItem6>
+                      </OpenTicketBasicData>
+                    ))
                   : null}
                 {openTicketIsAvailable
-                  ? problemReportArr
-                      .filter(report => report.id === parseInt(chosenVehicleId))
-                      .map(report => {
-                        const changeFirst = report.problemReportChangeList[0];
-                        const changeLast =
-                          report.problemReportChangeList.length > 1
-                            ? report.problemReportChangeList[
-                                report.problemReportChangeList.length - 1
-                              ]
-                            : undefined;
-                        return (
-                          <div>
+                  ? ProblemReportArr.filter(
+                      report => report.id === parseInt(chosenVehicleId)
+                    ).map(report => {
+                      const changeFirst = report.problemReportChangeList[0];
+                      const changeLast =
+                        report.problemReportChangeList.length > 1
+                          ? report.problemReportChangeList[
+                              report.problemReportChangeList.length - 1
+                            ]
+                          : undefined;
+                      return (
+                        <div>
+                          <OpenTicketProblemItemRow>
+                            <ProblemItem3>
+                              {changeFirst.stateChangeTime}
+                            </ProblemItem3>
+                            <ProblemItem4>
+                              {changeFirst.stateChangeMessage}
+                            </ProblemItem4>
+                          </OpenTicketProblemItemRow>
+                          {changeLast && (
                             <OpenTicketProblemItemRow>
                               <ProblemItem3>
-                                {changeFirst.stateChangeTime}
+                                {changeLast.stateChangeTime}
                               </ProblemItem3>
                               <ProblemItem4>
-                                {changeFirst.stateChangeMessage}
+                                {changeLast.stateChangeMessage}
                               </ProblemItem4>
                             </OpenTicketProblemItemRow>
-                            {changeLast && (
-                              <OpenTicketProblemItemRow>
-                                <ProblemItem3>
-                                  {changeLast.stateChangeTime}
-                                </ProblemItem3>
-                                <ProblemItem4>
-                                  {changeLast.stateChangeMessage}
-                                </ProblemItem4>
-                              </OpenTicketProblemItemRow>
-                            )}
-                          </div>
-                        );
-                      })
+                          )}
+                        </div>
+                      );
+                    })
                   : null}
                 <OpenTicketDescription>
                   {openTicketIsAvailable
