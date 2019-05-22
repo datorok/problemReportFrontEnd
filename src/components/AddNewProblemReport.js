@@ -25,7 +25,8 @@ const ticketIsOpen = actualStatus =>
   actualStatus !== 'Megválaszolva' && actualStatus !== 'Javítás befejezve';
 
 const AddNewProblemReport = props => {
-  const { ProblemReportArr, overlay } = ProblemContainerObject.state;
+  const { ProblemReportArr } = ProblemContainerObject.state;
+  const { overlay } = props;
 
   if (ProblemReportArr.length <= 0) {
     return;

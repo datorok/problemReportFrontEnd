@@ -89,7 +89,6 @@ export default class ProblemContainer extends Container {
         activeFilterStatusValues.push('egyik_sem');
       }
     }
-    console.log(`activeFilterStatusValues: ${activeFilterStatusValues}`);
     const ErrorFilterStatus = Object.values(this.state.errorFilterStatus);
     const activeErrorFilterStatus = ErrorFilterStatus.filter(
       filter => filter.enabled === true

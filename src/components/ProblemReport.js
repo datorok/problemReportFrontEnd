@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Block, Hidden } from 'reakit';
+import moment from 'moment';
 // a fontawesome ikonok importálása teszi lehetővé a szám- és alfanumerikus rendezés- és a sorlenyílás piktogramjának megjelenítését
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -71,40 +72,50 @@ const ProblemReport = props => {
   const [
     licenceNumberOrderIsAscending,
     setLicenceNumberOrderIsAscending,
-  ] = useState(true);
+  ] = useState(undefined);
 
   const [reportDateOrderIsAscending, setReportDateOrderIsAscending] = useState(
-    false
+    undefined
   );
 
   const [licenceNumberToFilter, setLicenceNumberToFilter] = useState('');
 
   const rows = ProblemContainerObject.getFilteredProblemArr2()
-    .sort(function(a, b) {
-      if (licenceNumberOrderIsAscending !== undefined) {
-        if (licenceNumberOrderIsAscending) {
-          if (a < b) return 1;
-          return -1;
-        }
-        if (a < b) return -1;
-        return 0;
-      }
-      if (reportDateOrderIsAscending !== undefined) {
-        if (reportDateOrderIsAscending) {
-          if (a < b) return 1;
-          return -1;
-        }
-        if (a < b) return -1;
-        return 0;
-      }
-      return 0;
-    })
     .filter(problemReport =>
       problemReport.licencePlateNumber
         .substring(0, 7)
         .toUpperCase()
         .includes(licenceNumberToFilter.toUpperCase())
     )
+    .sort(function(a, b) {
+      const ad = moment(a.reportCreationTime);
+      const bd = moment(b.reportCreationTime);
+      if (licenceNumberOrderIsAscending !== undefined) {
+        if (licenceNumberOrderIsAscending) {
+          if (
+            a.licencePlateNumber.toLowerCase() <
+            b.licencePlateNumber.toLowerCase()
+          )
+            return 1;
+          return -1;
+        }
+        if (
+          a.licencePlateNumber.toLowerCase() <
+          b.licencePlateNumber.toLowerCase()
+        )
+          return -1;
+        return 1;
+      }
+      if (reportDateOrderIsAscending !== undefined) {
+        if (reportDateOrderIsAscending) {
+          if (ad < bd) return 1;
+          return -1;
+        }
+        if (ad < bd) return -1;
+        return 1;
+      }
+      return 0;
+    })
     .map((problemReport, index) => (
       <ProblemRowContainer>
         <Hidden.Container key={problemReport.id}>
@@ -114,15 +125,17 @@ const ProblemReport = props => {
                 toggle={toggle}
                 style={{ width: '100%', height: 'inherit' }}
               >
-                <ProblemRow className="row">
+                <ProblemRow key={index}>
                   <ProblemItem0>
                     <FontAwesomeIcon icon={visible ? 'minus' : 'plus'} />
                   </ProblemItem0>
                   <ProblemItem1>
                     {problemReport.licencePlateNumber}
                   </ProblemItem1>
-                  <ProblemItem2>
-                    {problemReport.reportCreationTime}
+                  <ProblemItem2 key={index}>
+                    {moment(problemReport.reportCreationTime).format(
+                      'YYYY MM DD '
+                    )}
                   </ProblemItem2>
                   <ProblemItem3>
                     {stateIdToStateNumber(problemReport.actualStatus)}
@@ -159,10 +172,12 @@ const ProblemReport = props => {
         <FlexHeader>
           <ProblemItem0 />
           <ProblemItem1
+            key={1}
             font-weight="normal"
-            onClick={() =>
-              setLicenceNumberOrderIsAscending(!licenceNumberOrderIsAscending)
-            }
+            onClick={() => {
+              setLicenceNumberOrderIsAscending(!licenceNumberOrderIsAscending);
+              setReportDateOrderIsAscending(undefined);
+            }}
           >
             Rendszám
             <FontAwesomeIcon
@@ -174,9 +189,11 @@ const ProblemReport = props => {
             />
           </ProblemItem1>
           <ProblemItem2
-            onClick={() =>
-              setReportDateOrderIsAscending(!reportDateOrderIsAscending)
-            }
+            key={2}
+            onClick={() => {
+              setReportDateOrderIsAscending(!reportDateOrderIsAscending);
+              setLicenceNumberOrderIsAscending(undefined);
+            }}
           >
             Bejelentés ideje
             <FontAwesomeIcon
