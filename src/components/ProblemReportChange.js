@@ -1,13 +1,20 @@
 import React from 'react';
 
+import {
+  ProblemReportChangeRow,
+  DatePart,
+  TextPart,
+  MarginPart,
+} from './ProblemReportChange.style';
+
 const ProblemReportChange = props =>
   props.problemReportChangeArr.map((problemReportChange, index) => (
     <div key={problemReportChange.id}>
-      <p>
-        <span>{problemReportChange.stateChangeTime}</span>
-        <span> </span>
-        <span>{problemReportChange.stateChangeMessage}</span>
-      </p>
+      <ProblemReportChangeRow>
+        <MarginPart />
+        <DatePart>{problemReportChange.stateChangeTime}</DatePart>
+        <TextPart>{problemReportChange.stateChangeMessage}</TextPart>
+      </ProblemReportChangeRow>
     </div>
   ));
 
