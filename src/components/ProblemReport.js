@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Block, Hidden } from 'reakit';
 // a fontawesome ikonok importálása teszi lehetővé a szám- és alfanumerikus rendezés- és a sorlenyílás piktogramjának megjelenítését
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -12,7 +12,6 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { ProblemContainerObject } from '../containers/ProblemContainer';
-import App from '../containers/App';
 
 import {
   Input,
@@ -69,16 +68,43 @@ const stateIdToStateNumber = stateID => {
 };
 
 const ProblemReport = props => {
-  const { ProblemReportArr } = ProblemContainerObject.state;
-
-  const {
+  const [
     licenceNumberOrderIsAscending,
-    reportDateOrderIsAscending,
-    licencePlateChangeHandler,
-    sortMethod,
-  } = props;
+    setLicenceNumberOrderIsAscending,
+  ] = useState(true);
+
+  const [reportDateOrderIsAscending, setReportDateOrderIsAscending] = useState(
+    false
+  );
+
+  const [licenceNumberToFilter, setLicenceNumberToFilter] = useState('');
+
   const rows = ProblemContainerObject.getFilteredProblemArr2()
-    // .sort()
+    .sort(function(a, b) {
+      if (licenceNumberOrderIsAscending !== undefined) {
+        if (licenceNumberOrderIsAscending) {
+          if (a < b) return 1;
+          return -1;
+        }
+        if (a < b) return -1;
+        return 0;
+      }
+      if (reportDateOrderIsAscending !== undefined) {
+        if (reportDateOrderIsAscending) {
+          if (a < b) return 1;
+          return -1;
+        }
+        if (a < b) return -1;
+        return 0;
+      }
+      return 0;
+    })
+    .filter(problemReport =>
+      problemReport.licencePlateNumber
+        .substring(0, 7)
+        .toUpperCase()
+        .includes(licenceNumberToFilter.toUpperCase())
+    )
     .map((problemReport, index) => (
       <ProblemRowContainer>
         <Hidden.Container key={problemReport.id}>
@@ -127,14 +153,16 @@ const ProblemReport = props => {
       <Input
         type="text"
         placeholder="Keresés..."
-        onChange={event => licencePlateChangeHandler(event)}
+        onChange={event => setLicenceNumberToFilter(event.target.value)}
       />
       <React.Fragment>
         <FlexHeader>
           <ProblemItem0 />
           <ProblemItem1
             font-weight="normal"
-            onClick={() => sortMethod('alphabethical')}
+            onClick={() =>
+              setLicenceNumberOrderIsAscending(!licenceNumberOrderIsAscending)
+            }
           >
             Rendszám
             <FontAwesomeIcon
@@ -145,7 +173,11 @@ const ProblemReport = props => {
               }
             />
           </ProblemItem1>
-          <ProblemItem2 onClick={() => sortMethod('numeric')}>
+          <ProblemItem2
+            onClick={() =>
+              setReportDateOrderIsAscending(!reportDateOrderIsAscending)
+            }
+          >
             Bejelentés ideje
             <FontAwesomeIcon
               icon={

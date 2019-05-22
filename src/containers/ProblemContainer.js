@@ -4,7 +4,6 @@ import axios from 'axios';
 export default class ProblemContainer extends Container {
   state = {
     ProblemReportArr: [],
-    filteredProblemReportArr: undefined,
     loading: true,
 
     errorTypeFilterStatus: {
@@ -65,15 +64,12 @@ export default class ProblemContainer extends Container {
     },
   };
 
+  // használaton kívül - nincs meghívva sehol sem.
   getFilteredProblemArr = () => {
     const activeFilterStatus = Object.values(this.state.errorTypeFilterStatus);
-    console.log('something');
-    console.log(activeFilterStatus);
     const activeFilterStatus2 = activeFilterStatus.filter(
       filter => filter.enabled === true
     );
-    console.log('something2');
-    console.log(activeFilterStatus2);
     return this.state.ProblemReportArr.filter(() => problemReport =>
       activeFilterStatus.find(
         errorTypeToFilter => errorTypeToFilter.value === problemReport.errorType
@@ -89,7 +85,11 @@ export default class ProblemContainer extends Container {
     const activeFilterStatusValues = [];
     for (let i = 0; i < activeFilterStatus.length; i++) {
       activeFilterStatusValues.push(activeFilterStatus[i].value);
+      if (activeFilterStatus[i].value === 'egyéb') {
+        activeFilterStatusValues.push('egyik_sem');
+      }
     }
+    console.log(`activeFilterStatusValues: ${activeFilterStatusValues}`);
     const ErrorFilterStatus = Object.values(this.state.errorFilterStatus);
     const activeErrorFilterStatus = ErrorFilterStatus.filter(
       filter => filter.enabled === true
@@ -100,8 +100,6 @@ export default class ProblemContainer extends Container {
         activeErrorFilterStatus[i].alphValue
       );
     }
-    console.log('something2');
-    console.log(activeErrorFilterStatusNumValue);
     const arrToReturn = [];
     for (let i = 0; i < this.state.ProblemReportArr.length; i++) {
       if (
@@ -112,11 +110,7 @@ export default class ProblemContainer extends Container {
         arrToReturn.push(this.state.ProblemReportArr[i]);
       }
     }
-    console.log('length');
-    console.log(arrToReturn.length);
     for (let i = 0; i < arrToReturn.length; i++) {
-      console.log('actStatus');
-      console.log(arrToReturn[i].errorType);
       if (
         !activeErrorFilterStatusNumValue.includes(arrToReturn[i].actualStatus)
       ) {
@@ -128,20 +122,6 @@ export default class ProblemContainer extends Container {
     );
 
     return arrToReturnFinal;
-  };
-
-  filterStatusChangeHandler = async ProblemReportArr => {
-    const actProblemReportArr = [...ProblemReportArr];
-    const { errorFilterStatus } = this.state;
-    const activeFilterStatusArr = Object.values(errorFilterStatus);
-    const filteredProblemReportArr = actProblemReportArr.filter(
-      problemReport =>
-        activeFilterStatusArr.find(
-          filterStateToFilter =>
-            filterStateToFilter.value === problemReport.actualStatus
-        ).enabled
-    );
-    return filteredProblemReportArr;
   };
 
   changeErrorOrStatusType = fieldName => {
