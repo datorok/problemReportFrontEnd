@@ -21,8 +21,7 @@ export const ProblemReportBlock = styled.div`
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 1;
-  height: 950px;
-  max-height: 950px;
+  min-height: 950px;
   border: 1px solid #1e90ff;
 `;
 export const ProblemRowContainer = styled.div`
@@ -62,23 +61,23 @@ export const ProblemRow = styled.div`
   flex-direction: row;
 `;
 export const ProblemItem0 = styled.div`
-  width: 3%;
-  min-width: 3%;
-  max-width: 3%;
+  width: 2%;
+  min-width: 2%;
+  max-width: 2%;
 `;
 export const ProblemItem1 = styled.div`
   overflow: 'scroll';
   flex-direction: row;
-  width: 10%;
-  min-width: 10%;
+  width: 9%;
+  min-width: 9%;
   max-width: 10%;
   font-weight: 500;
 `;
 export const ProblemItem2 = styled.div`
   overflow: 'scroll';
   flex-direction: row;
-  width: 14%;
-  min-width: 14%;
+  width: 13%;
+  min-width: 13%;
   max-width: 14%;
 `;
 export const ProblemItem3 = styled.div`
@@ -91,9 +90,9 @@ export const ProblemItem3 = styled.div`
 export const ProblemItem4 = styled.div`
   overflow: 'scroll';
   flex-direction: row;
-  width: 10%;
+  width: 13%;
   min-width: 10%;
-  max-width: 10%;
+  max-width: 13%;
 `;
 export const ProblemItem5 = styled.div`
   overflow: 'scroll';

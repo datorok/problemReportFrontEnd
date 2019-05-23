@@ -12,8 +12,7 @@ export const TypeAndSatusText = styled.div`
   justify-content: space-around;
   padding: 10px 10px;
   border: 1px solid lightgray;
-  height: 970px;
-  max-height: 970px;
+  min-height: 970px;
   background-color: #f8f8f8;
   color: #696969;
   font-weight: 300;

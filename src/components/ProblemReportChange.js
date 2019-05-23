@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import {
   ProblemReportChangeRow,
@@ -12,7 +13,11 @@ const ProblemReportChange = props =>
     <div key={problemReportChange.id}>
       <ProblemReportChangeRow>
         <MarginPart />
-        <DatePart>{problemReportChange.stateChangeTime}</DatePart>
+        <DatePart>
+          {moment(problemReportChange.stateChangeTime).format(
+            'YYYY MM DD hh:mm'
+          )}
+        </DatePart>
         <TextPart>{problemReportChange.stateChangeMessage}</TextPart>
       </ProblemReportChangeRow>
     </div>
