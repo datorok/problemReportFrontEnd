@@ -12,8 +12,7 @@ class App extends Component {
   }
 
   licencePlateChangeHandler = event => {
-    const { ProblemReportArr } = ProblemContainerObject.state;
-    const actProblemReportArr = [...ProblemReportArr];
+    const actProblemReportArr = [...ProblemContainerObject.state];
     const filteredProblemReportArr = actProblemReportArr.filter(problemReport =>
       problemReport.licencePlateNumber
         .toUpperCase()

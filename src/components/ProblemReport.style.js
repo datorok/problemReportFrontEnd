@@ -60,48 +60,48 @@ export const ProblemRow = styled.div`
   justify-content: space-around;
   flex-direction: row;
 `;
-export const ProblemItem0 = styled.div`
+export const ProblemItemPlusOrMinus = styled.div`
   width: 2%;
   min-width: 2%;
   max-width: 2%;
 `;
-export const ProblemItem1 = styled.div`
+export const ProblemItemLicencePlateNumber = styled.div`
   overflow: 'scroll';
   flex-direction: row;
-  width: 9%;
-  min-width: 9%;
+  width: 8%;
+  min-width: 8%;
   max-width: 10%;
   font-weight: 500;
 `;
-export const ProblemItem2 = styled.div`
-  overflow: 'scroll';
-  flex-direction: row;
-  width: 13%;
-  min-width: 13%;
-  max-width: 14%;
-`;
-export const ProblemItem3 = styled.div`
+export const ProblemItemReportCreationTime = styled.div`
   overflow: 'scroll';
   flex-direction: row;
   width: 12%;
   min-width: 12%;
+  max-width: 13%;
+`;
+export const ProblemItemActualStatus = styled.div`
+  overflow: 'scroll';
+  flex-direction: row;
+  width: 9%;
+  min-width: 9%;
   max-width: 12%;
 `;
-export const ProblemItem4 = styled.div`
+export const ProblemItemErrorType = styled.div`
   overflow: 'scroll';
   flex-direction: row;
   width: 13%;
-  min-width: 10%;
-  max-width: 13%;
+  min-width: 13%;
+  max-width: 15%;
 `;
-export const ProblemItem5 = styled.div`
+export const ProblemItemReporterName = styled.div`
   overflow: 'scroll';
   flex-direction: row;
-  width: 11%;
-  min-width: 11%;
-  max-width: 11%;
+  width: 10%;
+  min-width: 10%;
+  max-width: 10%;
 `;
-export const ProblemItem6 = styled.div`
+export const ProblemItemDescription = styled.div`
   overflow: 'scroll';
   flex-direction: row;
   width: 40%;

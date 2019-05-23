@@ -19,13 +19,13 @@ import {
   ProblemReportBlock,
   FlexHeader,
   ProblemRow,
-  ProblemItem0,
-  ProblemItem1,
-  ProblemItem2,
-  ProblemItem3,
-  ProblemItem4,
-  ProblemItem5,
-  ProblemItem6,
+  ProblemItemPlusOrMinus,
+  ProblemItemLicencePlateNumber,
+  ProblemItemReportCreationTime,
+  ProblemItemActualStatus,
+  ProblemItemErrorType,
+  ProblemItemReporterName,
+  ProblemItemDescription,
   ProblemContainer,
   ProblemRowContainer,
 } from './ProblemReport.style';
@@ -126,28 +126,32 @@ const ProblemReport = props => {
                 style={{ width: '100%', height: 'inherit' }}
               >
                 <ProblemRow key={index}>
-                  <ProblemItem0>
+                  <ProblemItemPlusOrMinus>
                     <FontAwesomeIcon icon={visible ? 'minus' : 'plus'} />
-                  </ProblemItem0>
-                  <ProblemItem1>
+                  </ProblemItemPlusOrMinus>
+                  <ProblemItemLicencePlateNumber>
                     {problemReport.licencePlateNumber}
-                  </ProblemItem1>
-                  <ProblemItem2 key={index}>
+                  </ProblemItemLicencePlateNumber>
+                  <ProblemItemReportCreationTime key={index}>
                     {moment(problemReport.reportCreationTime).format(
                       'YYYY MM DD '
                     )}
-                  </ProblemItem2>
-                  <ProblemItem3>
+                  </ProblemItemReportCreationTime>
+                  <ProblemItemActualStatus>
                     {stateIdToStateNumber(problemReport.actualStatus)}
-                  </ProblemItem3>
-                  <ProblemItem4>{problemReport.errorType}</ProblemItem4>
-                  <ProblemItem5>{problemReport.reporterName}</ProblemItem5>
-                  <ProblemItem6>
+                  </ProblemItemActualStatus>
+                  <ProblemItemErrorType>
+                    {problemReport.errorType}
+                  </ProblemItemErrorType>
+                  <ProblemItemReporterName>
+                    {problemReport.reporterName}
+                  </ProblemItemReporterName>
+                  <ProblemItemDescription>
                     {
                       problemReport.problemReportChangeList[0]
                         .stateChangeMessage
                     }
-                  </ProblemItem6>
+                  </ProblemItemDescription>
                 </ProblemRow>
               </Hidden.Toggle>
               <Hidden visible={visible}>
@@ -170,8 +174,8 @@ const ProblemReport = props => {
       />
       <React.Fragment>
         <FlexHeader>
-          <ProblemItem0 />
-          <ProblemItem1
+          <ProblemItemPlusOrMinus />
+          <ProblemItemLicencePlateNumber
             key={1}
             font-weight="normal"
             onClick={() => {
@@ -187,8 +191,8 @@ const ProblemReport = props => {
                   : 'sort-alpha-down'
               }
             />
-          </ProblemItem1>
-          <ProblemItem2
+          </ProblemItemLicencePlateNumber>
+          <ProblemItemReportCreationTime
             key={2}
             onClick={() => {
               setReportDateOrderIsAscending(!reportDateOrderIsAscending);
@@ -203,11 +207,13 @@ const ProblemReport = props => {
                   : 'sort-numeric-down'
               }
             />
-          </ProblemItem2>
-          <ProblemItem3>Aktuális státusz</ProblemItem3>
-          <ProblemItem4>Hiba típusa</ProblemItem4>
-          <ProblemItem5>Bejelentő</ProblemItem5>
-          <ProblemItem6 font-weight="normal">Leírás</ProblemItem6>
+          </ProblemItemReportCreationTime>
+          <ProblemItemActualStatus>Aktuális státusz</ProblemItemActualStatus>
+          <ProblemItemErrorType>Hiba típusa</ProblemItemErrorType>
+          <ProblemItemReporterName>Bejelentő</ProblemItemReporterName>
+          <ProblemItemDescription font-weight="normal">
+            Leírás
+          </ProblemItemDescription>
         </FlexHeader>
         <ProblemContainer>{rows}</ProblemContainer>
       </React.Fragment>

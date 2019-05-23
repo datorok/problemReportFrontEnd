@@ -11,7 +11,7 @@ import {
 
 const errorType1 = ' Diszpécser központ';
 const errorType2 = ' Járműegység';
-const errorType3 = ' Egyéb';
+const errorType3 = ' Egyéb / egyik sem';
 const status0 = ' Hiba bejelentve';
 const status1 = ' Bejelentés kiegészítve';
 const status2 = ' Feldolgozás alatt';
