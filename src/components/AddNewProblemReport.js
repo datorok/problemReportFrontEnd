@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Block, Group, Step, Button, Overlay } from 'reakit';
+import moment from 'moment';
 import { ProblemContainerObject } from '../containers/ProblemContainer';
 import {
   Input,
@@ -21,8 +22,6 @@ import {
 
 const emptyString = '';
 const defaultErrorType = 'Egyik sem';
-const ticketIsOpen = actualStatus =>
-  actualStatus !== 'Megválaszolva' && actualStatus !== 'Javítás befejezve';
 
 const AddNewProblemReport = props => {
   const { ProblemReportArr } = ProblemContainerObject.state;
@@ -40,9 +39,7 @@ const AddNewProblemReport = props => {
     ProblemReportArr[0].id
   );
   const [problemDescription, setProblemDescription] = useState(emptyString);
-  const [openTicketIsAvailable, setTicketStatus] = useState(
-    ticketIsOpen(ProblemReportArr[0].actualStatus)
-  );
+  const [openTicketIsAvailable, setTicketStatus] = useState(false);
 
   const clAqua = {
     backgroundColor: '#00FFFF',
@@ -169,9 +166,11 @@ const AddNewProblemReport = props => {
             setActualStatusStyling(purple);
           } else if (ProblemReportArr[i].actualStatus === '3') {
             setActualStatusStyling(indianRed);
+          } else if (ProblemReportArr[i].actualStatus === '7') {
+            setActualStatusStyling(clOrange);
           }
         } else if (
-          ProblemReportArr[i].actualStatus === '5' &&
+          ProblemReportArr[i].actualStatus === '5' ||
           ProblemReportArr[i].actualStatus === '4'
         ) {
           setActualStatusStyling(colorless);
@@ -204,6 +203,12 @@ const AddNewProblemReport = props => {
     setProblemDescription(emptyString);
   };
 
+  const setTheStatusOfTheInitialProblemreport = () => {
+    setTicketStatus(
+      ProblemReportArr[0].actualStatus !== '5' &&
+        ProblemReportArr[0].actualStatus !== '4'
+    );
+  };
   return (
     <Step.Container initialState={{ current: 0 }}>
       {({
@@ -232,7 +237,10 @@ const AddNewProblemReport = props => {
                     rows={1}
                     cols={40}
                     value={reporterName}
-                    onChange={event => setReporterName(event.target.value)}
+                    onChange={event => {
+                      setReporterName(event.target.value);
+                      console.log(`reporterName :${reporterName}`);
+                    }}
                   />
                 </ProblemItem2>
               </ProblemItemRow>
@@ -244,7 +252,10 @@ const AddNewProblemReport = props => {
                     rows={1}
                     cols={40}
                     value={reporterEmail}
-                    onChange={event => setReporterEmail(event.target.value)}
+                    onChange={event => {
+                      setReporterEmail(event.target.value);
+                      console.log(`reporterEmail :${reporterEmail}`);
+                    }}
                   />
                 </ProblemItem2>
               </ProblemItemRow>
@@ -256,7 +267,10 @@ const AddNewProblemReport = props => {
                     rows={1}
                     cols={40}
                     value={reporterPhone}
-                    onChange={event => setReporterPhone(event.target.value)}
+                    onChange={event => {
+                      setReporterPhone(event.target.value);
+                      console.log(`reporterPhone :${reporterPhone}`);
+                    }}
                   />
                 </ProblemItem2>
               </ProblemItemRow>
@@ -278,6 +292,9 @@ const AddNewProblemReport = props => {
                     next={next}
                     hasNext={hasNext}
                     width={90}
+                    onClick={event => {
+                      setTheStatusOfTheInitialProblemreport();
+                    }}
                   >
                     Következő
                   </Button>
@@ -301,9 +318,11 @@ const AddNewProblemReport = props => {
                     <Input
                       value={errorType}
                       use="select"
-                      onChange={event => setErrorType(event.target.value)}
+                      onChange={event => {
+                        setErrorType(event.target.value);
+                        console.log(`errorType :${errorType}`);
+                      }}
                     >
-                      <option>Egyik sem</option>
                       <option>Diszpécserközpont</option>
                       <option>Járműegység</option>
                       <option>Egyéb</option>
@@ -319,6 +338,7 @@ const AddNewProblemReport = props => {
                       onChange={event => {
                         setChosenVehicleId(event.target.value);
                         checkActualStatusOfTheChosenVehicle(event);
+                        console.log(`chosenVehicleId :${chosenVehicleId}`);
                       }}
                     >
                       {ProblemReportArr.map(value => (
@@ -356,7 +376,9 @@ const AddNewProblemReport = props => {
                         <div>
                           <OpenTicketProblemItemRow>
                             <ProblemItem3>
-                              {changeFirst.stateChangeTime}
+                              {moment(changeFirst.stateChangeTime).format(
+                                'YYYY MM DD'
+                              )}
                             </ProblemItem3>
                             <ProblemItem4>
                               {changeFirst.stateChangeMessage}
@@ -365,7 +387,9 @@ const AddNewProblemReport = props => {
                           {changeLast && (
                             <OpenTicketProblemItemRow>
                               <ProblemItem3>
-                                {changeLast.stateChangeTime}
+                                {moment(changeFirst.stateChangeTime).format(
+                                  'YYYY MM DD'
+                                )}
                               </ProblemItem3>
                               <ProblemItem4>
                                 {changeLast.stateChangeMessage}
@@ -384,7 +408,10 @@ const AddNewProblemReport = props => {
                 <Longtextarea
                   use="text"
                   value={problemDescription}
-                  onChange={event => setProblemDescription(event.target.value)}
+                  onChange={event => {
+                    setProblemDescription(event.target.value);
+                    console.log(`problemDescription :${problemDescription}`);
+                  }}
                 />
                 <ElementportalModalButtons>
                   <Group>
