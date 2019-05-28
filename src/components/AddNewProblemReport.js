@@ -38,6 +38,9 @@ const AddNewProblemReport = props => {
   const [chosenVehicleId, setChosenVehicleId] = useState(
     ProblemReportArr[0].id
   );
+  const [vehicleLicencePlateNumber, setVehicleLicencePlateNumber] = useState(
+    ProblemReportArr[0].licencePlateNumber
+  );
   const [problemDescription, setProblemDescription] = useState(emptyString);
   const [openTicketIsAvailable, setTicketStatus] = useState(false);
 
@@ -151,6 +154,7 @@ const AddNewProblemReport = props => {
     let shouldChange = false;
     for (let i = 0; i < ProblemReportArr.length; i++) {
       if (ProblemReportArr[i].id === parseInt(actChosenVehicleId)) {
+        setVehicleLicencePlateNumber(ProblemReportArr[i].licencePlateNumber);
         if (
           ProblemReportArr[i].actualStatus !== '5' &&
           ProblemReportArr[i].actualStatus !== '4'
@@ -191,6 +195,7 @@ const AddNewProblemReport = props => {
     console.log({ reporterPhone });
     console.log({ errorType });
     console.log({ chosenVehicleId });
+    console.log({ vehicleLicencePlateNumber });
     console.log({ problemDescription });
   };
 
@@ -239,7 +244,6 @@ const AddNewProblemReport = props => {
                     value={reporterName}
                     onChange={event => {
                       setReporterName(event.target.value);
-                      console.log(`reporterName :${reporterName}`);
                     }}
                   />
                 </ProblemItem2>
@@ -254,7 +258,6 @@ const AddNewProblemReport = props => {
                     value={reporterEmail}
                     onChange={event => {
                       setReporterEmail(event.target.value);
-                      console.log(`reporterEmail :${reporterEmail}`);
                     }}
                   />
                 </ProblemItem2>
@@ -269,7 +272,6 @@ const AddNewProblemReport = props => {
                     value={reporterPhone}
                     onChange={event => {
                       setReporterPhone(event.target.value);
-                      console.log(`reporterPhone :${reporterPhone}`);
                     }}
                   />
                 </ProblemItem2>
@@ -320,7 +322,6 @@ const AddNewProblemReport = props => {
                       use="select"
                       onChange={event => {
                         setErrorType(event.target.value);
-                        console.log(`errorType :${errorType}`);
                       }}
                     >
                       <option>Diszpécserközpont</option>
@@ -338,7 +339,6 @@ const AddNewProblemReport = props => {
                       onChange={event => {
                         setChosenVehicleId(event.target.value);
                         checkActualStatusOfTheChosenVehicle(event);
-                        console.log(`chosenVehicleId :${chosenVehicleId}`);
                       }}
                     >
                       {ProblemReportArr.map(value => (
