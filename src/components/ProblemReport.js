@@ -41,33 +41,6 @@ library.add(
   faPlus
 );
 
-const stateIdToStateNumber = stateID => {
-  if (stateID === '0') {
-    return 'Hiba bejelentve';
-  }
-  if (stateID === '1') {
-    return 'Hibajavítás folyamatban';
-  }
-  if (stateID === '2') {
-    return 'Várakozás információra';
-  }
-  if (stateID === '3') {
-    return 'Szervizre rendelve';
-  }
-  if (stateID === '4') {
-    return 'Javítás befejezve';
-  }
-  if (stateID === '5') {
-    return 'Megválaszolva';
-  }
-  if (stateID === '6') {
-    return 'Bejelentés kiegészítve';
-  }
-  if (stateID === '7') {
-    return 'Szervizelés folyamatban';
-  }
-};
-
 const ProblemReport = props => {
   const [
     licenceNumberOrderIsAscending,
@@ -79,7 +52,8 @@ const ProblemReport = props => {
   );
 
   const [licenceNumberToFilter, setLicenceNumberToFilter] = useState('');
-
+  console.log('rows: ');
+  console.log(ProblemContainerObject.getFilteredProblemArr2().length);
   const rows = ProblemContainerObject.getFilteredProblemArr2()
     .filter(problemReport =>
       problemReport.licencePlateNumber
@@ -138,7 +112,7 @@ const ProblemReport = props => {
                     )}
                   </ProblemItemReportCreationTime>
                   <ProblemItemActualStatus>
-                    {stateIdToStateNumber(problemReport.actualStatus)}
+                    {problemReport.actualStatusName}
                   </ProblemItemActualStatus>
                   <ProblemItemErrorType>
                     {problemReport.errorType}

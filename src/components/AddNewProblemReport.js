@@ -30,7 +30,7 @@ const AddNewProblemReport = props => {
   if (ProblemReportArr.length <= 0) {
     return;
   }
-
+  const [reportId, setReportId] = useState(ProblemReportArr[0].id);
   const [reporterName, setReporterName] = useState(emptyString);
   const [reporterEmail, setReporterEmail] = useState(emptyString);
   const [reporterPhone, setReporterPhone] = useState(emptyString);
@@ -43,111 +43,12 @@ const AddNewProblemReport = props => {
   );
   const [problemDescription, setProblemDescription] = useState(emptyString);
   const [openTicketIsAvailable, setTicketStatus] = useState(false);
-
-  const clAqua = {
-    backgroundColor: '#00FFFF',
-    textAlign: 'center',
-    font: 'inherit',
-    border: '1px solid black',
-    padding: '10px',
-  };
-  const clNavy = {
-    backgroundColor: '#0080FF',
-    textAlign: 'center',
-    font: 'inherit',
-    border: '1px solid black',
-    padding: '5px',
-  };
-  const clYellow = {
-    backgroundColor: '#FFFF00',
-    textAlign: 'center',
-    font: 'inherit',
-    border: '1px solid black',
-    padding: '5px',
-  };
-  const purple = {
-    backgroundColor: '#B366FF',
-    textAlign: 'center',
-    font: 'inherit',
-    border: '1px solid black',
-    padding: '5px',
-  };
-  const indianRed = {
-    backgroundColor: '#FF6A6A',
-    textAlign: 'center',
-    font: 'inherit',
-    border: '1px solid black',
-    padding: '5px',
-  };
-  const clOrange = {
-    backgroundColor: '#FF8000',
-    textAlign: 'center',
-    font: 'inherit',
-    border: '1px solid black',
-    padding: '5px',
-  };
-  const colorless = {
-    backgroundColor: 'white',
-    textAlign: 'center',
-    font: 'inherit',
-    padding: '5px',
-  };
-
-  const stateIdToStateNumber = stateID => {
-    if (stateID === '0') {
-      return 'Hiba bejelentve';
-    }
-    if (stateID === '1') {
-      return 'Hibajavítás folyamatban';
-    }
-    if (stateID === '2') {
-      return 'Várakozás információra';
-    }
-    if (stateID === '3') {
-      return 'Szervizre rendelve';
-    }
-    if (stateID === '4') {
-      return 'Javítás befejezve';
-    }
-    if (stateID === '5') {
-      return 'Megválaszolva';
-    }
-    if (stateID === '6') {
-      return 'Bejelentés kiegészítve';
-    }
-    if (stateID === '7') {
-      return 'Szervizelés folyamatban';
-    }
-  };
-
-  const colorChoser = () => {
-    if (
-      ProblemReportArr[0].actualStatus === '4' ||
-      ProblemReportArr[0].actualStatus === '5'
-    ) {
-      return colorless;
-    }
-    if (ProblemReportArr[0].actualStatus === '0') {
-      return clAqua;
-    }
-    if (ProblemReportArr[0].actualStatus === '6') {
-      return clNavy;
-    }
-    if (ProblemReportArr[0].actualStatus === '1') {
-      return clYellow;
-    }
-    if (ProblemReportArr[0].actualStatus === '2') {
-      return purple;
-    }
-    if (ProblemReportArr[0].actualStatus === '3') {
-      return indianRed;
-    }
-    if (ProblemReportArr[0].actualStatus === '7') {
-      return clOrange;
-    }
-  };
-
-  const [actualStatusStyling, setActualStatusStyling] = useState(colorChoser);
+  const [actualStatusName, setActualStatusName] = useState(
+    ProblemReportArr[0].actualStatusName
+  );
+  const [statusColor, setStatusColor] = useState(
+    ProblemReportArr[0].actualStatusColor
+  );
 
   const checkActualStatusOfTheChosenVehicle = event => {
     const actChosenVehicleId = event.target.value;
@@ -161,23 +62,37 @@ const AddNewProblemReport = props => {
         ) {
           shouldChange = true;
           if (ProblemReportArr[i].actualStatus === '0') {
-            setActualStatusStyling(clAqua);
+            setActualStatusName(ProblemReportArr[i].actualStatusName);
+            setStatusColor(ProblemReportArr[i].statusColor);
+            setReportId(ProblemReportArr[i].id);
           } else if (ProblemReportArr[i].actualStatus === '6') {
-            setActualStatusStyling(clNavy);
+            setActualStatusName(ProblemReportArr[i].actualStatusName);
+            setStatusColor(ProblemReportArr[i].statusColor);
+            setReportId(ProblemReportArr[i].id);
           } else if (ProblemReportArr[i].actualStatus === '1') {
-            setActualStatusStyling(clYellow);
+            setActualStatusName(ProblemReportArr[i].actualStatusName);
+            setStatusColor(ProblemReportArr[i].statusColor);
+            setReportId(ProblemReportArr[i].id);
           } else if (ProblemReportArr[i].actualStatus === '2') {
-            setActualStatusStyling(purple);
+            setActualStatusName(ProblemReportArr[i].actualStatusName);
+            setStatusColor(ProblemReportArr[i].statusColor);
+            setReportId(ProblemReportArr[i].id);
           } else if (ProblemReportArr[i].actualStatus === '3') {
-            setActualStatusStyling(indianRed);
+            setActualStatusName(ProblemReportArr[i].actualStatusName);
+            setStatusColor(ProblemReportArr[i].statusColor);
+            setReportId(ProblemReportArr[i].id);
           } else if (ProblemReportArr[i].actualStatus === '7') {
-            setActualStatusStyling(clOrange);
+            setActualStatusName(ProblemReportArr[i].actualStatusName);
+            setStatusColor(ProblemReportArr[i].statusColor);
+            setReportId(ProblemReportArr[i].id);
           }
         } else if (
           ProblemReportArr[i].actualStatus === '5' ||
           ProblemReportArr[i].actualStatus === '4'
         ) {
-          setActualStatusStyling(colorless);
+          setActualStatusName(ProblemReportArr[i].actualStatusName);
+          setStatusColor(ProblemReportArr[i].statusColor);
+          setReportId(0);
           break;
         }
       }
@@ -190,6 +105,8 @@ const AddNewProblemReport = props => {
   };
 
   const displayNewReport = () => {
+    console.log({ reportId });
+    console.log({ reporterName });
     console.log({ reporterName });
     console.log({ reporterEmail });
     console.log({ reporterPhone });
@@ -355,8 +272,8 @@ const AddNewProblemReport = props => {
                     ).map(report => (
                       <OpenTicketBasicData>
                         <ProblemItem5>{report.reporterName}</ProblemItem5>
-                        <ProblemItem6 style={actualStatusStyling}>
-                          {stateIdToStateNumber(report.actualStatus)}
+                        <ProblemItem6 color={statusColor}>
+                          {actualStatusName}
                         </ProblemItem6>
                       </OpenTicketBasicData>
                     ))

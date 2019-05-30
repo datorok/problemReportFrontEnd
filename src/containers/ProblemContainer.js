@@ -64,30 +64,22 @@ export default class ProblemContainer extends Container {
     },
   };
 
-  // használaton kívül - nincs meghívva sehol sem.
-  getFilteredProblemArr = () => {
-    const activeFilterStatus = Object.values(this.state.errorTypeFilterStatus);
-    const activeFilterStatus2 = activeFilterStatus.filter(
-      filter => filter.enabled === true
-    );
-    return this.state.ProblemReportArr.filter(() => problemReport =>
-      activeFilterStatus.find(
-        errorTypeToFilter => errorTypeToFilter.value === problemReport.errorType
-      ).enabled
-    );
-  };
-
   getFilteredProblemArr2 = () => {
     const FilterStatus = Object.values(this.state.errorTypeFilterStatus);
     const activeFilterStatus = FilterStatus.filter(
       filter => filter.enabled === true
     );
     const activeFilterStatusValues = [];
+
     for (let i = 0; i < activeFilterStatus.length; i++) {
       activeFilterStatusValues.push(activeFilterStatus[i].value);
       if (activeFilterStatus[i].value === 'egyéb') {
         activeFilterStatusValues.push('egyik_sem');
       }
+    }
+
+    if (activeFilterStatusValues.includes('egyéb')) {
+      activeFilterStatusValues.push('egyik_sem');
     }
     const ErrorFilterStatus = Object.values(this.state.errorFilterStatus);
     const activeErrorFilterStatus = ErrorFilterStatus.filter(
@@ -99,27 +91,14 @@ export default class ProblemContainer extends Container {
         activeErrorFilterStatus[i].alphValue
       );
     }
-    const arrToReturn = [];
-    for (let i = 0; i < this.state.ProblemReportArr.length; i++) {
-      if (
-        activeFilterStatusValues.includes(
-          this.state.ProblemReportArr[i].errorType
-        )
-      ) {
-        arrToReturn.push(this.state.ProblemReportArr[i]);
-      }
-    }
-    for (let i = 0; i < arrToReturn.length; i++) {
-      if (
-        !activeErrorFilterStatusNumValue.includes(arrToReturn[i].actualStatus)
-      ) {
-        delete arrToReturn[i];
-      }
-    }
-    const arrToReturnFinal = arrToReturn.filter(
-      element => element !== undefined
+    const arrToReturn = this.state.ProblemReportArr.filter(element =>
+      activeFilterStatusValues.includes(element.errorType)
     );
-
+    const arrToReturnFinal = arrToReturn.filter(
+      element => !activeErrorFilterStatusNumValue.includes(element)
+    );
+    console.log('arrToReturnFinal');
+    console.log(arrToReturnFinal.length);
     return arrToReturnFinal;
   };
 

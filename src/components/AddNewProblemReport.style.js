@@ -79,6 +79,9 @@ export const ProblemItem6 = styled.div`
   max-width: 30%;
   margin-top: 10px;
   margin-bottom: 10px;
+  text-align: 'center';
+  border: '1px solid black';
+  padding: '10px';
 `;
 
 export const ElementportalModalButtons = styled.div`
