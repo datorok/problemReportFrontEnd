@@ -134,3 +134,11 @@ export const OpenTicketDescription = styled.div`
   margin-top: 10px;
   margin-bottom: 5px;
 `;
+
+export const AnimationLoader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+`;

@@ -52,8 +52,6 @@ const ProblemReport = props => {
   );
 
   const [licenceNumberToFilter, setLicenceNumberToFilter] = useState('');
-  console.log('rows: ');
-  console.log(ProblemContainerObject.getFilteredProblemArr2().length);
   const rows = ProblemContainerObject.getFilteredProblemArr2()
     .filter(problemReport =>
       problemReport.licencePlateNumber
@@ -121,17 +119,18 @@ const ProblemReport = props => {
                     {problemReport.reporterName}
                   </ProblemItemReporterName>
                   <ProblemItemDescription>
-                    {
-                      problemReport.problemReportChangeList[0]
-                        .stateChangeMessage
-                    }
+                    {problemReport.problemDescription}
                   </ProblemItemDescription>
                 </ProblemRow>
               </Hidden.Toggle>
               <Hidden visible={visible}>
-                <ProblemReportChange
-                  problemReportChangeArr={problemReport.problemReportChangeList}
-                />
+                {visible ? (
+                  <ProblemReportChange
+                    problemReportIdForPRC={problemReport.id}
+                  />
+                ) : (
+                  <div />
+                )}
               </Hidden>
             </Block>
           )}

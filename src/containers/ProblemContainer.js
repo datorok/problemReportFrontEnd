@@ -2,14 +2,32 @@ import { Container } from 'unstated';
 import axios from 'axios';
 
 export default class ProblemContainer extends Container {
+  sessionId = '';
+
   state = {
     ProblemReportArr: [],
     loading: true,
 
     errorTypeFilterStatus: {
-      dispatCenter: { enabled: false, value: 'diszpécserközpont' },
-      vehicleUnit: { enabled: true, value: 'járműegység' },
-      other: { enabled: true, value: 'egyéb' },
+      noneOfThem: {
+        enabled: true,
+        numValue: 0,
+        alphValue: '0',
+        value: 'egyik_sem',
+      },
+      dispatCenter: {
+        enabled: true,
+        numValue: 1,
+        alphValue: '1',
+        value: 'diszpécserközpont',
+      },
+      vehicleUnit: {
+        enabled: true,
+        numValue: 2,
+        alphValue: '2',
+        value: 'járműegység',
+      },
+      other: { enabled: true, numValue: 3, alphValue: '3', value: 'egyéb' },
     },
 
     errorFilterStatus: {
@@ -47,6 +65,7 @@ export default class ProblemContainer extends Container {
         enabled: true,
         numValue: 7,
         alphValue: '7',
+
         value: 'Javítás folyamatban',
       },
       ready: {
@@ -64,42 +83,55 @@ export default class ProblemContainer extends Container {
     },
   };
 
+  // errorTypeFilterStatusArr.alphValue
   getFilteredProblemArr2 = () => {
-    const FilterStatus = Object.values(this.state.errorTypeFilterStatus);
-    const activeFilterStatus = FilterStatus.filter(
+    const errorTypeFilterStatus = Object.values(
+      this.state.errorTypeFilterStatus
+    );
+    const errorTypeFilterStatusArr = errorTypeFilterStatus.filter(
       filter => filter.enabled === true
     );
-    const activeFilterStatusValues = [];
+    let errorTypeFilterStatusValuesArr = [];
 
-    for (let i = 0; i < activeFilterStatus.length; i++) {
-      activeFilterStatusValues.push(activeFilterStatus[i].value);
-      if (activeFilterStatus[i].value === 'egyéb') {
-        activeFilterStatusValues.push('egyik_sem');
-      }
-    }
-
-    if (activeFilterStatusValues.includes('egyéb')) {
-      activeFilterStatusValues.push('egyik_sem');
-    }
-    const ErrorFilterStatus = Object.values(this.state.errorFilterStatus);
-    const activeErrorFilterStatus = ErrorFilterStatus.filter(
-      filter => filter.enabled === true
-    );
-    const activeErrorFilterStatusNumValue = [];
-    for (let i = 0; i < activeErrorFilterStatus.length; i++) {
-      activeErrorFilterStatusNumValue.push(
-        activeErrorFilterStatus[i].alphValue
+    for (let i = 0; i < errorTypeFilterStatusArr.length; i++) {
+      errorTypeFilterStatusValuesArr.push(
+        errorTypeFilterStatusArr[i].alphValue
       );
     }
-    const arrToReturn = this.state.ProblemReportArr.filter(element =>
-      activeFilterStatusValues.includes(element.errorType)
+    if (!errorTypeFilterStatusValuesArr.includes('13')) {
+      errorTypeFilterStatusValuesArr = errorTypeFilterStatusValuesArr.filter(
+        element => element !== '10'
+      );
+    }
+    const ErrorFilterStatus = Object.values(this.state.errorFilterStatus);
+    const errorStateFilterArr = ErrorFilterStatus.filter(
+      element => element.enabled === true
     );
-    const arrToReturnFinal = arrToReturn.filter(
-      element => !activeErrorFilterStatusNumValue.includes(element)
-    );
-    console.log('arrToReturnFinal');
-    console.log(arrToReturnFinal.length);
-    return arrToReturnFinal;
+    const errorStateFilterValuesArr = [];
+    for (let i = 0; i < errorStateFilterArr.length; i++) {
+      errorStateFilterValuesArr.push(errorStateFilterArr[i].alphValue);
+    }
+    let arrToReturn = [];
+    for (let i = 0; i < this.state.ProblemReportArr.length; i++) {
+      if (
+        errorTypeFilterStatusValuesArr.includes(
+          this.state.ProblemReportArr[i].errorTypeId.toString()
+        )
+      ) {
+        arrToReturn.push(this.state.ProblemReportArr[i]);
+      }
+    }
+    for (let i = 0; i < arrToReturn.length; i++) {
+      if (
+        !errorStateFilterValuesArr.includes(
+          arrToReturn[i].actualStatusId.toString()
+        )
+      ) {
+        delete arrToReturn[i];
+      }
+    }
+    arrToReturn = arrToReturn.filter(element => element !== undefined);
+    return arrToReturn;
   };
 
   changeErrorOrStatusType = fieldName => {
@@ -133,11 +165,45 @@ export default class ProblemContainer extends Container {
     }
   };
 
-  fetch = async () => {
-    const { data } = await axios.get('http://localhost:8091/hibalistajson');
+  fetchProblemReportList = async sessionId => {
+    this.sessionId = sessionId;
+    const { data } = await axios.get(
+      encodeURI(
+        `http://localhost:8091/hibalistajson?sessionId=${this.sessionId}`
+      )
+    );
     this.setState({ ProblemReportArr: data, loading: false });
+  };
+
+  /**
+   * térjen vissza egy changelist tömbbbbbel
+   * ezt a választ a react-od megvárja
+   * és vigég megy rajta .map-el
+   * ami kigenerálja a jsx elmenteket
+   */
+
+  fetchChangeList = async problemReportId => {
+    const { data } = await axios.get(
+      encodeURI(
+        `http://localhost:8091/valtozasjson?sessionId=${
+          this.sessionId
+        }&problemReportId=${problemReportId}`
+      )
+    );
+    return data;
+  };
+
+  fetchVehicleList = async () => {
+    console.log('this.sessionId of fetchVehicleList: ');
+    console.log(this.sessionId);
+    const { data } = await axios.get(
+      encodeURI(
+        `http://localhost:8091/jarmuvekjson?sessionId=${this.sessionId}`
+      )
+    );
+    console.log('fetchVehicleListData: ');
     console.log({ data });
+    return data;
   };
 }
-
 export const ProblemContainerObject = new ProblemContainer();

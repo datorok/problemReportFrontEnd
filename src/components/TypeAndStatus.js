@@ -18,7 +18,7 @@ const status2 = ' Feldolgozás alatt';
 const status3 = ' Várakozás információra';
 const status4 = ' Szervizre rendelve';
 const status5 = ' Szervizelés alatt';
-const status6 = ' Javítás befejezve';
+const status6 = ' Javítás kész';
 const status7 = ' Megválaszolva';
 
 const TypeAndStatus = props => {

@@ -42,3 +42,10 @@ export const TextPart = styled.div`
   min-width: 69%;
   max-width: 69%;
 `;
+export const AnimationLoader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+`;

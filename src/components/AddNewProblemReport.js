@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Block, Group, Step, Button, Overlay } from 'reakit';
 import moment from 'moment';
+import { ClimbingBoxLoader } from 'react-spinners';
 import { ProblemContainerObject } from '../containers/ProblemContainer';
 import {
+  AnimationLoader,
   Input,
   OpenTicketProblemItemRow,
   OpenTicketBasicData,
@@ -30,6 +32,14 @@ const AddNewProblemReport = props => {
   if (ProblemReportArr.length <= 0) {
     return;
   }
+  const [licencePlateNumberArr, setLicencePlateNumberArr] = useState(undefined);
+
+  useEffect(() => {
+    ProblemContainerObject.fetchVehicleList().then(dataFromDb =>
+      setLicencePlateNumberArr(dataFromDb)
+    );
+  }, []);
+
   const [reportId, setReportId] = useState(ProblemReportArr[0].id);
   const [reporterName, setReporterName] = useState(emptyString);
   const [reporterEmail, setReporterEmail] = useState(emptyString);
@@ -131,6 +141,15 @@ const AddNewProblemReport = props => {
         ProblemReportArr[0].actualStatus !== '4'
     );
   };
+  if (!Array.isArray(licencePlateNumberArr)) {
+    console.log('licencePlateNumberArr in AddNewProblemReport: ');
+    console.log(licencePlateNumberArr);
+    return (
+      <AnimationLoader>
+        <ClimbingBoxLoader sizeUnit="px" size={30} color="#ffa500" />
+      </AnimationLoader>
+    );
+  }
   return (
     <Step.Container initialState={{ current: 0 }}>
       {({
@@ -258,9 +277,12 @@ const AddNewProblemReport = props => {
                         checkActualStatusOfTheChosenVehicle(event);
                       }}
                     >
-                      {ProblemReportArr.map(value => (
-                        <option value={value.id} key={value.licencePlateNumber}>
-                          {value.licencePlateNumber}
+                      {licencePlateNumberArr.map(value => (
+                        <option
+                          value={value.vehicleId}
+                          key={value.vehicleLicencePlate}
+                        >
+                          {value.vehicleLicencePlate}
                         </option>
                       ))}
                     </Input>
@@ -327,7 +349,9 @@ const AddNewProblemReport = props => {
                   value={problemDescription}
                   onChange={event => {
                     setProblemDescription(event.target.value);
-                    console.log(`problemDescription :${problemDescription}`);
+                    console.log(
+                      `problemDescription in AddNewProblemReport :${problemDescription}`
+                    );
                   }}
                 />
                 <ElementportalModalButtons>

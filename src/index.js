@@ -17,10 +17,11 @@ const theme = {
   `,
 };
 
+// LKrCej1jqSIRGE2Vohtl8znrctalpEVR
 ReactDOM.render(
   <Provider inject={[ProblemContainerObject]}>
     <ReakitProvider theme={theme}>
-      <App />
+      <App sessionId="KlA0C4YdGZaZt2A6bxabsA" />
     </ReakitProvider>
   </Provider>,
   document.getElementById('root')
