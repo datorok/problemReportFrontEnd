@@ -33,6 +33,10 @@ const AddNewProblemReport = props => {
     return;
   }
   const [licencePlateNumberArr, setLicencePlateNumberArr] = useState(undefined);
+  const [
+    changeListOfTheChosenProblemReportObject,
+    setChangeListOfTheChosenProblemReportObject,
+  ] = useState(undefined);
 
   useEffect(() => {
     ProblemContainerObject.fetchVehicleList().then(dataFromDb =>
@@ -40,6 +44,14 @@ const AddNewProblemReport = props => {
     );
   }, []);
 
+  const [chosenVehicleObject, setChosenVehicleObject] = useState(undefined);
+  if (chosenVehicleObject) {
+    useEffect(() => {
+      ProblemContainerObject.fetchChangeList(chosenVehicleObject.id).then(
+        dataFromDb => setChangeListOfTheChosenProblemReportObject(dataFromDb)
+      );
+    }, [chosenVehicleObject.id]);
+  }
   const [reportId, setReportId] = useState(ProblemReportArr[0].id);
   const [reporterName, setReporterName] = useState(emptyString);
   const [reporterEmail, setReporterEmail] = useState(emptyString);
@@ -51,7 +63,7 @@ const AddNewProblemReport = props => {
   const [vehicleLicencePlateNumber, setVehicleLicencePlateNumber] = useState(
     ProblemReportArr[0].licencePlateNumber
   );
-  const [problemDescription, setProblemDescription] = useState(emptyString);
+  const [problemDesc, setProblemDesc] = useState(emptyString);
   const [openTicketIsAvailable, setTicketStatus] = useState(false);
   const [actualStatusName, setActualStatusName] = useState(
     ProblemReportArr[0].actualStatusName
@@ -115,15 +127,16 @@ const AddNewProblemReport = props => {
   };
 
   const displayNewReport = () => {
-    console.log({ reportId });
-    console.log({ reporterName });
-    console.log({ reporterName });
-    console.log({ reporterEmail });
-    console.log({ reporterPhone });
-    console.log({ errorType });
-    console.log({ chosenVehicleId });
-    console.log({ vehicleLicencePlateNumber });
-    console.log({ problemDescription });
+    ProblemContainerObject.persistNewProblem(
+      reportId,
+      reporterName,
+      reporterEmail,
+      reporterPhone,
+      errorType,
+      chosenVehicleId,
+      vehicleLicencePlateNumber,
+      problemDesc
+    );
   };
 
   const afterCancel = () => {
@@ -132,7 +145,7 @@ const AddNewProblemReport = props => {
     setReporterPhone(emptyString);
     setErrorType(defaultErrorType);
     setChosenVehicleId(ProblemReportArr[0].id);
-    setProblemDescription(emptyString);
+    setProblemDesc(emptyString);
   };
 
   const setTheStatusOfTheInitialProblemreport = () => {
@@ -150,6 +163,8 @@ const AddNewProblemReport = props => {
       </AnimationLoader>
     );
   }
+
+  console.log({ chosenVehicleObject });
   return (
     <Step.Container initialState={{ current: 0 }}>
       {({
@@ -275,6 +290,15 @@ const AddNewProblemReport = props => {
                       onChange={event => {
                         setChosenVehicleId(event.target.value);
                         checkActualStatusOfTheChosenVehicle(event);
+                        setChosenVehicleObject(
+                          ProblemReportArr.find(
+                            obj =>
+                              obj.licencePlateNumber.toUpperCase() ===
+                                event.target.value.toUpperCase() &&
+                              obj.actualStatusId !== 4 &&
+                              obj.actualStatusId !== 5
+                          )
+                        );
                       }}
                     >
                       {licencePlateNumberArr.map(value => (
@@ -288,31 +312,35 @@ const AddNewProblemReport = props => {
                     </Input>
                   </ProblemItem2>
                 </ProblemItemRow>
-                {openTicketIsAvailable
-                  ? ProblemReportArr.filter(
-                      report => report.id === parseInt(chosenVehicleId)
-                    ).map(report => (
-                      <OpenTicketBasicData>
-                        <ProblemItem5>{report.reporterName}</ProblemItem5>
-                        <ProblemItem6 color={statusColor}>
-                          {actualStatusName}
-                        </ProblemItem6>
-                      </OpenTicketBasicData>
-                    ))
-                  : null}
-                {openTicketIsAvailable
-                  ? ProblemReportArr.filter(
-                      report => report.id === parseInt(chosenVehicleId)
-                    ).map(report => {
-                      const changeFirst = report.problemReportChangeList[0];
-                      const changeLast =
-                        report.problemReportChangeList.length > 1
-                          ? report.problemReportChangeList[
-                              report.problemReportChangeList.length - 1
-                            ]
-                          : undefined;
-                      return (
-                        <div>
+                {chosenVehicleObject &&
+                  changeListOfTheChosenProblemReportObject.map(report => (
+                    <OpenTicketBasicData>
+                      <ProblemItem5>{report.reporterName}</ProblemItem5>
+                      <ProblemItem6 color={statusColor}>
+                        {actualStatusName}
+                      </ProblemItem6>
+                    </OpenTicketBasicData>
+                  ))}
+                {chosenVehicleObject &&
+                  changeListOfTheChosenProblemReportObject.map(report => {
+                    const changeFirst = report[0];
+                    const changeLast =
+                      report.length > 1
+                        ? report[report.problemReportChangeList.length - 1]
+                        : undefined;
+                    return (
+                      <div>
+                        <OpenTicketProblemItemRow>
+                          <ProblemItem3>
+                            {moment(changeFirst.stateChangeTime).format(
+                              'YYYY MM DD'
+                            )}
+                          </ProblemItem3>
+                          <ProblemItem4>
+                            {changeFirst.stateChangeMessage}
+                          </ProblemItem4>
+                        </OpenTicketProblemItemRow>
+                        {changeLast && (
                           <OpenTicketProblemItemRow>
                             <ProblemItem3>
                               {moment(changeFirst.stateChangeTime).format(
@@ -320,25 +348,13 @@ const AddNewProblemReport = props => {
                               )}
                             </ProblemItem3>
                             <ProblemItem4>
-                              {changeFirst.stateChangeMessage}
+                              {changeLast.stateChangeMessage}
                             </ProblemItem4>
                           </OpenTicketProblemItemRow>
-                          {changeLast && (
-                            <OpenTicketProblemItemRow>
-                              <ProblemItem3>
-                                {moment(changeFirst.stateChangeTime).format(
-                                  'YYYY MM DD'
-                                )}
-                              </ProblemItem3>
-                              <ProblemItem4>
-                                {changeLast.stateChangeMessage}
-                              </ProblemItem4>
-                            </OpenTicketProblemItemRow>
-                          )}
-                        </div>
-                      );
-                    })
-                  : null}
+                        )}
+                      </div>
+                    );
+                  })}
                 <OpenTicketDescription>
                   {openTicketIsAvailable
                     ? 'Megjegyzés hozzáfűzése a nyitott jegyhez :'
@@ -346,11 +362,11 @@ const AddNewProblemReport = props => {
                 </OpenTicketDescription>
                 <Longtextarea
                   use="text"
-                  value={problemDescription}
+                  value={problemDesc}
                   onChange={event => {
-                    setProblemDescription(event.target.value);
+                    setProblemDesc(event.target.value);
                     console.log(
-                      `problemDescription in AddNewProblemReport :${problemDescription}`
+                      `problemDesc in AddNewProblemReport :${problemDesc}`
                     );
                   }}
                 />

@@ -167,11 +167,25 @@ export default class ProblemContainer extends Container {
 
   fetchProblemReportList = async sessionId => {
     this.sessionId = sessionId;
-    const { data } = await axios.get(
+    let { data } = await axios.get(
       encodeURI(
         `http://localhost:8091/hibalistajson?sessionId=${this.sessionId}`
       )
     );
+    data = data.sort((a, b) => {
+      if (
+        a.licencePlateNumber.toUpperCase() > b.licencePlateNumber.toUpperCase()
+      ) {
+        return 1;
+      }
+      if (
+        a.licencePlateNumber.toUpperCase() < b.licencePlateNumber.toUpperCase()
+      ) {
+        return -1;
+      }
+      return 0;
+    });
+    console.log(data);
     this.setState({ ProblemReportArr: data, loading: false });
   };
 
@@ -196,14 +210,57 @@ export default class ProblemContainer extends Container {
   fetchVehicleList = async () => {
     console.log('this.sessionId of fetchVehicleList: ');
     console.log(this.sessionId);
-    const { data } = await axios.get(
+    let { data } = await axios.get(
       encodeURI(
         `http://localhost:8091/jarmuvekjson?sessionId=${this.sessionId}`
       )
     );
     console.log('fetchVehicleListData: ');
     console.log({ data });
+    data = data.sort((a, b) => {
+      if (
+        a.vehicleLicencePlate.toUpperCase() >
+        b.vehicleLicencePlate.toUpperCase()
+      ) {
+        return 1;
+      }
+      if (
+        a.vehicleLicencePlate.toUpperCase() <
+        b.vehicleLicencePlate.toUpperCase()
+      ) {
+        return -1;
+      }
+      return 0;
+    });
+    return data;
+  };
+
+  persistNewProblem = async (
+    reportId,
+    reporterName,
+    reporterEmail,
+    reporterPhone,
+    errorType,
+    chosenVehicleId,
+    vehicleLicencePlateNumber,
+    problemDesc
+  ) => {
+    const { data } = await axios.post(
+      `http://localhost:8091/problemreportpersist`,
+      {
+        sessionId: this.sessionId,
+        id: reportId,
+        reporterName,
+        reporterEmail,
+        reporterPhoneNumber: reporterPhone,
+        errorType,
+        vehicleId: chosenVehicleId,
+        licencePlateNumber: vehicleLicencePlateNumber,
+        problemDescription: problemDesc,
+      }
+    );
     return data;
   };
 }
+
 export const ProblemContainerObject = new ProblemContainer();
