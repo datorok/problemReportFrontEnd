@@ -26,23 +26,36 @@ const emptyString = '';
 const defaultErrorType = 'Egyik sem';
 
 const AddNewProblemReport = props => {
-  const { ProblemReportArr } = ProblemContainerObject.state;
+  const {
+    ProblemReportArr,
+    LicencePlateNumberArr,
+  } = ProblemContainerObject.state;
   const { overlay } = props;
 
   if (ProblemReportArr.length <= 0) {
     return;
   }
-  const [licencePlateNumberArr, setLicencePlateNumberArr] = useState(undefined);
+  const [mixedArr, setMixedArr] = useState(undefined);
+
+  useEffect(() => {
+    ProblemContainerObject.createMixedArr().then(dataFromDb =>
+      setMixedArr(dataFromDb)
+    );
+  }, []);
+
+  const [licencePlateNumberArr, setLicencePlateNumberArr] = useState(
+    LicencePlateNumberArr
+  );
+
   const [
     changeListOfTheChosenProblemReportObject,
     setChangeListOfTheChosenProblemReportObject,
   ] = useState(undefined);
 
-  useEffect(() => {
-    ProblemContainerObject.fetchVehicleList().then(dataFromDb =>
-      setLicencePlateNumberArr(dataFromDb)
-    );
-  }, []);
+  console.log('licencePlateNumberArr: ');
+  console.log(licencePlateNumberArr);
+  console.log('mixedArr: ');
+  console.log(mixedArr);
 
   const [chosenVehicleObject, setChosenVehicleObject] = useState(undefined);
   if (chosenVehicleObject) {

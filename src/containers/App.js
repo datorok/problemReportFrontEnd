@@ -11,6 +11,7 @@ class App extends Component {
     const { sessionId } = this.props;
     console.log(`sessionId in App.js: ${sessionId}`);
     ProblemContainerObject.fetchProblemReportList(sessionId);
+    ProblemContainerObject.fetchVehicleList();
   }
 
   licencePlateChangeHandler = event => {
@@ -27,7 +28,7 @@ class App extends Component {
     return (
       <Subscribe to={[ProblemContainer]}>
         {problemStore =>
-          ProblemContainerObject.state.loading ? (
+          ProblemContainerObject.state.loadingProblemReportArr ? (
             <AnimationLoader>
               <ClimbingBoxLoader sizeUnit="px" size={30} color="#ffa500" />
             </AnimationLoader>

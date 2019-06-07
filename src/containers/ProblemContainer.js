@@ -6,7 +6,11 @@ export default class ProblemContainer extends Container {
 
   state = {
     ProblemReportArr: [],
-    loading: true,
+    LicencePlateNumberArr: [],
+    MixedArr: [],
+    loadingProblemReportArr: true,
+    loadingLicencePlateNumberArr: true,
+    loadingMixedArr: true,
 
     errorTypeFilterStatus: {
       noneOfThem: {
@@ -185,8 +189,9 @@ export default class ProblemContainer extends Container {
       }
       return 0;
     });
-    console.log(data);
-    this.setState({ ProblemReportArr: data, loading: false });
+    this.setState({ ProblemReportArr: data, loadingProblemReportArr: false });
+    console.log('ProblemReportArr.length in ProblemContainer: ');
+    console.log(data.length);
   };
 
   /**
@@ -208,15 +213,11 @@ export default class ProblemContainer extends Container {
   };
 
   fetchVehicleList = async () => {
-    console.log('this.sessionId of fetchVehicleList: ');
-    console.log(this.sessionId);
     let { data } = await axios.get(
       encodeURI(
         `http://localhost:8091/jarmuvekjson?sessionId=${this.sessionId}`
       )
     );
-    console.log('fetchVehicleListData: ');
-    console.log({ data });
     data = data.sort((a, b) => {
       if (
         a.vehicleLicencePlate.toUpperCase() >
@@ -231,6 +232,12 @@ export default class ProblemContainer extends Container {
         return -1;
       }
       return 0;
+    });
+    console.log('data.length: ');
+    console.log(data.length);
+    this.setState({
+      LicencePlateNumberArr: data,
+      loadingLicencePlateNumberArr: false,
     });
     return data;
   };
@@ -261,6 +268,93 @@ export default class ProblemContainer extends Container {
     );
     return data;
   };
-}
 
+  createMixedArr = async () => {
+    const mixedArr = [...this.state.LicencePlateNumberArr];
+    console.log(`mixedArr.length: ${mixedArr.length}`);
+    for (let i = 0; i < mixedArr.length; i++) {
+      if (
+        this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        )
+      ) {
+        console.log(`TRUE: ${mixedArr[i].vehicleLicencePlate}`);
+        mixedArr[i].id = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).id;
+        mixedArr[i].actualStatusId = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).actualStatusId;
+        mixedArr[i].actualStatusName = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).actualStatusName;
+        mixedArr[i].errorType = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).errorType;
+        mixedArr[i].errorTypeId = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).errorTypeId;
+        mixedArr[i].problemDescription = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).problemDescription;
+        mixedArr[i].reporterName = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).reporterName;
+        mixedArr[i].actualStatusColor = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).actualStatusColor;
+      }
+    }
+    mixedArr.sort((a, b) => {
+      if (a.actualStatusId !== undefined && b.actualStatusId === undefined) {
+        return -1;
+      }
+      if (b.actualStatusId !== undefined && a.actualStatusId === undefined) {
+        return 1;
+      }
+      return 0;
+    });
+    this.setState({ MixedArr: mixedArr, loadingMixedList: false });
+    console.log('createMixedArr in ProblemContainer: ');
+    console.log(mixedArr);
+
+    return mixedArr;
+  };
+}
 export const ProblemContainerObject = new ProblemContainer();
