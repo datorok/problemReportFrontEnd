@@ -9,9 +9,7 @@ import { Application, AnimationLoader } from './App.style';
 class App extends Component {
   componentDidMount() {
     const { sessionId } = this.props;
-    console.log(`sessionId in App.js: ${sessionId}`);
-    ProblemContainerObject.fetchProblemReportList(sessionId);
-    ProblemContainerObject.fetchVehicleList();
+    ProblemContainerObject.init(sessionId);
   }
 
   licencePlateChangeHandler = event => {

@@ -87,6 +87,12 @@ export default class ProblemContainer extends Container {
     },
   };
 
+  init = async sessionId => {
+    await this.fetchProblemReportList(sessionId);
+    await this.fetchVehicleList();
+    await this.createMixedArr();
+  };
+
   // errorTypeFilterStatusArr.alphValue
   getFilteredProblemArr2 = () => {
     const errorTypeFilterStatus = Object.values(
@@ -351,7 +357,7 @@ export default class ProblemContainer extends Container {
       return 0;
     });
     this.setState({ MixedArr: mixedArr, loadingMixedList: false });
-    console.log('createMixedArr in ProblemContainer: ');
+    console.log('createMixedArr.length in ProblemContainer: ');
     console.log(mixedArr);
 
     return mixedArr;
