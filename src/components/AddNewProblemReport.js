@@ -23,7 +23,7 @@ import {
 } from './AddNewProblemReport.style';
 
 const emptyString = '';
-const defaultErrorType = 'Egyik sem';
+const defaultErrorType = 'Diszpécserközpont';
 
 const AddNewProblemReport = props => {
   const { ProblemReportArr, MixedArr } = ProblemContainerObject.state;
@@ -54,54 +54,8 @@ const AddNewProblemReport = props => {
       setChangeListOfTheChosenVehicleObject(dataFromDb)
     );
   };
-
-  const checkActualStatusOfTheChosenVehicle = event => {
-    const actChosenVehicleId = event.target.value;
-    for (let i = 0; i < MixedArr.length; i++) {
-      if (MixedArr[i].vehicleId === parseInt(actChosenVehicleId)) {
-        setVehicleLicencePlateNumber(MixedArr[i].vehicleLicencePlate);
-        if (
-          MixedArr[i].actualStatusId &&
-          MixedArr[i].actualStatusId !== 5 &&
-          MixedArr[i].actualStatusId !== 4
-        ) {
-          if (ProblemReportArr[i].actualStatus === '0') {
-            setActualStatusName(MixedArr[i].actualStatusName);
-            setStatusColor(MixedArr[i].actualStatusColor);
-            setReportId(MixedArr[i].id);
-          } else if (MixedArr[i].actualStatus === '6') {
-            setActualStatusName(MixedArr[i].actualStatusName);
-            setStatusColor(MixedArr[i].actualStatusColor);
-            setReportId(MixedArr[i].id);
-          } else if (MixedArr[i].actualStatus === '1') {
-            setActualStatusName(MixedArr[i].actualStatusName);
-            setStatusColor(MixedArr[i].actualStatusColor);
-            setReportId(MixedArr[i].id);
-          } else if (MixedArr[i].actualStatus === '2') {
-            setActualStatusName(MixedArr[i].actualStatusName);
-            setStatusColor(MixedArr[i].actualStatusColor);
-            setReportId(MixedArr[i].id);
-          } else if (MixedArr[i].actualStatus === '3') {
-            setActualStatusName(MixedArr[i].actualStatusName);
-            setStatusColor(MixedArr[i].actualStatusColor);
-            setReportId(MixedArr[i].id);
-          } else if (MixedArr[i].actualStatus === '7') {
-            setActualStatusName(MixedArr[i].actualStatusName);
-            setStatusColor(MixedArr[i].actualStatusColor);
-            setReportId(MixedArr[i].id);
-          }
-        } else {
-          setActualStatusName(MixedArr[i].actualStatusName);
-          setStatusColor(MixedArr[i].actualStatusColor);
-          setReportId(0);
-          break;
-        }
-      }
-    }
-  };
-
   const displayNewReport = () => {
-    console.log(`reportId: ${chosenVehicleId}`);
+    console.log(`reportId: ${reportId}`);
     console.log(`reportName: ${reporterName}`);
     console.log(`reportEmail: ${reporterEmail}`);
     console.log(`reportreporterPhone: ${reporterPhone}`);
@@ -127,11 +81,10 @@ const AddNewProblemReport = props => {
     setReporterEmail(emptyString);
     setReporterPhone(emptyString);
     setErrorType(defaultErrorType);
-    setChosenVehicleId(MixedArr[0].id);
+    setChosenVehicleId(undefined);
     setProblemDesc(emptyString);
+    setChangeListOfTheChosenVehicleObject(undefined);
   };
-  let changeFirst;
-  let changeLast;
 
   if (!Array.isArray(MixedArr)) {
     return (
@@ -140,6 +93,7 @@ const AddNewProblemReport = props => {
       </AnimationLoader>
     );
   }
+
   return (
     <Step.Container initialState={{ current: 0 }}>
       {({
@@ -267,16 +221,19 @@ const AddNewProblemReport = props => {
                         const temp = MixedArr.find(
                           obj => obj.vehicleId.toString() === event.target.value
                         );
-                        console.log('temp.id');
-                        console.log(temp.id);
+                        console.log('temp: ');
+                        console.log(temp);
                         if (temp.id) {
                           getChanges(temp.id);
+                          setStatusColor(temp.actualStatusColor);
                         } else {
                           setChangeListOfTheChosenVehicleObject(undefined);
                         }
+                        setReportId(temp.id);
                         setChosenVehicleObject(temp);
-                        setChosenVehicleId(event.target.value);
-                        checkActualStatusOfTheChosenVehicle(event);
+                        setChosenVehicleId(temp.vehicleId);
+                        setVehicleLicencePlateNumber(temp.vehicleLicencePlate);
+                        setActualStatusName(temp.actualStatusName);
                       }}
                     >
                       <option value={-1} disabled={chosenVehicleId}>
@@ -293,9 +250,6 @@ const AddNewProblemReport = props => {
                     </Input>
                   </ProblemItem2>
                 </ProblemItemRow>
-                {console.log('changeListOfTheChosenVehicleObject:')}
-                {console.log(Array.isArray(changeListOfTheChosenVehicleObject))}
-                {console.log(changeListOfTheChosenVehicleObject)}
                 {changeListOfTheChosenVehicleObject && (
                   <div>
                     <OpenTicketBasicData>
@@ -363,9 +317,6 @@ const AddNewProblemReport = props => {
                   value={problemDesc}
                   onChange={event => {
                     setProblemDesc(event.target.value);
-                    console.log(
-                      `problemDesc in AddNewProblemReport :${problemDesc}`
-                    );
                   }}
                 />
                 <ElementportalModalButtons>
