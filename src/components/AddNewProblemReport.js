@@ -34,8 +34,10 @@ const AddNewProblemReport = props => {
   const [reporterPhone, setReporterPhone] = useState(emptyString);
   const [problemDesc, setProblemDesc] = useState(emptyString);
   const [errorType, setErrorType] = useState(defaultErrorType);
+  const [errorTypeId, setErrorTypeId] = useState(1);
   const [chosenVehicleObject, setChosenVehicleObject] = useState(undefined);
-
+  const [reportCreationTime, setReportCreationTime] = useState(undefined);
+  const [prid, setPrid] = useState(undefined);
   const [
     changeListOfTheChosenVehicleObject,
     setChangeListOfTheChosenVehicleObject,
@@ -47,6 +49,7 @@ const AddNewProblemReport = props => {
     undefined
   );
   const [actualStatusName, setActualStatusName] = useState(undefined);
+  const [actualStatusId, setActualStatusId] = useState(undefined);
   const [statusColor, setStatusColor] = useState(undefined);
 
   const getChanges = async id => {
@@ -56,23 +59,29 @@ const AddNewProblemReport = props => {
   };
   const displayNewReport = () => {
     console.log(`reportId: ${reportId}`);
+    console.log(`prid: ${prid}`);
     console.log(`reportName: ${reporterName}`);
     console.log(`reportEmail: ${reporterEmail}`);
     console.log(`reportreporterPhone: ${reporterPhone}`);
-    console.log(`errorType: ${errorType}`);
+    console.log(`errorTypeId: ${errorTypeId}`);
     console.log(`chosenVehicleId: ${chosenVehicleId}`);
     console.log(`vehicleLicencePlateNumber: ${vehicleLicencePlateNumber}`);
     console.log(`problemDesc: ${problemDesc}`);
+    console.log(`reportCreationTime: ${reportCreationTime}`);
+    console.log(`actualStatusId: ${actualStatusId}`);
 
     ProblemContainerObject.persistNewProblem(
       reportId,
+      prid,
       reporterName,
       reporterEmail,
       reporterPhone,
-      errorType,
+      errorTypeId,
       chosenVehicleId,
       vehicleLicencePlateNumber,
-      problemDesc
+      problemDesc,
+      reportCreationTime,
+      actualStatusId
     );
   };
 
@@ -199,11 +208,20 @@ const AddNewProblemReport = props => {
                       use="select"
                       onChange={event => {
                         setErrorType(event.target.value);
+                        if (event.target.value === 'Diszpécserközpont') {
+                          setErrorTypeId(1);
+                        } else if (event.target.value === 'Járműegység') {
+                          setErrorTypeId(2);
+                        } else if (event.target.value === 'Egyéb') {
+                          setErrorTypeId(3);
+                        }
                       }}
                     >
-                      <option>Diszpécserközpont</option>
-                      <option>Járműegység</option>
-                      <option>Egyéb</option>
+                      <option value="Diszpécserközpont">
+                        Diszpécserközpont
+                      </option>
+                      <option value="Járműegység">Járműegység</option>
+                      <option value="Egyéb">Egyéb</option>
                     </Input>
                   </ProblemItem2>
                 </ProblemItemRow>
@@ -226,8 +244,13 @@ const AddNewProblemReport = props => {
                         if (temp.id) {
                           getChanges(temp.id);
                           setStatusColor(temp.actualStatusColor);
+                          setReportCreationTime(temp.reportCreationTime);
+                          setActualStatusId(6);
+                          setPrid(temp.prid);
                         } else {
                           setChangeListOfTheChosenVehicleObject(undefined);
+                          setActualStatusId(0);
+                          setReportId(-1);
                         }
                         setReportId(temp.id);
                         setChosenVehicleObject(temp);

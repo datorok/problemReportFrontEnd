@@ -250,29 +250,51 @@ export default class ProblemContainer extends Container {
 
   persistNewProblem = async (
     reportId,
+    prid,
     reporterName,
     reporterEmail,
     reporterPhone,
-    errorType,
+    errorTypeId,
     chosenVehicleId,
     vehicleLicencePlateNumber,
-    problemDesc
+    problemDesc,
+    reportCreationTime,
+    actualStatusId
   ) => {
+    const temp = {
+      reportId,
+      prid,
+      reporterName,
+      reporterEmail,
+      reporterPhone,
+      errorTypeId,
+      chosenVehicleId,
+      vehicleLicencePlateNumber,
+      problemDesc,
+      reportCreationTime,
+      actualStatusId,
+    };
+    console.log('TEMPOBJECTBEFORESENDING:');
+    console.log(temp);
     const { data } = await axios.post(
-      `http://localhost:8091/problemreportpersist`,
+      `http://localhost:8091/problemreportpersist?sessionId=${this.sessionId}`,
       {
-        sessionId: this.sessionId,
+        prid,
         id: reportId,
         reporterName,
         reporterEmail,
         reporterPhoneNumber: reporterPhone,
-        errorType,
+        errorTypeId,
         vehicleId: chosenVehicleId,
         licencePlateNumber: vehicleLicencePlateNumber,
         problemDescription: problemDesc,
+        reportCreationTime,
+        actualStatusId,
+      },
+      {
+        'Content-Type': 'application/json',
       }
     );
-    return data;
   };
 
   createMixedArr = async () => {
@@ -345,6 +367,20 @@ export default class ProblemContainer extends Container {
             obj.actualStatusId !== 4 &&
             obj.actualStatusId !== 5
         ).actualStatusColor;
+        mixedArr[i].reportCreationTime = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).reportCreationTime;
+        mixedArr[i].prid = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).prid;
       }
     }
     mixedArr.sort((a, b) => {
