@@ -260,7 +260,8 @@ export default class ProblemContainer extends Container {
     vehicleLicencePlateNumber,
     problemDesc,
     reportCreationTime,
-    actualStatusId
+    actualStatusId,
+    params
   ) => {
     const temp = {
       reportId,
@@ -274,6 +275,7 @@ export default class ProblemContainer extends Container {
       problemDesc,
       reportCreationTime,
       actualStatusId,
+      params,
     };
     console.log('TEMPOBJECTBEFORESENDING:');
     console.log(temp);
@@ -291,6 +293,7 @@ export default class ProblemContainer extends Container {
         problemDescription: problemDesc,
         reportCreationTime,
         actualStatusId,
+        params,
       },
       {
         'Content-Type': 'application/json',
@@ -382,6 +385,13 @@ export default class ProblemContainer extends Container {
             obj.actualStatusId !== 4 &&
             obj.actualStatusId !== 5
         ).prid;
+        mixedArr[i].params = this.state.ProblemReportArr.find(
+          obj =>
+            obj.licencePlateNumber.toUpperCase() ===
+              mixedArr[i].vehicleLicencePlate.toUpperCase() &&
+            obj.actualStatusId !== 4 &&
+            obj.actualStatusId !== 5
+        ).params;
       }
     }
     mixedArr.sort((a, b) => {

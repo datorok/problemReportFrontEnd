@@ -43,6 +43,7 @@ const AddNewProblemReport = props => {
     setChangeListOfTheChosenVehicleObject,
   ] = useState(undefined);
 
+  const [params, setParams] = useState(undefined);
   const [reportId, setReportId] = useState(undefined);
   const [chosenVehicleId, setChosenVehicleId] = useState(undefined);
   const [vehicleLicencePlateNumber, setVehicleLicencePlateNumber] = useState(
@@ -69,6 +70,7 @@ const AddNewProblemReport = props => {
     console.log(`problemDesc: ${problemDesc}`);
     console.log(`reportCreationTime: ${reportCreationTime}`);
     console.log(`actualStatusId: ${actualStatusId}`);
+    console.log(`params: ${params}`);
 
     ProblemContainerObject.persistNewProblem(
       reportId,
@@ -81,7 +83,8 @@ const AddNewProblemReport = props => {
       vehicleLicencePlateNumber,
       problemDesc,
       reportCreationTime,
-      actualStatusId
+      actualStatusId,
+      params
     );
   };
 
@@ -248,10 +251,12 @@ const AddNewProblemReport = props => {
                           setReportCreationTime(temp.reportCreationTime);
                           setActualStatusId(6);
                           setPrid(temp.prid);
+                          setParams(temp.params);
                         } else {
                           setChangeListOfTheChosenVehicleObject(undefined);
                           setActualStatusId(0);
                           setReportId(-1);
+                          setParams(undefined);
                         }
                         setReportId(temp.id);
                         setChosenVehicleObject(temp);
