@@ -88,7 +88,7 @@ export default class ProblemContainer extends Container {
   };
 
   init = async sessionId => {
-    await this.fetchProblemReportList(sessionId);
+    await this.fetchProblemReportList(sessionId || this.sessionId);
     await this.fetchVehicleList();
     await this.createMixedArr();
   };
@@ -177,6 +177,7 @@ export default class ProblemContainer extends Container {
 
   fetchProblemReportList = async sessionId => {
     this.sessionId = sessionId;
+
     let { data } = await axios.get(
       encodeURI(
         `http://localhost:8091/hibalistajson?sessionId=${this.sessionId}`

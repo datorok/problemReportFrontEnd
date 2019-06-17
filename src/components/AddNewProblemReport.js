@@ -57,7 +57,7 @@ const AddNewProblemReport = props => {
       setChangeListOfTheChosenVehicleObject(dataFromDb)
     );
   };
-  const displayNewReport = () => {
+  const saveNewReport = () => {
     console.log(`reportId: ${reportId}`);
     console.log(`prid: ${prid}`);
     console.log(`reportName: ${reporterName}`);
@@ -173,6 +173,7 @@ const AddNewProblemReport = props => {
                     {...overlay}
                     onClick={event => {
                       afterCancel();
+                      previous();
                     }}
                     width={90}
                   >
@@ -367,8 +368,15 @@ const AddNewProblemReport = props => {
                       use={Overlay.Toggle}
                       {...overlay}
                       onClick={event => {
-                        displayNewReport();
+                        saveNewReport();
                         afterCancel();
+                        previous();
+                        ProblemContainerObject.init(undefined).then(() =>
+                          console.log({
+                            ProblemReportArr:
+                              ProblemContainerObject.state.ProblemReportArr,
+                          })
+                        );
                       }}
                       disabled={!chosenVehicleId}
                       width={90}
