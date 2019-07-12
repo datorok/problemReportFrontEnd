@@ -24,7 +24,7 @@ const theme = {
 ReactDOM.render(
   <Provider inject={[ProblemContainerObject]}>
     <ReakitProvider theme={theme}>
-      <App sessionId="fPypuj3fkJyZt2A6bxabsA" />
+      <App sessionId="cjqwUBd7PXiZt2A6bxabsA" />
     </ReakitProvider>
   </Provider>,
   document.getElementById('root')
